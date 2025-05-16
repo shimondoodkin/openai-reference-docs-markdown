@@ -1,0 +1,345 @@
+
+The audit log object
+
+
+------------------------
+
+A log of a user action or configuration change within this organization.
+
+[](#audit-logs/object-actor)
+
+actor
+
+object
+
+The actor who performed the audit logged action.
+
+Show properties
+
+[](#audit-logs/object-api_key-created)
+
+api\_key.created
+
+object
+
+The details for events with this `type`.
+
+Show properties
+
+[](#audit-logs/object-api_key-deleted)
+
+api\_key.deleted
+
+object
+
+The details for events with this `type`.
+
+Show properties
+
+[](#audit-logs/object-api_key-updated)
+
+api\_key.updated
+
+object
+
+The details for events with this `type`.
+
+Show properties
+
+[](#audit-logs/object-certificate-created)
+
+certificate.created
+
+object
+
+The details for events with this `type`.
+
+Show properties
+
+[](#audit-logs/object-certificate-deleted)
+
+certificate.deleted
+
+object
+
+The details for events with this `type`.
+
+Show properties
+
+[](#audit-logs/object-certificate-updated)
+
+certificate.updated
+
+object
+
+The details for events with this `type`.
+
+Show properties
+
+[](#audit-logs/object-certificates-activated)
+
+certificates.activated
+
+object
+
+The details for events with this `type`.
+
+Show properties
+
+[](#audit-logs/object-certificates-deactivated)
+
+certificates.deactivated
+
+object
+
+The details for events with this `type`.
+
+Show properties
+
+[](#audit-logs/object-checkpoint_permission-created)
+
+checkpoint\_permission.created
+
+object
+
+The project and fine-tuned model checkpoint that the checkpoint permission was created for.
+
+Show properties
+
+[](#audit-logs/object-checkpoint_permission-deleted)
+
+checkpoint\_permission.deleted
+
+object
+
+The details for events with this `type`.
+
+Show properties
+
+[](#audit-logs/object-effective_at)
+
+effective\_at
+
+integer
+
+The Unix timestamp (in seconds) of the event.
+
+[](#audit-logs/object-id)
+
+id
+
+string
+
+The ID of this log.
+
+[](#audit-logs/object-invite-accepted)
+
+invite.accepted
+
+object
+
+The details for events with this `type`.
+
+Show properties
+
+[](#audit-logs/object-invite-deleted)
+
+invite.deleted
+
+object
+
+The details for events with this `type`.
+
+Show properties
+
+[](#audit-logs/object-invite-sent)
+
+invite.sent
+
+object
+
+The details for events with this `type`.
+
+Show properties
+
+[](#audit-logs/object-login-failed)
+
+login.failed
+
+object
+
+The details for events with this `type`.
+
+Show properties
+
+[](#audit-logs/object-logout-failed)
+
+logout.failed
+
+object
+
+The details for events with this `type`.
+
+Show properties
+
+[](#audit-logs/object-organization-updated)
+
+organization.updated
+
+object
+
+The details for events with this `type`.
+
+Show properties
+
+[](#audit-logs/object-project)
+
+project
+
+object
+
+The project that the action was scoped to. Absent for actions not scoped to projects.
+
+Show properties
+
+[](#audit-logs/object-project-archived)
+
+project.archived
+
+object
+
+The details for events with this `type`.
+
+Show properties
+
+[](#audit-logs/object-project-created)
+
+project.created
+
+object
+
+The details for events with this `type`.
+
+Show properties
+
+[](#audit-logs/object-project-updated)
+
+project.updated
+
+object
+
+The details for events with this `type`.
+
+Show properties
+
+[](#audit-logs/object-rate_limit-deleted)
+
+rate\_limit.deleted
+
+object
+
+The details for events with this `type`.
+
+Show properties
+
+[](#audit-logs/object-rate_limit-updated)
+
+rate\_limit.updated
+
+object
+
+The details for events with this `type`.
+
+Show properties
+
+[](#audit-logs/object-service_account-created)
+
+service\_account.created
+
+object
+
+The details for events with this `type`.
+
+Show properties
+
+[](#audit-logs/object-service_account-deleted)
+
+service\_account.deleted
+
+object
+
+The details for events with this `type`.
+
+Show properties
+
+[](#audit-logs/object-service_account-updated)
+
+service\_account.updated
+
+object
+
+The details for events with this `type`.
+
+Show properties
+
+[](#audit-logs/object-type)
+
+type
+
+string
+
+The event type.
+
+[](#audit-logs/object-user-added)
+
+user.added
+
+object
+
+The details for events with this `type`.
+
+Show properties
+
+[](#audit-logs/object-user-deleted)
+
+user.deleted
+
+object
+
+The details for events with this `type`.
+
+Show properties
+
+[](#audit-logs/object-user-updated)
+
+user.updated
+
+object
+
+The details for events with this `type`.
+
+Show properties
+
+OBJECT The audit log object
+    {
+        "id": "req_xxx_20240101",
+        "type": "api_key.created",
+        "effective_at": 1720804090,
+        "actor": {
+            "type": "session",
+            "session": {
+                "user": {
+                    "id": "user-xxx",
+                    "email": "user@example.com"
+                },
+                "ip_address": "127.0.0.1",
+                "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+            }
+        },
+        "api_key.created": {
+            "id": "key_xxxx",
+            "data": {
+                "scopes": ["resource.operation"]
+            }
+        }
+    }

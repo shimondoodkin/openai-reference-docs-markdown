@@ -1,0 +1,1394 @@
+import React, {
+    useEffect,
+    useRef,
+    useState,
+    useMemo,
+    useCallback,
+    Fragment,
+    memo
+} from "react"; // Renamed from 'c'
+import {
+    jsx // Renamed from 'j'
+} from "./index-V_aL6qyg.js"; // Assuming this is the JSX runtime helper, though often implicitly available
+import {
+    PathProvider // Renamed from 'aR'
+} from "./index-V_aL6qyg.js";
+import {
+    useState as useStateHook // Renamed from 'u'
+} from "./index-V_aL6qyg.js"; // Assuming a specific useState hook
+import {
+    classNames // Renamed from 'w'
+} from "./index-V_aL6qyg.js";
+import {
+    Heading // Renamed from 'aS'
+} from "./index-V_aL6qyg.js";
+import {
+    Badge // Renamed from 'aK'
+} from "./index-V_aL6qyg.js";
+import {
+    SectionHeading // Renamed from 'aT'
+} from "./index-V_aL6qyg.js";
+import {
+    CodeBlock // Renamed from 'aU'
+} from "./index-V_aL6qyg.js";
+import {
+    Select // Renamed from 'aV'
+} from "./index-V_aL6qyg.js";
+import {
+    generateAnchorId // Renamed from 'aW'
+} from "./index-V_aL6qyg.js"; // Utility to create anchor IDs
+import {
+    ExpandIcon // Renamed from 'aX'
+} from "./index-V_aL6qyg.js"; // Icon for expanding
+import {
+    CollapseIcon // Renamed from 'aO'
+} from "./index-V_aL6qyg.js"; // Icon for collapsing
+import {
+    copyToClipboard // Renamed from 'aY'
+} from "./index-V_aL6qyg.js"; // Utility for copying text
+import {
+    Toast // Renamed from 't'
+} from "./index-V_aL6qyg.js"; // Toast/Notification library
+import {
+    AnchorIcon // Renamed from 'aZ'
+} from "./index-V_aL6qyg.js"; // Icon for anchor links
+import {
+    useRouter // Renamed from 'aQ'
+} from "./index-V_aL6qyg.js"; // Routing hook
+import {
+    minBy // Renamed from 'a_'
+} from "./index-V_aL6qyg.js"; // Utility function (e.g., Lodash)
+import {
+    usePathMatch // Renamed from 'aL'
+} from "./index-V_aL6qyg.js"; // Routing hook
+
+import {
+    ContentRenderer // Renamed from 'D'
+} from "./jJcedfkj85.js"; // Component to render content (likely Markdown)
+
+import {
+    usePageMetadata // Renamed from 'u'
+} from "./CWpxWoFY9Y.js"; // Hook to set page metadata
+
+import {
+    apiReferenceData // Renamed from 'a'
+} from "./cBb6QHDK4q.js"; // Data source for the API reference sections
+
+/* empty css */
+import "./BBlRhcS_kx.js";
+
+// Base path for the API reference documentation
+const API_REFERENCE_BASE_PATH = "/docs/api-reference";
+
+// Enum defining keys for custom OpenAPI extensions
+var ApiMetaKeys;
+(function(ApiMetaKeys) {
+    ApiMetaKeys.meta = "x-oaiMeta";
+    ApiMetaKeys.typeLabel = "x-oaiTypeLabel";
+    ApiMetaKeys.supportedSDKs = "x-oaiSupportedSDKs";
+})(ApiMetaKeys || (ApiMetaKeys = {}));
+
+/**
+ * Hook to observe sections in the documentation container and update the URL hash
+ * based on the visible section.
+ * @param {object} params
+ * @param {React.RefObject<HTMLElement>} params.docsContainerRef - Ref to the main scrollable documentation container.
+ * @param {React.MutableRefObject<string | null>} params.lastSetSectionRef - Ref to track the last section name set by the observer.
+ */
+const useSectionObserver = ({
+    docsContainerRef,
+    lastSetSectionRef
+}) => {
+    // Get the push function from the router hook
+    const {
+        push
+    } = useRouter();
+
+    useEffect(() => {
+        // Ensure the container ref is available
+        if (!docsContainerRef.current) return;
+
+        // Set to keep track of currently intersecting elements
+        const intersectingSections = new Set();
+
+        // Create an IntersectionObserver instance
+        const observer = new IntersectionObserver(entries => {
+            // Process each entry from the observer
+            for (const entry of entries) {
+                if (entry.isIntersecting) {
+                    // Add intersecting elements to the set
+                    intersectingSections.add(entry.target);
+                } else {
+                    // Remove non-intersecting elements from the set
+                    intersectingSections.delete(entry.target);
+                }
+            }
+
+            // Find the top-most intersecting element based on offsetTop
+            const topMostSection = minBy(Array.from(intersectingSections), "offsetTop");
+            const sectionName = topMostSection ? .getAttribute("data-name");
+
+            // If a section is found, update the URL hash
+            if (sectionName) {
+                lastSetSectionRef.current = sectionName; // Track that this update came from the observer
+                push("".concat(API_REFERENCE_BASE_PATH, "/").concat(sectionName));
+            }
+        }, {
+            // Observer options:
+            threshold: 0, // Trigger when any part of the target is visible
+            rootMargin: "0% 0% -50% 0%" // Consider the element visible when it enters the top half of the root (viewport)
+        });
+
+        // Observe all h2 elements with a data-name attribute within the document
+        for (const heading of document.querySelectorAll("h2[data-name]")) {
+            observer.observe(heading);
+        }
+
+        // Cleanup function: disconnect the observer when the component unmounts
+        return () => {
+            observer.disconnect();
+        };
+    }, [docsContainerRef, lastSetSectionRef, push]); // Dependencies for the effect
+};
+
+/**
+ * Hook to scroll the documentation container to a specific section when the URL hash matches.
+ * @param {object} params
+ * @param {string} params.relativeUrl - The relative URL (anchor ID) of the section.
+ * @param {React.RefObject<HTMLElement>} params.sectionRef - Ref to the HTML element of the section.
+ * @param {React.RefObject<HTMLElement>} params.docsContainerRef - Ref to the main scrollable documentation container.
+ * @param {React.MutableRefObject<string | null>} params.lastSetSectionRef - Ref to track the last section name set by the observer.
+ */
+const useScrollToAnchor = ({
+    relativeUrl,
+    sectionRef,
+    docsContainerRef,
+    lastSetSectionRef
+}) => {
+    // Check if the current path matches the section's relative URL
+    const pathMatches = usePathMatch(location => location.pathname === "/docs/api-reference/".concat(relativeUrl));
+
+    useEffect(() => {
+        const containerElement = docsContainerRef.current;
+        const sectionElement = sectionRef.current;
+
+        // Ensure both refs are available and the path matches
+        if (!containerElement || !sectionElement || !pathMatches) return;
+
+        // If the last hash change was initiated by the scroll observer for this section, do nothing
+        if (lastSetSectionRef.current === relativeUrl) {
+            lastSetSectionRef.current = null; // Reset the tracker
+            return;
+        }
+
+        // Calculate the difference between the container's scroll position and the section's offset
+        const scrollDifference = containerElement.scrollTop - sectionElement.offsetTop;
+
+        // If the section is not fully visible at the top (more than 150px away), scroll to it
+        if (scrollDifference < 0 || scrollDifference >= 150) {
+            containerElement.scrollTo({
+                top: sectionElement.offsetTop,
+                behavior: "smooth" // Optional: add smooth scrolling
+            });
+        }
+    }, [pathMatches, relativeUrl, docsContainerRef, lastSetSectionRef, sectionRef]); // Dependencies for the effect
+};
+
+/**
+ * The main component for the API Reference documentation page.
+ * Renders the overall structure and iterates through the API data to display sections.
+ */
+const ApiReferencePage = () => {
+    // Set page metadata (title and description)
+    usePageMetadata("API Reference", "Complete reference documentation for the OpenAI API, including examples and code snippets for our endpoints in Python, cURL, and Node.js.");
+
+    // Create refs for the documentation container and the last section set by the observer
+    const docsContainerRef = useRef(null);
+    const lastSetSectionRef = useRef(null);
+
+    // Initialize the scroll observer hook
+    useSectionObserver({
+        docsContainerRef,
+        lastSetSectionRef
+    });
+
+    return (
+        // Provider for the base path, likely used by internal link components
+        <PathProvider pathPrefix={API_REFERENCE_BASE_PATH}>
+            {/* Main scrollable container for the documentation content */}
+            <div ref={docsContainerRef} className="docs-scroll-container" data-important-algolia-crawl={true}>
+                {/* Inner container for page body styling */}
+                <div className="page-body full-width flush docs-page">
+                    {/* Container for API reference specific styling */}
+                    <div className="api-ref">
+                        {/* Map over the API reference data to render each section */}
+                        {apiReferenceData.map(sectionData => (
+                            <Fragment key={sectionData.id}>
+                                {/* Render a general content section */}
+                                <ContentSection
+                                    {...sectionData}
+                                    docsContainerRef={docsContainerRef}
+                                    lastSetSectionRef={lastSetSectionRef}
+                                />
+                                {/* Map over nested sections if they exist */}
+                                {("sections" in sectionData ? sectionData.sections : []).map(nestedSection => {
+                                    if (nestedSection.type === "objectgroup") {
+                                        // Render an object group header
+                                        return (
+                                            <ObjectGroupHeader
+                                                key={nestedSection.url}
+                                                relativeUrl={nestedSection.relativeUrl}
+                                                docsContainerRef={docsContainerRef}
+                                                lastSetSectionRef={lastSetSectionRef}
+                                            />
+                                        );
+                                    }
+                                    if (nestedSection.type === "object") {
+                                        // Render a detailed object section
+                                        return (
+                                            <ObjectSection
+                                                key={nestedSection.url}
+                                                name={nestedSection.title}
+                                                description={nestedSection.content}
+                                                relativeUrl={nestedSection.relativeUrl}
+                                                example={nestedSection.example}
+                                                definition={nestedSection.definition}
+                                                docsContainerRef={docsContainerRef}
+                                                lastSetSectionRef={lastSetSectionRef}
+                                            />
+                                        );
+                                    }
+                                    if (nestedSection.type === "endpoint") {
+                                        // Extract method, path, and definition for an endpoint
+                                        const {
+                                            method,
+                                            path,
+                                            definition
+                                        } = nestedSection;
+                                        // Render a detailed endpoint section
+                                        return (
+                                            <Endpoint
+                                                key={nestedSection.url}
+                                                title={nestedSection.title}
+                                                path={path}
+                                                method={method}
+                                                definition={definition}
+                                                relativeUrl={nestedSection.relativeUrl}
+                                                docsContainerRef={docsContainerRef}
+                                                lastSetSectionRef={lastSetSectionRef}
+                                            />
+                                        );
+                                    }
+                                    // Return null for unknown section types
+                                    return null;
+                                })}
+                            </Fragment>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        </PathProvider>
+    );
+};
+
+// Memoized version of the main page component for performance optimization
+const MemoizedApiReferencePage = memo(ApiReferencePage);
+
+/**
+ * Renders a general content section with a heading and markdown content.
+ * @param {object} props - Section data and refs.
+ */
+const ContentSection = memo(props => {
+    const {
+        docsContainerRef,
+        lastSetSectionRef
+    } = props;
+
+    // Use a specific useState hook (renamed from K) to get the active organization ID
+    const [activeOrgId] = useStateHook(state => {
+        var _a;
+        return (_a = state.activeOrgId) ? ? "YOUR_ORG_ID";
+    });
+
+    // Memoize the content after replacing the organization ID placeholder
+    const processedContent = useMemo(() => props.content.replace(/VAR_orgId/g, activeOrgId), [props.content, activeOrgId]);
+
+    // Create a ref for the section element
+    const sectionRef = useRef(null);
+
+    // Initialize the hook to scroll to this section if the URL hash matches
+    useScrollToAnchor({
+        relativeUrl: props.id,
+        sectionRef: sectionRef,
+        docsContainerRef: docsContainerRef,
+        lastSetSectionRef: lastSetSectionRef
+    });
+
+    return (
+        // Section container div with dynamic class names and ref
+        <div className={classNames("section md")} ref={sectionRef}>
+            {/* Render heading if title exists and it's a section with nested sections */}
+            {"sections" in props && props.title && (
+                <Heading level={2} slug={props.id}>
+                    <div className="flex flex-row items-center gap-3">
+                        {props.title}
+                        {/* Render status badges if applicable */}
+                        {props.deprecated && (
+                            <Badge color="warning" size="md">
+                                Deprecated
+                            </Badge>
+                        )}
+                        {props.beta && (
+                            <Badge color="warning" size="md">
+                                Beta
+                            </Badge>
+                        )}
+                        {props.legacy && (
+                            <Badge color="warning" size="md">
+                                Legacy
+                            </Badge>
+                        )}
+                    </div>
+                </Heading>
+            )}
+            {/* Render the processed markdown content */}
+            <ContentRenderer>
+                {processedContent}
+            </ContentRenderer>
+        </div>
+    );
+});
+
+/**
+ * Renders a header for a group of object definitions. Serves primarily as an anchor point.
+ * @param {object} props - Group data and refs.
+ */
+const ObjectGroupHeader = memo(props => {
+    const {
+        relativeUrl,
+        docsContainerRef,
+        lastSetSectionRef
+    } = props;
+
+    // Create a ref for the header element
+    const sectionRef = useRef(null);
+
+    // Initialize the hook to scroll to this section if the URL hash matches
+    useScrollToAnchor({
+        relativeUrl: relativeUrl,
+        sectionRef: sectionRef,
+        docsContainerRef: docsContainerRef,
+        lastSetSectionRef: lastSetSectionRef
+    });
+
+    return (
+        // Header container div with ref
+        <div ref={sectionRef}>
+            {/* Section heading component for anchoring */}
+            <SectionHeading tag="h2" name={relativeUrl}>
+                <div /> {/* Empty div, likely for styling */}
+            </SectionHeading>
+        </div>
+    );
+});
+
+/**
+ * Renders a detailed section for an API object definition.
+ * Includes name, description, properties, events, and example.
+ * @param {object} props - Object data and refs.
+ */
+const ObjectSection = memo(props => {
+    var _a, _b;
+    const {
+        name,
+        description,
+        relativeUrl,
+        definition,
+        docsContainerRef,
+        lastSetSectionRef,
+        example
+    } = props;
+
+    // Create a ref for the section element
+    const sectionRef = useRef(null);
+
+    // Initialize the hook to scroll to this section if the URL hash matches
+    useScrollToAnchor({
+        relativeUrl: relativeUrl,
+        sectionRef: sectionRef,
+        docsContainerRef: docsContainerRef,
+        lastSetSectionRef: lastSetSectionRef
+    });
+
+    // Memoize extracted properties from the schema definition
+    const properties = useMemo(() => extractSchemaProperties(definition), [definition]);
+    // Memoize extracted events from the schema definition
+    const events = useMemo(() => processEventSchemas(definition), [definition]);
+
+    return (
+        // Section container div with dynamic class names and ref
+        <div className="section" ref={sectionRef}>
+            {/* Section heading component for anchoring */}
+            <SectionHeading tag="h2" name={relativeUrl}>
+                <div className="flex flex-row items-center gap-3">
+                    {name}
+                    {/* Render status badges if applicable */}
+                    {definition.deprecated && (
+                        <Badge color="warning" size="md">
+                            Deprecated
+                        </Badge>
+                    )}
+                    {/* Check for beta status in custom meta property */}
+                    {((_a = definition == null ? void 0 : definition[ApiMetaKeys.meta]) == null ? void 0 : _a.beta) && (
+                        <Badge color="warning" size="md">
+                            Beta
+                        </Badge>
+                    )}
+                    {/* Check for legacy status in custom meta property */}
+                    ((_b = definition == null ? void 0 : definition[ApiMetaKeys.meta]) == null ? void 0 : _b.legacy) && (
+                        <Badge color="warning" size="md">
+                            Legacy
+                        </Badge>
+                    )
+                </div>
+            </SectionHeading>
+            {/* Endpoint-like layout structure */}
+            <div className="endpoint">
+                {/* Left column for description, parameters, and events */}
+                <div className="section-left">
+                    {/* Render the description using the content renderer */}
+                    <ContentRenderer source={description} />
+                    {/* Render properties table if properties exist */}
+                    {properties && (
+                        <ParameterTable
+                            docsGroupPath={relativeUrl}
+                            params={properties}
+                            paramId={relativeUrl} // Use relativeUrl as the base ID for parameters within this object
+                            showTags={false} // Don't show required/optional tags for object properties
+                            isObject={true} // Indicate that this is an object's properties table
+                        />
+                    )}
+                    {/* Render events table if events exist */}
+                    {events && (
+                        <EventsTable
+                            events={events}
+                            docsGroupPath={relativeUrl}
+                            tableId={relativeUrl} // Use relativeUrl as the base ID for events within this object
+                        />
+                    )}
+                </div>
+                {/* Right column for examples */}
+                <div className="section-right">
+                    <div className="section-right-inner">
+                        {/* Render the example code block if example exists */}
+                        {example && (
+                            <CodeBlock
+                                title={"OBJECT ".concat(name)}
+                                language="JSON"
+                                code={example}
+                            />
+                        )}
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+});
+
+/**
+ * Renders a detailed section for an API endpoint.
+ * Includes method, path, summary, parameters, request body, returns, and examples.
+ * @param {object} props - Endpoint data and refs.
+ */
+const Endpoint = memo(props => {
+    const {
+        title,
+        path,
+        method,
+        definition,
+        relativeUrl,
+        docsContainerRef,
+        lastSetSectionRef
+    } = props;
+
+    // Create a ref for the section element
+    const sectionRef = useRef(null);
+
+    // Extract relevant data from the definition
+    const {
+        deprecated,
+        [ApiMetaKeys.meta]: { // Access custom meta properties using the enum key
+            examples,
+            beta,
+            legacy,
+            returns
+        },
+        parameters,
+        summary
+    } = definition;
+
+    // Get the request body definition
+    const requestBody = definition.requestBody;
+
+    // State to manage the currently selected example
+    const [selectedExample, setSelectedExample] = useState(Array.isArray(examples) ? examples[0] : examples);
+
+    // Initialize the hook to scroll to this section if the URL hash matches
+    useScrollToAnchor({
+        relativeUrl: relativeUrl,
+        sectionRef: sectionRef,
+        docsContainerRef: docsContainerRef,
+        lastSetSectionRef: lastSetSectionRef
+    });
+
+    return (
+        // Section container div with dynamic class names and ref
+        <div className="section" ref={sectionRef}>
+            {/* Section heading component for anchoring */}
+            <SectionHeading tag="h2" name={relativeUrl}>
+                <div className="flex flex-row items-center gap-3">
+                    {title}
+                    {/* Render status badges if applicable */}
+                    {beta && (
+                        <Badge color="warning" size="md">
+                            Beta
+                        </Badge>
+                    )}
+                    {deprecated && (
+                        <Badge color="warning" size="md">
+                            Deprecated
+                        </Badge>
+                    )}
+                    {legacy && (
+                        <Badge color="warning" size="md">
+                            Legacy
+                        </Badge>
+                    )}
+                </div>
+            </SectionHeading>
+            {/* Endpoint layout structure */}
+            <div className="endpoint">
+                {/* Left column for method, path, summary, parameters, request body, and returns */}
+                <div className="section-left">
+                    <div>
+                        <span className="endpoint-text">
+                            {/* Endpoint method (GET, POST, etc.) with styling */}
+                            <span className={"endpoint-method endpoint-method-".concat(method)}>
+                                {method}
+                            </span>
+                            {" "}
+                            {/* Full endpoint URL */}
+                            <span className="endpoint-path">
+                                {"https://api.openai.com/v1"}
+                                {path}
+                            </span>
+                        </span>
+                    </div>
+                    {/* Render the summary using the content renderer */}
+                    <ContentRenderer source={String(summary)} className="endpoint-summary" />
+                    {/* Render parameters section if parameters exist */}
+                    {parameters && (
+                        <ParametersSection
+                            parameters={parameters}
+                            docsGroupPath={relativeUrl}
+                        />
+                    )}
+                    {/* Render request body section if request body exists */}
+                    {requestBody && (
+                        <RequestBodySection
+                            requestBody={requestBody}
+                            docsGroupPath={relativeUrl}
+                        />
+                    )}
+                    {/* Render returns section if returns documentation exists */}
+                    {returns && (
+                        <ReturnsSection content={returns} />
+                    )}
+                </div>
+                {/* Right column for examples */}
+                <div className="section-right">
+                    {/* Inner container for right column content, with conditional styling if multiple examples exist */}
+                    <div className={classNames("section-right-inner", (examples == null ? void 0 : examples.length) > 1 && "section-right-inner-with-examples")}>
+                        {/* Render example selector if multiple examples exist */}
+                        {(examples == null ? void 0 : examples.length) > 1 && (
+                            <div className="mb-3 md:mb-0">
+                                <Select
+                                    value={selectedExample.title}
+                                    onChange={value => {
+                                        // Find the selected example by title and update state
+                                        const exampleData = examples.find(({
+                                            title: exampleTitle
+                                        }) => exampleTitle === value);
+                                        exampleData && setSelectedExample(exampleData);
+                                    }}
+                                    aria-label="Code example"
+                                >
+                                    {/* Map example titles to Select options */}
+                                    {examples.map(({
+                                        title
+                                    }) => (
+                                        <Select.Option key={title} value={title}>
+                                            {title}
+                                        </Select.Option>
+                                    ))}
+                                </Select>
+                            </div>
+                        )}
+                        {/* Render the selected example request code block */}
+                        {(selectedExample == null ? void 0 : selectedExample.request) && (
+                            <CodeBlock
+                                title="Example request"
+                                code={selectedExample.request}
+                                showModelSelect={true} // Assuming this prop controls a model selector in the code block
+                            />
+                        )}
+                        {/* Render the selected example response code block */}
+                        {(selectedExample == null ? void 0 : selectedExample.response) && (
+                            <CodeBlock
+                                title="Response"
+                                language="json"
+                                code={selectedExample.response}
+                            />
+                        )}
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+});
+
+/**
+ * Renders the Path and Query Parameters sections for an Endpoint.
+ * @param {object} props
+ * @param {string} props.docsGroupPath - The base path for generating anchor IDs.
+ * @param {Array<object>} props.parameters - List of parameter definitions.
+ */
+function ParametersSection({
+    docsGroupPath,
+    parameters
+}) {
+    // Separate parameters into path and query based on the 'in' property
+    const [pathParams, queryParams] = useMemo(() => {
+        const path = [];
+        const query = [];
+        parameters.forEach(param => {
+            if (param.in === "path") {
+                path.push({
+                    name: param.name,
+                    required: true, // Path parameters are always required
+                    schema: {
+                        ...param.schema,
+                        description: param.description // Include description in schema for rendering
+                    }
+                });
+            } else {
+                query.push({
+                    name: param.name,
+                    required: param.required || false,
+                    schema: {
+                        ...param.schema,
+                        description: param.description // Include description in schema for rendering
+                    }
+                });
+            }
+        });
+        return [path, query];
+    }, [parameters]); // Re-calculate if parameters change
+
+    // Array to hold the rendered parameter sections
+    const sections = [];
+
+    // Render Path parameters section if they exist
+    if (pathParams.length) {
+        sections.push(
+            <div key="path" className="param-section">
+                <h4>Path parameters</h4>
+                <ParameterTable
+                    docsGroupPath={docsGroupPath}
+                    params={pathParams}
+                    paramId={generateAnchorId(docsGroupPath)} // Generate a base ID for path parameters
+                />
+            </div>
+        );
+    }
+
+    // Render Query parameters section if they exist
+    if (queryParams.length) {
+        sections.push(
+            <div key="query" className="param-section">
+                <h4>Query parameters</h4>
+                <ParameterTable
+                    docsGroupPath={docsGroupPath}
+                    params={queryParams}
+                    paramId={generateAnchorId(docsGroupPath)} // Generate a base ID for query parameters
+                />
+            </div>
+        );
+    }
+
+    // Return the rendered sections wrapped in a Fragment
+    return (
+        <Fragment>
+            {sections}
+        </Fragment>
+    );
+}
+
+/**
+ * Renders the Request Body section for an Endpoint.
+ * @param {object} props
+ * @param {string} props.docsGroupPath - The base path for generating anchor IDs.
+ * @param {object} props.requestBody - The request body definition.
+ */
+function RequestBodySection({
+    docsGroupPath,
+    requestBody
+}) {
+    // Extract schema properties from the request body content (JSON or form-data)
+    const properties = useMemo(() => {
+        const content = requestBody.content["application/json"] || requestBody.content["multipart/form-data"] || {};
+        return extractSchemaProperties(content.schema);
+    }, [requestBody]); // Re-calculate if requestBody changes
+
+    // Return the rendered request body section
+    return (
+        <div className="param-section">
+            <h4>Request body</h4>
+            {/* Render the properties table for the request body */}
+            <ParameterTable
+                docsGroupPath={docsGroupPath}
+                params={properties}
+                paramId={generateAnchorId(docsGroupPath)} // Generate a base ID for request body parameters
+            />
+        </div>
+    );
+}
+
+/**
+ * Renders the Returns section for an Endpoint.
+ * @param {object} props
+ * @param {string} props.content - The content describing the return value (likely Markdown).
+ */
+function ReturnsSection({
+    content
+}) {
+    // Return the rendered returns section
+    return (
+        <div className="param-section">
+            <h4>Returns</h4>
+            <div className="param-table">
+                <div className="param-row">
+                    {/* Render the returns content using the content renderer */}
+                    <ContentRenderer source={content} />
+                </div>
+            </div>
+        </div>
+    );
+}
+
+/**
+ * Renders a table of webhook events.
+ * @param {object} props
+ * @param {string} props.docsGroupPath - The base path for generating anchor IDs.
+ * @param {Array<object>} props.events - List of event definitions.
+ * @param {string} props.tableId - The ID for the events table.
+ */
+function EventsTable({
+    docsGroupPath,
+    events,
+    tableId
+}) {
+    // Sort events by name
+    const sortedEvents = [...events].sort((a, b) => a.name.localeCompare(b.name));
+
+    // Return the rendered events table
+    return (
+        <div className="param-table">
+            {/* Map over sorted events to render each row */}
+            {sortedEvents.map(event => (
+                <ParameterRow // Reusing ParameterRow for event display
+                    key={event.name}
+                    classNames={["event-row"]} // Add specific class for event rows
+                    docsGroupPath={docsGroupPath}
+                    param={{ // Format event data to match ParameterRow's expected param structure
+                        name: event.name,
+                        required: false, // Events are not 'required' in the parameter sense
+                        schema: {
+                            type: "string", // Event name is a string
+                            description: event.description,
+                            [ApiMetaKeys.typeLabel]: event.dataDescription // Use custom type label for data description
+                        }
+                    }}
+                    paramId={tableId + "-" + generateAnchorId(event.name)} // Generate unique ID for event row
+                    showTags={false} // Don't show standard parameter tags (required/optional/default)
+                />
+            ))}
+        </div>
+    );
+}
+
+/**
+ * Renders a table of parameters or object properties.
+ * @param {object} props
+ * @param {string} props.docsGroupPath - The base path for generating anchor IDs.
+ * @param {Array<object>} props.params - List of parameter or property definitions.
+ * @param {boolean} [props.showTags=true] - Whether to show required/optional/default tags.
+ * @param {string} props.paramId - The base ID for generating anchor IDs for rows.
+ * @param {boolean} [props.isObject=false] - Whether this table is for object properties (affects sorting).
+ */
+function ParameterTable({
+    docsGroupPath,
+    params,
+    showTags = true,
+    paramId,
+    isObject = false
+}) {
+    // Sort parameters: required first (if not an object), then by name
+    const sortedParams = [...params].sort((a, b) =>
+        isObject ?
+        a.name.localeCompare(b.name) : // Sort by name for object properties
+        a.required && !b.required ? -1 : // Required before non-required
+        !a.required && b.required ? 1 : // Non-required after required
+        a.name.localeCompare(b.name) // Sort by name if required status is the same
+    );
+
+    // Return the rendered parameter table
+    return (
+        <div className="param-table" id={paramId + "__table"}>
+            {/* Map over sorted parameters to render each row */}
+            {sortedParams.map(param => (
+                <ParameterRow
+                    key={param.name}
+                    docsGroupPath={docsGroupPath}
+                    param={param}
+                    paramId={paramId + "-" + generateAnchorId(param.name)} // Generate unique ID for parameter row
+                    showTags={showTags}
+                />
+            ))}
+        </div>
+    );
+}
+
+/**
+ * Renders a single row in a parameter or event table.
+ * Includes name, type, description, tags, and expandable schema details.
+ * @param {object} props
+ * @param {string} props.docsGroupPath - The base path for generating anchor IDs.
+ * @param {object} props.param - The parameter or event definition.
+ * @param {string} props.paramId - The unique ID for this row's anchor.
+ * @param {boolean} props.showTags - Whether to show required/optional/default tags.
+ * @param {Array<string>} [props.classNames] - Additional CSS classes for the row.
+ */
+function ParameterRow({
+    docsGroupPath,
+    param,
+    paramId,
+    showTags,
+    classNames: additionalClassNames
+}) {
+    const {
+        name,
+        required = false, // Default required to false
+        schema
+    } = param;
+
+    // Extract description and union/anyOf schemas
+    const description = schema.description || "";
+    const oneOfSchemas = schema.oneOf;
+    const anyOfSchemas = schema.anyOf;
+
+    // Create a ref for the row element
+    const rowRef = useRef(null);
+
+    // State to track if the row has been scrolled into view based on hash
+    const [scrolledIntoView, setScrolledIntoView] = useState(false);
+
+    // Effect to scroll the row into view if its anchor matches the URL hash on load
+    useEffect(() => {
+        var _a;
+        const hash = window.location.hash.replace("#", "");
+        // If not already scrolled and the hash starts with this row's ID
+        if (!scrolledIntoView && hash.startsWith(paramId)) {
+            setScrolledIntoView(true); // Mark as scrolled
+            // If the hash exactly matches this row's ID, scroll it into view
+            if (hash === paramId) {
+                (_a = rowRef.current) ? .scrollIntoView();
+            }
+        }
+    }, [paramId, scrolledIntoView]); // Re-run if paramId or scrolledIntoView state changes
+
+    // Determine the displayed schema type label
+    const displayedType = oneOfSchemas ? formatUnionTypeLabels(oneOfSchemas) : anyOfSchemas ? formatUnionTypeLabels(anyOfSchemas) : getDisplayedSchemaType(schema);
+
+    // Determine the displayed default value
+    const defaultValue = schema.default;
+    let formattedDefaultValue;
+    if (defaultValue === "") {
+        formattedDefaultValue = "''";
+    } else if (Array.isArray(defaultValue) && defaultValue.length === 0) {
+        formattedDefaultValue = "[]";
+    } else {
+        formattedDefaultValue = String(defaultValue);
+    }
+
+    // Get supported SDKs from custom meta property
+    let supportedSDKs = [];
+    if (schema[ApiMetaKeys.supportedSDKs]) {
+        supportedSDKs = schema[ApiMetaKeys.supportedSDKs];
+    }
+
+    return (
+        // Row container div with dynamic class names and ref
+        <div className={classNames("param-row", ...(additionalClassNames || []))} ref={rowRef}>
+            {/* Header row with anchor link */}
+            <div className="param-row-header api-ref-anchor-link-hover">
+                {/* Anchor link component */}
+                <AnchorLink docsGroupPath={docsGroupPath} paramId={paramId} />
+                {/* Parameter name */}
+                <div className="param-name">{name}</div>
+                {/* Deprecated status tag */}
+                {schema.deprecated && (
+                    <div className="param-depr">Deprecated</div>
+                )}
+                {/* Parameter type label */}
+                <div className="param-type">
+                    <ContentRenderer source={displayedType} />
+                </div>
+                {/* Render required/optional/default tags if showTags is true */}
+                {showTags ? (
+                    <Fragment>
+                        {required ? (
+                            <div className="param-reqd">Required</div>
+                        ) : (
+                            <div className="param-optl">Optional</div>
+                        )}
+                        {!required && defaultValue !== undefined && (
+                            <div className="param-default">
+                                {"Defaults to "}
+                                {formattedDefaultValue}
+                            </div>
+                        )}
+                    </Fragment>
+                ) : null}
+                {/* Render SDK Only tag if supportedSDKs exist */}
+                {supportedSDKs.length > 0 && (
+                    <div className="bg-blue-900 text-xs text-white px-1 py-0.5 rounded-sm ml-2">
+                        SDK Only
+                    </div>
+                )}
+            </div>
+            {/* Parameter description */}
+            {description && (
+                <div className="param-desc">
+                    <ContentRenderer source={description} />
+                </div>
+            )}
+            {/* Expandable details for nested schemas (properties or union types) */}
+            <ExpandableSchemaDetails
+                docsGroupPath={docsGroupPath}
+                paramId={paramId}
+                schema={schema}
+                showTags={showTags}
+            />
+        </div>
+    );
+}
+
+/**
+ * Renders a table for a list of schemas (used for oneOf/anyOf).
+ * @param {object} props
+ * @param {string} props.docsGroupPath - The base path for generating anchor IDs.
+ * @param {string} props.paramId - The base ID for generating anchor IDs for rows.
+ * @param {boolean} props.showTags - Whether to show tags in nested rows.
+ * @param {Array<object>} props.schemas - List of schema definitions.
+ */
+function SchemaTable({
+    docsGroupPath,
+    paramId,
+    showTags = true,
+    schemas
+}) {
+    // Return the rendered schema table
+    return (
+        <div className="param-table" id={paramId + "__table"}>
+            {/* Map over schemas to render each row */}
+            {schemas.map((schema, index) => (
+                <SchemaRow
+                    key={schema.title || index} // Use title or index as key
+                    schema={schema}
+                    docsGroupPath={docsGroupPath}
+                    showTags={showTags}
+                    paramId={paramId + "-" + generateAnchorId(schema.title || schema.type || "".concat(index))} // Generate unique ID for schema row
+                />
+            ))}
+        </div>
+    );
+}
+
+/**
+ * Renders a single row representing a schema within a SchemaTable (for oneOf/anyOf).
+ * Includes title, type, description, and expandable schema details.
+ * @param {object} props
+ * @param {string} props.docsGroupPath - The base path for generating anchor IDs.
+ * @param {string} props.paramId - The unique ID for this row's anchor.
+ * @param {object} props.schema - The schema definition.
+ * @param {boolean} props.showTags - Whether to show tags in nested details.
+ */
+function SchemaRow({
+    docsGroupPath,
+    paramId,
+    schema,
+    showTags
+}) {
+    // Return the rendered schema row
+    return (
+        <div className="param-row">
+            {/* Header row */}
+            <div className="param-row-header api-ref-anchor-link-hover">
+                {/* Schema title */}
+                {schema.title && (
+                    <div className="param-title">{schema.title}</div>
+                )}
+                {/* Schema type label */}
+                <div className="param-type">{getDisplayedSchemaType()}</div> {/* Note: getDisplayedSchemaType() called without argument here? Original code had $(), which might be a typo or reference to a different scope. Assuming it should use 'schema'. */}
+                {/* Deprecated status tag */}
+                {schema.deprecated && (
+                    <div className="param-depr">Deprecated</div>
+                )}
+            </div>
+            {/* Schema description */}
+            {schema.description && (
+                <div className="param-desc">
+                    <ContentRenderer source={schema.description} />
+                </div>
+            )}
+            {/* Expandable details for nested schemas (properties or union types) */}
+            <ExpandableSchemaDetails
+                docsGroupPath={docsGroupPath}
+                paramId={paramId}
+                schema={schema}
+                showTags={showTags}
+            />
+        </div>
+    );
+}
+
+/**
+ * Renders expandable details for a schema, showing nested properties or possible types.
+ * @param {object} props
+ * @param {string} props.docsGroupPath - The base path for generating anchor IDs.
+ * @param {object} props.schema - The schema definition.
+ * @param {boolean} props.showTags - Whether to show tags in nested tables.
+ * @param {string} props.paramId - The unique ID for the parent row's anchor.
+ */
+function ExpandableSchemaDetails({
+    docsGroupPath,
+    schema,
+    showTags,
+    paramId
+}) {
+    // State to manage the expanded/collapsed state
+    const [isExpanded, setIsExpanded] = useState(false);
+
+    // Normalize the schema (e.g., filter out null from anyOf)
+    let normalizedSchema = normalizeSchema(schema);
+
+    // Memoize the list of possible schemas (for oneOf/anyOf)
+    const possibleSchemas = useMemo(() => {
+        // Helper function to check if a schema contains nested expandable content
+        const hasNestedContent = (s) =>
+            "$ref" in s ?
+            false :
+            (s.oneOf && s.oneOf.some(hasNestedContent)) ||
+            (s.anyOf && s.anyOf.some(hasNestedContent)) ||
+            s.type === "object" ?
+            true :
+            s.type === "array" ?
+            hasNestedContent(s.items) :
+            false;
+
+        // Check if the normalized schema or its items contain nested expandable content
+        if (normalizedSchema.oneOf && hasNestedContent(normalizedSchema)) return normalizedSchema.oneOf;
+        if (normalizedSchema.anyOf && hasNestedContent(normalizedSchema)) return normalizedSchema.anyOf;
+        if (normalizedSchema.type === "array" && "items" in normalizedSchema && normalizedSchema.items.oneOf && hasNestedContent(normalizedSchema)) return normalizedSchema.items.oneOf;
+        if (normalizedSchema.type === "array" && "items" in normalizedSchema && normalizedSchema.items.anyOf && hasNestedContent(normalizedSchema)) return normalizedSchema.items.anyOf;
+
+        return undefined; // Return undefined if no union schemas with nested content are found
+    }, [normalizedSchema]); // Re-calculate if normalizedSchema changes
+
+    // Memoize the list of properties (for object schemas)
+    const properties = useMemo(() =>
+        normalizedSchema.type === "array" && "items" in normalizedSchema && normalizedSchema.items.type === "object" ?
+        extractSchemaProperties(normalizedSchema.items) : // Handle array of objects
+        normalizedSchema.type === "object" && normalizedSchema.properties ?
+        extractSchemaProperties(normalizedSchema) : // Handle object
+        null, [normalizedSchema]); // Re-calculate if normalizedSchema changes
+
+    // Generate the controls ID for accessibility
+    const controlsId = paramId + "_table";
+
+    // Render based on whether possible schemas or properties exist
+    return possibleSchemas ? (
+        <Fragment>
+            {/* Expand/Collapse button for possible types */}
+            <ExpandCollapseButton
+                controlsId={controlsId}
+                isExpanded={isExpanded}
+                label="possible types"
+                onClick={() => setIsExpanded(!isExpanded)} // Toggle expanded state
+            />
+            {/* Render the SchemaTable if expanded */}
+            {isExpanded && (
+                <SchemaTable
+                    docsGroupPath={docsGroupPath}
+                    schemas={possibleSchemas}
+                    paramId={paramId}
+                    showTags={showTags}
+                />
+            )}
+        </Fragment>
+    ) : properties ? (
+        <Fragment>
+            {/* Expand/Collapse button for properties */}
+            <ExpandCollapseButton
+                controlsId={controlsId}
+                isExpanded={isExpanded}
+                label="properties"
+                onClick={() => setIsExpanded(!isExpanded)} // Toggle expanded state
+            />
+            {/* Render the ParameterTable if expanded */}
+            {isExpanded && (
+                <ParameterTable
+                    docsGroupPath={docsGroupPath}
+                    params={properties}
+                    paramId={paramId}
+                    showTags={showTags}
+                />
+            )}
+        </Fragment>
+    ) : null; // Return null if no expandable content
+}
+
+/**
+ * Renders a button to toggle the expanded/collapsed state of nested details.
+ * @param {object} props
+ * @param {string} props.controlsId - The ID of the element controlled by this button (for aria-controls).
+ * @param {boolean} props.isExpanded - The current expanded state.
+ * @param {string} props.label - The label for the content being expanded/collapsed (e.g., "properties").
+ * @param {function} props.onClick - The click handler function.
+ */
+function ExpandCollapseButton({
+    controlsId,
+    isExpanded,
+    label,
+    onClick
+}) {
+    // Return the button element
+    return (
+        <button
+            className="param-expand-button link-style"
+            onClick={onClick}
+            aria-expanded={isExpanded ? "true" : "false"}
+            aria-controls={controlsId}
+        >
+            {/* Render different content based on expanded state */}
+            {isExpanded ? (
+                <Fragment>
+                    <CollapseIcon /> {/* Collapse icon */}
+                    <span>
+                        {"Hide "}
+                        {label}
+                    </span>
+                </Fragment>
+            ) : (
+                <Fragment>
+                    <ExpandIcon /> {/* Expand icon */}
+                    <span>
+                        {"Show "}
+                        {label}
+                    </span>
+                </Fragment>
+            )}
+        </button>
+    );
+}
+
+/**
+ * Renders an anchor link icon next to a parameter name.
+ * Copies the deep link URL to the clipboard on click.
+ * @param {object} props
+ * @param {string} props.docsGroupPath - The base path for generating the full URL.
+ * @param {string} props.paramId - The unique ID for the anchor.
+ */
+function AnchorLink({
+    docsGroupPath,
+    paramId
+}) {
+    // Memoize the click handler function
+    const handleClick = useCallback(event => {
+        event.preventDefault(); // Prevent default link behavior
+        // Copy the full URL with hash to the clipboard
+        copyToClipboard(window.location.origin + API_REFERENCE_BASE_PATH + "/" + docsGroupPath + "#" + paramId);
+        // Show a success toast notification
+        Toast.success("Link copied!");
+    }, [docsGroupPath, paramId]); // Re-create if docsGroupPath or paramId changes
+
+    // Return the anchor link element
+    return (
+        <a
+            href={"#".concat(paramId)} // Link to the element with the corresponding ID
+            data-anchor={paramId} // Data attribute for the anchor ID
+            onClick={handleClick} // Attach the click handler
+            className="api-ref-anchor-link" // CSS class for styling
+        >
+            <AnchorIcon /> {/* Anchor icon */}
+        </a>
+    );
+}
+
+/**
+ * Extracts and formats properties from a schema object.
+ * @param {object} schema - The schema definition object.
+ * @returns {Array<object>} An array of formatted parameter objects.
+ */
+function extractSchemaProperties(schema) {
+    // Get properties and required fields, defaulting to empty objects/arrays
+    const properties = (schema == null ? void 0 : schema.properties) || {};
+    const requiredFields = (schema == null ? void 0 : schema.required) || [];
+
+    // Map properties into a consistent parameter format, including required status and normalized schema
+    return Object.keys(properties).map(propertyName => ({
+        name: propertyName,
+        required: Array.isArray(requiredFields) ? requiredFields.includes(propertyName) : false,
+        schema: normalizeSchema(properties[propertyName]) // Normalize the nested schema
+    })).sort((a, b) => a.name.localeCompare(b.name)); // Sort properties by name
+}
+
+/**
+ * Processes schemas within a 'oneOf' that represent webhook events.
+ * Extracts event name, data description, and description.
+ * @param {object} schema - The schema definition object.
+ * @returns {Array<object>} An array of formatted event objects.
+ * @throws {Error} If an event schema is expected to have an enum but doesn't.
+ */
+function processEventSchemas(schema) {
+    // Check if the schema has a 'oneOf' property
+    if ("oneOf" in schema) {
+        const events = [];
+        schema.oneOf.forEach(oneOfSchema => {
+            var _a, _b;
+            // If the oneOf schema is an object
+            if (oneOfSchema.type === "object") {
+                // Get the 'event' property from the nested schema
+                const eventSchema = (_a = oneOfSchema.properties) ? .event;
+                // Check if the event schema exists and has an 'enum' property
+                if (eventSchema && "enum" in eventSchema) {
+                    events.push({
+                        name: eventSchema.enum && eventSchema.enum[0] || "", // Get the first enum value as the event name
+                        dataDescription: ((_b = oneOfSchema[ApiMetaKeys.meta]) == null ? void 0 : _b.dataDescription) || "", // Get data description from custom meta
+                        description: oneOfSchema.description || "" // Get the schema description
+                    });
+                } else {
+                    // Throw an error if the expected enum is missing
+                    throw new Error("Expected event schema to have an enum");
+                }
+            } else if ("oneOf" in oneOfSchema) {
+                // If the nested schema also has a 'oneOf', recursively process it
+                events.push(...processEventSchemas(oneOfSchema));
+            }
+        });
+        return events;
+    }
+    return []; // Return empty array if no 'oneOf' property
+}
+
+/**
+ * Determines the display string for a schema's type.
+ * Prioritizes custom type label, handles binary format, and indicates nullability.
+ * @param {object} schema - The schema definition object.
+ * @returns {string} The formatted type string.
+ */
+function getDisplayedSchemaType(schema) {
+    // Use custom type label if available
+    if (schema[ApiMetaKeys.typeLabel]) return schema[ApiMetaKeys.typeLabel];
+
+    // Get the base type
+    let type = schema.type;
+    // Handle binary format for strings
+    if (type === "string" && schema.format === "binary") {
+        type = "file";
+    }
+
+    // Append " or null" if nullable
+    return schema.nullable ? "".concat(type, " or null") : type;
+}
+
+/**
+ * Formats the value of a single-item enum for display (adds quotes for strings).
+ * @param {object} schema - The schema definition object with an enum.
+ * @returns {string} The formatted enum value string.
+ */
+function formatSingleEnumValue(schema) {
+    var _a;
+    // Check if the schema has exactly one enum value
+    return ((_a = schema.enum) ? .length) === 1 ?
+        schema.type === "string" ? '"'.concat(schema.enum[0], '"') : String(schema.enum[0]) : // Add quotes for strings, convert others to string
+        schema.type; // Return the type if not a single-item enum
+}
+
+/**
+ * Normalizes a schema by filtering out the 'null' type from an 'anyOf' array if present.
+ * @param {object} schema - The schema definition object.
+ * @returns {object} The normalized schema object.
+ */
+function normalizeSchema(schema) {
+    // Check if the schema has an 'anyOf' property
+    if (schema.anyOf) {
+        // Filter out schemas where type is 'null'
+        const filteredAnyOf = schema.anyOf.filter(s => !("type" in s) || s.type !== "null");
+        // If only one schema remains after filtering, return that schema
+        return filteredAnyOf.length === 1 ? filteredAnyOf[0] : {
+            ...schema,
+            anyOf: filteredAnyOf // Otherwise, return the schema with the filtered anyOf
+        };
+    }
+    return schema; // Return the original schema if no 'anyOf' property
+}
+
+/**
+ * Formats a display string for a list of schemas (from oneOf or anyOf).
+ * Combines their types or enum values and indicates if null is a possibility.
+ * @param {Array<object>} schemas - List of schema definition objects.
+ * @returns {string} The formatted union type string.
+ */
+function formatUnionTypeLabels(schemas) {
+    const types = {};
+    let isNullable = false;
+
+    // Iterate through schemas to collect types/enum values and check for nullability
+    schemas.forEach(schema => {
+        const typeLabel = formatSingleEnumValue(schema); // Use formatSingleEnumValue for each schema
+        if (typeLabel) {
+            types[typeLabel] = true;
+        }
+        if (schema.nullable) {
+            isNullable = true;
+        }
+    });
+
+    // Get unique type labels
+    const typeLabels = Object.keys(types);
+
+    // Add "null" to the list if nullable
+    if (isNullable) {
+        typeLabels.push("null");
+    }
+
+    // Join the type labels with " or " or " / " based on the number of types
+    return typeLabels.length === 2 ? typeLabels.join(" or ") : typeLabels.join(" / ");
+}
+
+// Export the memoized main page component as default
+export {
+    MemoizedApiReferencePage as default
+};
