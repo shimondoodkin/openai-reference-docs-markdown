@@ -303,7 +303,7 @@ function renderParametersTable(parameters: ParameterObject[]): string {
         const name = param.name || '';
         const type = param.schema ? getTypeString(param.schema) : '';
         const required = param.required ? 'Yes' : 'No';
-        const description = cleanDescription(param.description || '');
+        const description = cleanDescription(param.description || '', true);
 
         markdown += `| \`${name}\` | ${type} | ${required} | ${description} |\n`;
     }
@@ -332,7 +332,7 @@ function renderPropertiesTable(properties: { [key: string]: SchemaObject }, requ
     for (const [name, prop] of Object.entries(properties)) {
         const type = getTypeString(prop);
         const required = requiredProps.includes(name) ? 'Yes' : 'No';
-        const description = cleanDescription(prop.description || '');
+        const description = cleanDescription(prop.description || '', true);
 
         // Format default value if present
         const defaultValue = (prop.default !== undefined && prop.default !== null) ?
@@ -519,11 +519,12 @@ function getTypeString(schema: SchemaObject | boolean): string {
 
 /**
  * Clean up description text for markdown.
- * Replaces common HTML tags with Markdown equivalents.
+ * Replaces common HTML tags with Markdown equivalents and handles newlines for markdown tables.
  * @param {string | undefined} text - The description text.
+ * @param {boolean} [forTable=false] - Whether the text is being prepared for a markdown table.
  * @returns {string} Cleaned text.
  */
-function cleanDescription(text: string | undefined): string {
+function cleanDescription(text: string | undefined, forTable: boolean = false): string {
     if (!text) return '';
 
     // Replace common HTML tags with markdown equivalents
@@ -532,6 +533,11 @@ function cleanDescription(text: string | undefined): string {
         .replace(/<strong>(.*?)<\/strong>/g, '**$1**')
         .replace(/<em>(.*?)<\/em>/g, '*$1*')
         .replace(/<br\s*\/?>/g, '\n'); // Convert <br> to newline
+    
+    // For tables, convert newlines to <br> tags to maintain table structure
+    if (forTable) {
+        text = text.replace(/\n/g, ' <br> ');
+    }
 
     return text;
 }
@@ -669,7 +675,8 @@ function generateSpecialObjectMarkdown(objectStructure: SpecialObjectDoc): strin
 
     // Add all top-level properties to the main table
     for (const [name, prop] of Object.entries(objectStructure.structure)) {
-        markdown += `| **\`${name}\`** | ${prop.type || ''} | ${prop.description || ''} |\n`;
+        const description = cleanDescription(prop.description || '', true);
+        markdown += `| **\`${name}\`** | ${prop.type || ''} | ${description} |\n`;
     }
 
     markdown += '\n';
@@ -684,7 +691,8 @@ function generateSpecialObjectMarkdown(objectStructure: SpecialObjectDoc): strin
             // Add each property of the array items
             for (const [itemName, itemProp] of Object.entries(prop.items.properties)) {
                 const itemType = itemProp.type || '';
-                markdown += `| **\`${itemName}\`** | ${itemType} | ${itemProp.description || ''} |\n`;
+                const description = cleanDescription(itemProp.description || '', true);
+                markdown += `| **\`${itemName}\`** | ${itemType} | ${description} |\n`;
             }
 
             markdown += '\n';
