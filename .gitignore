@@ -1,5 +1,3 @@
-downloaded_files
-
 # Node.js / TypeScript
 node_modules/
 dist/
@@ -27,7 +25,6 @@ htmlcov/
 .nox/
 
 # Project specific
-openai-docs-api-reference/
 downloaded_files/
 
 # IDEs and editors
