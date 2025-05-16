@@ -17,14 +17,10 @@ Returns a list of vector store files in a batch.
 
 | Name | Type | Required | Description |
 | ---- | ---- | -------- | ----------- |
-| `limit` | integer | No | A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20.
- |
-| `order` | string | No | Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and `desc` for descending order.
- |
-| `after` | string | No | A cursor for use in pagination. `after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list.
- |
-| `before` | string | No | A cursor for use in pagination. `before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with obj_foo, your subsequent call can include before=obj_foo in order to fetch the previous page of the list.
- |
+| `limit` | integer | No | A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20. <br>  |
+| `order` | string | No | Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and `desc` for descending order. <br>  |
+| `after` | string | No | A cursor for use in pagination. `after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list. <br>  |
+| `before` | string | No | A cursor for use in pagination. `before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with obj_foo, your subsequent call can include before=obj_foo in order to fetch the previous page of the list. <br>  |
 | `filter` | string | No | Filter by file status. One of `in_progress`, `completed`, `failed`, `cancelled`. |
 
 ## Responses
@@ -56,12 +52,7 @@ Returns a list of vector store files in a batch.
 | `status` | string | Yes |  | `in_progress`, `completed`, `cancelled`, `failed` | The status of the vector store file, which can be either `in_progress`, `completed`, `cancelled`, or `failed`. The status `completed` indicates that the vector store file is ready for use. |
 | `last_error` | object (2 properties) | Yes |  |  | The last error associated with this vector store file. Will be `null` if there are no errors. |
 | `chunking_strategy` | object | No |  |  | The strategy used to chunk the file. |
-| `attributes` | map | No |  |  | Set of 16 key-value pairs that can be attached to an object. This can be 
-useful for storing additional information about the object in a structured 
-format, and querying for objects via API or the dashboard. Keys are strings 
-with a maximum length of 64 characters. Values are strings with a maximum 
-length of 512 characters, booleans, or numbers.
- |
+| `attributes` | map | No |  |  | Set of 16 key-value pairs that can be attached to an object. This can be  <br> useful for storing additional information about the object in a structured  <br> format, and querying for objects via API or the dashboard. Keys are strings  <br> with a maximum length of 64 characters. Values are strings with a maximum  <br> length of 512 characters, booleans, or numbers. <br>  |
 |   ↳ (additional properties) | oneOf: string | number | boolean | - | - | - | Additional properties of this object |
 ## Examples
 

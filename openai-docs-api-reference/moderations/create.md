@@ -16,13 +16,8 @@ more in the [moderation guide](/docs/guides/moderation).
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `input` | oneOf: string | array of string | array of oneOf: object (2 properties) | object (2 properties) | Yes |  |  | Input (or inputs) to classify. Can be a single string, an array of strings, or
-an array of multi-modal input objects similar to other models.
- |
-| `model` | anyOf: string | string | No | `omni-moderation-latest` |  | The content moderation model you would like to use. Learn more in
-[the moderation guide](/docs/guides/moderation), and learn about
-available models [here](/docs/models#moderation).
- |
+| `input` | oneOf: string | array of string | array of oneOf: object (2 properties) | object (2 properties) | Yes |  |  | Input (or inputs) to classify. Can be a single string, an array of strings, or <br> an array of multi-modal input objects similar to other models. <br>  |
+| `model` | anyOf: string | string | No | `omni-moderation-latest` |  | The content moderation model you would like to use. Learn more in <br> [the moderation guide](/docs/guides/moderation), and learn about <br> available models [here](/docs/models#moderation). <br>  |
 ## Responses
 
 ### 200 - OK

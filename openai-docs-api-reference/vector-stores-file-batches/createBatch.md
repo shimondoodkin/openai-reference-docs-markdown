@@ -10,8 +10,7 @@ Create a vector store file batch.
 
 | Name | Type | Required | Description |
 | ---- | ---- | -------- | ----------- |
-| `vector_store_id` | string | Yes | The ID of the vector store for which to create a File Batch.
- |
+| `vector_store_id` | string | Yes | The ID of the vector store for which to create a File Batch. <br>  |
 
 ## Request Body
 
@@ -25,12 +24,7 @@ Create a vector store file batch.
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
 | `file_ids` | array of string | Yes |  |  | A list of [File](/docs/api-reference/files) IDs that the vector store should use. Useful for tools like `file_search` that can access files. |
 | `chunking_strategy` | object | No |  |  | The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy. |
-| `attributes` | map | No |  |  | Set of 16 key-value pairs that can be attached to an object. This can be 
-useful for storing additional information about the object in a structured 
-format, and querying for objects via API or the dashboard. Keys are strings 
-with a maximum length of 64 characters. Values are strings with a maximum 
-length of 512 characters, booleans, or numbers.
- |
+| `attributes` | map | No |  |  | Set of 16 key-value pairs that can be attached to an object. This can be  <br> useful for storing additional information about the object in a structured  <br> format, and querying for objects via API or the dashboard. Keys are strings  <br> with a maximum length of 64 characters. Values are strings with a maximum  <br> length of 512 characters, booleans, or numbers. <br>  |
 |   ↳ (additional properties) | oneOf: string | number | boolean | - | - | - | Additional properties of this object |
 ## Responses
 

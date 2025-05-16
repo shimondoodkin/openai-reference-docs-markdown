@@ -8,8 +8,7 @@ Represents an embedding vector returned by embedding endpoint.
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
 | `index` | integer | Yes |  |  | The index of the embedding in the list of embeddings. |
-| `embedding` | array of number | Yes |  |  | The embedding vector, which is a list of floats. The length of vector depends on the model as listed in the [embedding guide](/docs/guides/embeddings).
- |
+| `embedding` | array of number | Yes |  |  | The embedding vector, which is a list of floats. The length of vector depends on the model as listed in the [embedding guide](/docs/guides/embeddings). <br>  |
 | `object` | string | Yes |  | `embedding` | The object type, which is always "embedding". |
 
 ## Property Details

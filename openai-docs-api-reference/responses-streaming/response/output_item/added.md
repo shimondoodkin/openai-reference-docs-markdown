@@ -6,12 +6,9 @@ Emitted when a new output item is added.
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `type` | string | Yes |  | `response.output_item.added` | The type of the event. Always `response.output_item.added`.
- |
-| `output_index` | integer | Yes |  |  | The index of the output item that was added.
- |
-| `item` | anyOf: object (5 properties) | object (5 properties) | object (6 properties) | object (3 properties) | object (6 properties) | object (5 properties) | Yes |  |  | The output item that was added.
- |
+| `type` | string | Yes |  | `response.output_item.added` | The type of the event. Always `response.output_item.added`. <br>  |
+| `output_index` | integer | Yes |  |  | The index of the output item that was added. <br>  |
+| `item` | anyOf: object (5 properties) | object (5 properties) | object (6 properties) | object (3 properties) | object (6 properties) | object (5 properties) | Yes |  |  | The output item that was added. <br>  |
 
 ## Property Details
 

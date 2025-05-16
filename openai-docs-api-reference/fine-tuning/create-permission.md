@@ -13,8 +13,7 @@ This enables organization owners to share fine-tuned models with other projects 
 
 | Name | Type | Required | Description |
 | ---- | ---- | -------- | ----------- |
-| `fine_tuned_model_checkpoint` | string | Yes | The ID of the fine-tuned model checkpoint to create a permission for.
- |
+| `fine_tuned_model_checkpoint` | string | Yes | The ID of the fine-tuned model checkpoint to create a permission for. <br>  |
 
 ## Request Body
 

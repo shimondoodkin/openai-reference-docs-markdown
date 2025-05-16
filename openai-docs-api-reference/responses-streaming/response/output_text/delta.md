@@ -6,16 +6,11 @@ Emitted when there is an additional text delta.
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `type` | string | Yes |  | `response.output_text.delta` | The type of the event. Always `response.output_text.delta`.
- |
-| `item_id` | string | Yes |  |  | The ID of the output item that the text delta was added to.
- |
-| `output_index` | integer | Yes |  |  | The index of the output item that the text delta was added to.
- |
-| `content_index` | integer | Yes |  |  | The index of the content part that the text delta was added to.
- |
-| `delta` | string | Yes |  |  | The text delta that was added.
- |
+| `type` | string | Yes |  | `response.output_text.delta` | The type of the event. Always `response.output_text.delta`. <br>  |
+| `item_id` | string | Yes |  |  | The ID of the output item that the text delta was added to. <br>  |
+| `output_index` | integer | Yes |  |  | The index of the output item that the text delta was added to. <br>  |
+| `content_index` | integer | Yes |  |  | The index of the content part that the text delta was added to. <br>  |
+| `delta` | string | Yes |  |  | The text delta that was added. <br>  |
 
 ## Property Details
 

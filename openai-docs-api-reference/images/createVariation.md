@@ -19,8 +19,7 @@ Creates a variation of a given image. This endpoint only supports `dall-e-2`.
 | `n` | integer | No | `1` |  | The number of images to generate. Must be between 1 and 10. |
 | `response_format` | string | No | `url` | `url`, `b64_json` | The format in which the generated images are returned. Must be one of `url` or `b64_json`. URLs are only valid for 60 minutes after the image has been generated. |
 | `size` | string | No | `1024x1024` | `256x256`, `512x512`, `1024x1024` | The size of the generated images. Must be one of `256x256`, `512x512`, or `1024x1024`. |
-| `user` | string | No |  |  | A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices#end-user-ids).
- |
+| `user` | string | No |  |  | A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices#end-user-ids). <br>  |
 ## Responses
 
 ### 200 - OK
@@ -39,8 +38,7 @@ The response from the image generation endpoint.
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
 | `created` | integer | Yes |  |  | The Unix timestamp (in seconds) of when the image was created. |
 | `data` | array of object (3 properties) | No |  |  | The list of generated images. |
-| `usage` | object (4 properties) | No |  |  | For `gpt-image-1` only, the token usage information for the image generation.
- |
+| `usage` | object (4 properties) | No |  |  | For `gpt-image-1` only, the token usage information for the image generation. <br>  |
 |   ↳ `output_tokens` | integer | Yes |  |  | The number of image tokens in the output image. |
 |   ↳ `input_tokens_details` | object (2 properties) | Yes |  |  | The input tokens detailed information for the image generation. |
 

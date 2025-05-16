@@ -16,16 +16,11 @@ Returns a list of messages for a given thread.
 
 | Name | Type | Required | Description |
 | ---- | ---- | -------- | ----------- |
-| `limit` | integer | No | A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20.
- |
-| `order` | string | No | Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and `desc` for descending order.
- |
-| `after` | string | No | A cursor for use in pagination. `after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list.
- |
-| `before` | string | No | A cursor for use in pagination. `before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with obj_foo, your subsequent call can include before=obj_foo in order to fetch the previous page of the list.
- |
-| `run_id` | string | No | Filter messages by the run ID that generated them.
- |
+| `limit` | integer | No | A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20. <br>  |
+| `order` | string | No | Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and `desc` for descending order. <br>  |
+| `after` | string | No | A cursor for use in pagination. `after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list. <br>  |
+| `before` | string | No | A cursor for use in pagination. `before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with obj_foo, your subsequent call can include before=obj_foo in order to fetch the previous page of the list. <br>  |
+| `run_id` | string | No | Filter messages by the run ID that generated them. <br>  |
 
 ## Responses
 
@@ -61,13 +56,7 @@ Returns a list of messages for a given thread.
 | `assistant_id` | string | Yes |  |  | If applicable, the ID of the [assistant](/docs/api-reference/assistants) that authored this message. |
 | `run_id` | string | Yes |  |  | The ID of the [run](/docs/api-reference/runs) associated with the creation of this message. Value is `null` when messages are created manually using the create message or create thread endpoints. |
 | `attachments` | array of object (2 properties) | Yes |  |  | A list of files attached to the message, and the tools they were added to. |
-| `metadata` | map | Yes |  |  | Set of 16 key-value pairs that can be attached to an object. This can be
-useful for storing additional information about the object in a structured
-format, and querying for objects via API or the dashboard. 
-
-Keys are strings with a maximum length of 64 characters. Values are strings
-with a maximum length of 512 characters.
- |
+| `metadata` | map | Yes |  |  | Set of 16 key-value pairs that can be attached to an object. This can be <br> useful for storing additional information about the object in a structured <br> format, and querying for objects via API or the dashboard.  <br>  <br> Keys are strings with a maximum length of 64 characters. Values are strings <br> with a maximum length of 512 characters. <br>  |
 |   ↳ (additional properties) | string | - | - | - | Additional properties of this object |
 
 

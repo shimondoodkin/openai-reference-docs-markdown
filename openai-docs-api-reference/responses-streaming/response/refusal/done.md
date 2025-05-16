@@ -6,16 +6,11 @@ Emitted when refusal text is finalized.
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `type` | string | Yes |  | `response.refusal.done` | The type of the event. Always `response.refusal.done`.
- |
-| `item_id` | string | Yes |  |  | The ID of the output item that the refusal text is finalized.
- |
-| `output_index` | integer | Yes |  |  | The index of the output item that the refusal text is finalized.
- |
-| `content_index` | integer | Yes |  |  | The index of the content part that the refusal text is finalized.
- |
-| `refusal` | string | Yes |  |  | The refusal text that is finalized.
- |
+| `type` | string | Yes |  | `response.refusal.done` | The type of the event. Always `response.refusal.done`. <br>  |
+| `item_id` | string | Yes |  |  | The ID of the output item that the refusal text is finalized. <br>  |
+| `output_index` | integer | Yes |  |  | The index of the output item that the refusal text is finalized. <br>  |
+| `content_index` | integer | Yes |  |  | The index of the content part that the refusal text is finalized. <br>  |
+| `refusal` | string | Yes |  |  | The refusal text that is finalized. <br>  |
 
 ## Property Details
 

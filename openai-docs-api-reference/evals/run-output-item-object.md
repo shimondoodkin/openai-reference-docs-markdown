@@ -23,8 +23,7 @@ A schema representing an evaluation run output item.
 |   ↳ `usage` | object (4 properties) | Yes |  |  | Token usage details for the sample. |
 |     ↳ `prompt_tokens` | integer | Yes |  |  | The number of prompt tokens used. |
 |     ↳ `cached_tokens` | integer | Yes |  |  | The number of tokens retrieved from cache. |
-|   ↳ `error` | object (2 properties) | Yes |  |  | An object representing an error response from the Eval API.
- |
+|   ↳ `error` | object (2 properties) | Yes |  |  | An object representing an error response from the Eval API. <br>  |
 |   ↳ `temperature` | number | Yes |  |  | The sampling temperature used. |
 |   ↳ `max_completion_tokens` | integer | Yes |  |  | The maximum number of tokens allowed for completion. |
 |   ↳ `top_p` | number | Yes |  |  | The top_p value used for sampling. |

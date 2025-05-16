@@ -17,8 +17,7 @@ The number of bytes uploaded upon completion must match the number of bytes init
 
 | Name | Type | Required | Description |
 | ---- | ---- | -------- | ----------- |
-| `upload_id` | string | Yes | The ID of the Upload.
- |
+| `upload_id` | string | Yes | The ID of the Upload. <br>  |
 
 ## Request Body
 
@@ -30,10 +29,8 @@ The number of bytes uploaded upon completion must match the number of bytes init
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `part_ids` | array of string | Yes |  |  | The ordered list of Part IDs.
- |
-| `md5` | string | No |  |  | The optional md5 checksum for the file contents to verify if the bytes uploaded matches what you expect.
- |
+| `part_ids` | array of string | Yes |  |  | The ordered list of Part IDs. <br>  |
+| `md5` | string | No |  |  | The optional md5 checksum for the file contents to verify if the bytes uploaded matches what you expect. <br>  |
 ## Responses
 
 ### 200 - OK

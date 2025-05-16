@@ -14,8 +14,7 @@ Generates audio from the input text.
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `model` | anyOf: string | string | Yes |  |  | One of the available [TTS models](/docs/models#tts): `tts-1`, `tts-1-hd` or `gpt-4o-mini-tts`.
- |
+| `model` | anyOf: string | string | Yes |  |  | One of the available [TTS models](/docs/models#tts): `tts-1`, `tts-1-hd` or `gpt-4o-mini-tts`. <br>  |
 | `input` | string | Yes |  |  | The text to generate audio for. The maximum length is 4096 characters. |
 | `instructions` | string | No |  |  | Control the voice of your generated audio with additional instructions. Does not work with `tts-1` or `tts-1-hd`. |
 | `voice` | anyOf: string | string | Yes |  |  | The voice to use when generating the audio. Supported voices are `alloy`, `ash`, `ballad`, `coral`, `echo`, `fable`, `onyx`, `nova`, `sage`, `shimmer`, and `verse`. Previews of the voices are available in the [Text to speech guide](/docs/guides/text-to-speech#voice-options). |

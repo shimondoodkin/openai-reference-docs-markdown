@@ -12,8 +12,7 @@ will also be sent to the client.
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
 | `event_id` | string | Yes |  |  | The unique ID of the server event. |
 | `type` | string | Yes |  | `input_audio_buffer.committed` | The event type, must be `input_audio_buffer.committed`. |
-| `previous_item_id` | string | Yes |  |  | The ID of the preceding item after which the new item will be inserted.
- |
+| `previous_item_id` | string | Yes |  |  | The ID of the preceding item after which the new item will be inserted. <br>  |
 | `item_id` | string | Yes |  |  | The ID of the user message item that will be created. |
 
 ## Property Details

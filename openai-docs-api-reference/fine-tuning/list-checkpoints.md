@@ -11,8 +11,7 @@ List checkpoints for a fine-tuning job.
 
 | Name | Type | Required | Description |
 | ---- | ---- | -------- | ----------- |
-| `fine_tuning_job_id` | string | Yes | The ID of the fine-tuning job to get checkpoints for.
- |
+| `fine_tuning_job_id` | string | Yes | The ID of the fine-tuning job to get checkpoints for. <br>  |
 
 ### Query Parameters
 

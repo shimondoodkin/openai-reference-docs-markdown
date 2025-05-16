@@ -19,8 +19,7 @@ adjusted accordingly once the Response is completed.
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `name` | string | No |  | `requests`, `tokens` | The name of the rate limit (`requests`, `tokens`).
- |
+| `name` | string | No |  | `requests`, `tokens` | The name of the rate limit (`requests`, `tokens`). <br>  |
 | `limit` | integer | No |  |  | The maximum allowed value for the rate limit. |
 | `remaining` | integer | No |  |  | The remaining value before the limit is reached. |
 | `reset_seconds` | number | No |  |  | Seconds until the rate limit resets. |

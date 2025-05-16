@@ -42,13 +42,7 @@ Represents a message within a [thread](/docs/api-reference/threads).
 | `assistant_id` | string | Yes |  |  | If applicable, the ID of the [assistant](/docs/api-reference/assistants) that authored this message. |
 | `run_id` | string | Yes |  |  | The ID of the [run](/docs/api-reference/runs) associated with the creation of this message. Value is `null` when messages are created manually using the create message or create thread endpoints. |
 | `attachments` | array of object (2 properties) | Yes |  |  | A list of files attached to the message, and the tools they were added to. |
-| `metadata` | map | Yes |  |  | Set of 16 key-value pairs that can be attached to an object. This can be
-useful for storing additional information about the object in a structured
-format, and querying for objects via API or the dashboard. 
-
-Keys are strings with a maximum length of 64 characters. Values are strings
-with a maximum length of 512 characters.
- |
+| `metadata` | map | Yes |  |  | Set of 16 key-value pairs that can be attached to an object. This can be <br> useful for storing additional information about the object in a structured <br> format, and querying for objects via API or the dashboard.  <br>  <br> Keys are strings with a maximum length of 64 characters. Values are strings <br> with a maximum length of 512 characters. <br>  |
 |   ↳ (additional properties) | string | - | - | - | Additional properties of this object |
 
 

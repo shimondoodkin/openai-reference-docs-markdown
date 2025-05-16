@@ -14,33 +14,15 @@ Transcribes audio into the input language.
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `file` | file | Yes |  |  | The audio file object (not file name) to transcribe, in one of these formats: flac, mp3, mp4, mpeg, mpga, m4a, ogg, wav, or webm.
- |
-| `model` | anyOf: string | string | Yes |  |  | ID of the model to use. The options are `gpt-4o-transcribe`, `gpt-4o-mini-transcribe`, and `whisper-1` (which is powered by our open source Whisper V2 model).
- |
-| `language` | string | No |  |  | The language of the input audio. Supplying the input language in [ISO-639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) (e.g. `en`) format will improve accuracy and latency.
- |
-| `prompt` | string | No |  |  | An optional text to guide the model's style or continue a previous audio segment. The [prompt](/docs/guides/speech-to-text#prompting) should match the audio language.
- |
-| `response_format` | string | No | `json` | `json`, `text`, `srt`, `verbose_json`, `vtt` | The format of the output, in one of these options: `json`, `text`, `srt`, `verbose_json`, or `vtt`. For `gpt-4o-transcribe` and `gpt-4o-mini-transcribe`, the only supported format is `json`.
- |
-| `temperature` | number | No | `0` |  | The sampling temperature, between 0 and 1. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic. If set to 0, the model will use [log probability](https://en.wikipedia.org/wiki/Log_probability) to automatically increase the temperature until certain thresholds are hit.
- |
-| `include[]` | array of string | No |  |  | Additional information to include in the transcription response. 
-`logprobs` will return the log probabilities of the tokens in the 
-response to understand the model's confidence in the transcription. 
-`logprobs` only works with response_format set to `json` and only with 
-the models `gpt-4o-transcribe` and `gpt-4o-mini-transcribe`.
- |
-| `timestamp_granularities[]` | array of string | No | `["segment"]` |  | The timestamp granularities to populate for this transcription. `response_format` must be set `verbose_json` to use timestamp granularities. Either or both of these options are supported: `word`, or `segment`. Note: There is no additional latency for segment timestamps, but generating word timestamps incurs additional latency.
- |
-| `stream` | boolean | No | `false` |  | If set to true, the model response data will be streamed to the client
-as it is generated using [server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events#Event_stream_format). 
-See the [Streaming section of the Speech-to-Text guide](/docs/guides/speech-to-text?lang=curl#streaming-transcriptions)
-for more information.
-
-Note: Streaming is not supported for the `whisper-1` model and will be ignored.
- |
+| `file` | file | Yes |  |  | The audio file object (not file name) to transcribe, in one of these formats: flac, mp3, mp4, mpeg, mpga, m4a, ogg, wav, or webm. <br>  |
+| `model` | anyOf: string | string | Yes |  |  | ID of the model to use. The options are `gpt-4o-transcribe`, `gpt-4o-mini-transcribe`, and `whisper-1` (which is powered by our open source Whisper V2 model). <br>  |
+| `language` | string | No |  |  | The language of the input audio. Supplying the input language in [ISO-639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) (e.g. `en`) format will improve accuracy and latency. <br>  |
+| `prompt` | string | No |  |  | An optional text to guide the model's style or continue a previous audio segment. The [prompt](/docs/guides/speech-to-text#prompting) should match the audio language. <br>  |
+| `response_format` | string | No | `json` | `json`, `text`, `srt`, `verbose_json`, `vtt` | The format of the output, in one of these options: `json`, `text`, `srt`, `verbose_json`, or `vtt`. For `gpt-4o-transcribe` and `gpt-4o-mini-transcribe`, the only supported format is `json`. <br>  |
+| `temperature` | number | No | `0` |  | The sampling temperature, between 0 and 1. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic. If set to 0, the model will use [log probability](https://en.wikipedia.org/wiki/Log_probability) to automatically increase the temperature until certain thresholds are hit. <br>  |
+| `include[]` | array of string | No |  |  | Additional information to include in the transcription response.  <br> `logprobs` will return the log probabilities of the tokens in the  <br> response to understand the model's confidence in the transcription.  <br> `logprobs` only works with response_format set to `json` and only with  <br> the models `gpt-4o-transcribe` and `gpt-4o-mini-transcribe`. <br>  |
+| `timestamp_granularities[]` | array of string | No | `["segment"]` |  | The timestamp granularities to populate for this transcription. `response_format` must be set `verbose_json` to use timestamp granularities. Either or both of these options are supported: `word`, or `segment`. Note: There is no additional latency for segment timestamps, but generating word timestamps incurs additional latency. <br>  |
+| `stream` | boolean | No | `false` |  | If set to true, the model response data will be streamed to the client <br> as it is generated using [server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events#Event_stream_format).  <br> See the [Streaming section of the Speech-to-Text guide](/docs/guides/speech-to-text?lang=curl#streaming-transcriptions) <br> for more information. <br>  <br> Note: Streaming is not supported for the `whisper-1` model and will be ignored. <br>  |
 | `chunking_strategy` | anyOf: string | object (4 properties) | No |  |  | Controls how the audio is cut into chunks. When set to `"auto"`, the server first normalizes loudness and then uses voice activity detection (VAD) to choose boundaries. `server_vad` object can be provided to tweak VAD detection parameters manually. If unset, the audio is transcribed as a single block.  |
 
 
@@ -73,8 +55,7 @@ Represents a transcription response returned by model, based on the provided inp
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
 | `text` | string | Yes |  |  | The transcribed text. |
-| `logprobs` | array of object (3 properties) | No |  |  | The log probabilities of the tokens in the transcription. Only returned with the models `gpt-4o-transcribe` and `gpt-4o-mini-transcribe` if `logprobs` is added to the `include` array.
- |
+| `logprobs` | array of object (3 properties) | No |  |  | The log probabilities of the tokens in the transcription. Only returned with the models `gpt-4o-transcribe` and `gpt-4o-mini-transcribe` if `logprobs` is added to the `include` array. <br>  |
 
 
 ### Items in `logprobs` array
@@ -176,24 +157,18 @@ Emitted when there is an additional text delta. This is also the first event emi
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `type` | string | Yes |  | `transcript.text.delta` | The type of the event. Always `transcript.text.delta`.
- |
-| `delta` | string | Yes |  |  | The text delta that was additionally transcribed.
- |
-| `logprobs` | array of object (3 properties) | No |  |  | The log probabilities of the delta. Only included if you [create a transcription](/docs/api-reference/audio/create-transcription) with the `include[]` parameter set to `logprobs`.
- |
+| `type` | string | Yes |  | `transcript.text.delta` | The type of the event. Always `transcript.text.delta`. <br>  |
+| `delta` | string | Yes |  |  | The text delta that was additionally transcribed. <br>  |
+| `logprobs` | array of object (3 properties) | No |  |  | The log probabilities of the delta. Only included if you [create a transcription](/docs/api-reference/audio/create-transcription) with the `include[]` parameter set to `logprobs`. <br>  |
 
 
 ### Items in `logprobs` array
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `token` | string | No |  |  | The token that was used to generate the log probability.
- |
-| `logprob` | number | No |  |  | The log probability of the token.
- |
-| `bytes` | array | No |  |  | The bytes that were used to generate the log probability.
- |
+| `token` | string | No |  |  | The token that was used to generate the log probability. <br>  |
+| `logprob` | number | No |  |  | The log probability of the token. <br>  |
+| `bytes` | array | No |  |  | The bytes that were used to generate the log probability. <br>  |
 **Example:**
 
 ```json
@@ -214,24 +189,18 @@ Emitted when the transcription is complete. Contains the complete transcription 
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `type` | string | Yes |  | `transcript.text.done` | The type of the event. Always `transcript.text.done`.
- |
-| `text` | string | Yes |  |  | The text that was transcribed.
- |
-| `logprobs` | array of object (3 properties) | No |  |  | The log probabilities of the individual tokens in the transcription. Only included if you [create a transcription](/docs/api-reference/audio/create-transcription) with the `include[]` parameter set to `logprobs`.
- |
+| `type` | string | Yes |  | `transcript.text.done` | The type of the event. Always `transcript.text.done`. <br>  |
+| `text` | string | Yes |  |  | The text that was transcribed. <br>  |
+| `logprobs` | array of object (3 properties) | No |  |  | The log probabilities of the individual tokens in the transcription. Only included if you [create a transcription](/docs/api-reference/audio/create-transcription) with the `include[]` parameter set to `logprobs`. <br>  |
 
 
 ### Items in `logprobs` array
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `token` | string | No |  |  | The token that was used to generate the log probability.
- |
-| `logprob` | number | No |  |  | The log probability of the token.
- |
-| `bytes` | array | No |  |  | The bytes that were used to generate the log probability.
- |
+| `token` | string | No |  |  | The token that was used to generate the log probability. <br>  |
+| `logprob` | number | No |  |  | The log probability of the token. <br>  |
+| `bytes` | array | No |  |  | The bytes that were used to generate the log probability. <br>  |
 **Example:**
 
 ```json

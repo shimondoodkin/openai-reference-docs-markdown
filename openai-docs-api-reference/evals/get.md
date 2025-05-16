@@ -41,13 +41,7 @@ Like:
 | `data_source_config` | object | Yes |  |  | Configuration of data sources used in runs of the evaluation. |
 | `testing_criteria` | array of oneOf: object (6 properties) | object (5 properties) | object (6 properties) | object (5 properties) | object (7 properties) | Yes | `eval` |  | A list of testing criteria. |
 | `created_at` | integer | Yes |  |  | The Unix timestamp (in seconds) for when the eval was created. |
-| `metadata` | map | Yes |  |  | Set of 16 key-value pairs that can be attached to an object. This can be
-useful for storing additional information about the object in a structured
-format, and querying for objects via API or the dashboard. 
-
-Keys are strings with a maximum length of 64 characters. Values are strings
-with a maximum length of 512 characters.
- |
+| `metadata` | map | Yes |  |  | Set of 16 key-value pairs that can be attached to an object. This can be <br> useful for storing additional information about the object in a structured <br> format, and querying for objects via API or the dashboard.  <br>  <br> Keys are strings with a maximum length of 64 characters. Values are strings <br> with a maximum length of 512 characters. <br>  |
 |   ↳ (additional properties) | string | - | - | - | Additional properties of this object |
 **Example:**
 

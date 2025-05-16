@@ -13,8 +13,7 @@ Organization owners can use this endpoint to view all permissions for a fine-tun
 
 | Name | Type | Required | Description |
 | ---- | ---- | -------- | ----------- |
-| `fine_tuned_model_checkpoint` | string | Yes | The ID of the fine-tuned model checkpoint to get permissions for.
- |
+| `fine_tuned_model_checkpoint` | string | Yes | The ID of the fine-tuned model checkpoint to get permissions for. <br>  |
 
 ### Query Parameters
 

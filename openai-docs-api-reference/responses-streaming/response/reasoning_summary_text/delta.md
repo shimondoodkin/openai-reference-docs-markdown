@@ -6,16 +6,11 @@ Emitted when a delta is added to a reasoning summary text.
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `type` | string | Yes |  | `response.reasoning_summary_text.delta` | The type of the event. Always `response.reasoning_summary_text.delta`.
- |
-| `item_id` | string | Yes |  |  | The ID of the item this summary text delta is associated with.
- |
-| `output_index` | integer | Yes |  |  | The index of the output item this summary text delta is associated with.
- |
-| `summary_index` | integer | Yes |  |  | The index of the summary part within the reasoning summary.
- |
-| `delta` | string | Yes |  |  | The text delta that was added to the summary.
- |
+| `type` | string | Yes |  | `response.reasoning_summary_text.delta` | The type of the event. Always `response.reasoning_summary_text.delta`. <br>  |
+| `item_id` | string | Yes |  |  | The ID of the item this summary text delta is associated with. <br>  |
+| `output_index` | integer | Yes |  |  | The index of the output item this summary text delta is associated with. <br>  |
+| `summary_index` | integer | Yes |  |  | The index of the summary part within the reasoning summary. <br>  |
+| `delta` | string | Yes |  |  | The text delta that was added to the summary. <br>  |
 
 ## Property Details
 

@@ -6,16 +6,11 @@ Emitted when a new content part is added.
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `type` | string | Yes |  | `response.content_part.added` | The type of the event. Always `response.content_part.added`.
- |
-| `item_id` | string | Yes |  |  | The ID of the output item that the content part was added to.
- |
-| `output_index` | integer | Yes |  |  | The index of the output item that the content part was added to.
- |
-| `content_index` | integer | Yes |  |  | The index of the content part that was added.
- |
-| `part` | oneOf: object (3 properties) | object (2 properties) | Yes |  |  | The content part that was added.
- |
+| `type` | string | Yes |  | `response.content_part.added` | The type of the event. Always `response.content_part.added`. <br>  |
+| `item_id` | string | Yes |  |  | The ID of the output item that the content part was added to. <br>  |
+| `output_index` | integer | Yes |  |  | The index of the output item that the content part was added to. <br>  |
+| `content_index` | integer | Yes |  |  | The index of the content part that was added. <br>  |
+| `part` | oneOf: object (3 properties) | object (2 properties) | Yes |  |  | The content part that was added. <br>  |
 
 ## Property Details
 

@@ -18,13 +18,8 @@ the audio buffer during VAD activation).
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
 | `event_id` | string | Yes |  |  | The unique ID of the server event. |
 | `type` | string | Yes |  | `input_audio_buffer.speech_started` | The event type, must be `input_audio_buffer.speech_started`. |
-| `audio_start_ms` | integer | Yes |  |  | Milliseconds from the start of all audio written to the buffer during the 
-session when speech was first detected. This will correspond to the 
-beginning of audio sent to the model, and thus includes the 
-`prefix_padding_ms` configured in the Session.
- |
-| `item_id` | string | Yes |  |  | The ID of the user message item that will be created when speech stops.
- |
+| `audio_start_ms` | integer | Yes |  |  | Milliseconds from the start of all audio written to the buffer during the  <br> session when speech was first detected. This will correspond to the  <br> beginning of audio sent to the model, and thus includes the  <br> `prefix_padding_ms` configured in the Session. <br>  |
+| `item_id` | string | Yes |  |  | The ID of the user message item that will be created when speech stops. <br>  |
 
 ## Property Details
 

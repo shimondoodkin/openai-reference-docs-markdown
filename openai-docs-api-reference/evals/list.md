@@ -14,9 +14,7 @@ List evaluations for a project.
 | `after` | string | No | Identifier for the last eval from the previous pagination request. |
 | `limit` | integer | No | Number of evals to retrieve. |
 | `order` | string | No | Sort order for evals by timestamp. Use `asc` for ascending order or `desc` for descending order. |
-| `order_by` | string | No | Evals can be ordered by creation time or last updated time. Use
-`created_at` for creation time or `updated_at` for last updated time.
- |
+| `order_by` | string | No | Evals can be ordered by creation time or last updated time. Use <br> `created_at` for creation time or `updated_at` for last updated time. <br>  |
 
 ## Responses
 
@@ -35,10 +33,8 @@ An object representing a list of evals.
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `object` | string | Yes | `list` | `list` | The type of this object. It is always set to "list".
- |
-| `data` | array of object (7 properties) | Yes |  |  | An array of eval objects.
- |
+| `object` | string | Yes | `list` | `list` | The type of this object. It is always set to "list". <br>  |
+| `data` | array of object (7 properties) | Yes |  |  | An array of eval objects. <br>  |
 | `first_id` | string | Yes |  |  | The identifier of the first eval in the data array. |
 | `last_id` | string | Yes |  |  | The identifier of the last eval in the data array. |
 | `has_more` | boolean | Yes |  |  | Indicates whether there are more evals available. |
@@ -54,13 +50,7 @@ An object representing a list of evals.
 | `data_source_config` | object | Yes |  |  | Configuration of data sources used in runs of the evaluation. |
 | `testing_criteria` | array of oneOf: object (6 properties) | object (5 properties) | object (6 properties) | object (5 properties) | object (7 properties) | Yes | `eval` |  | A list of testing criteria. |
 | `created_at` | integer | Yes |  |  | The Unix timestamp (in seconds) for when the eval was created. |
-| `metadata` | map | Yes |  |  | Set of 16 key-value pairs that can be attached to an object. This can be
-useful for storing additional information about the object in a structured
-format, and querying for objects via API or the dashboard. 
-
-Keys are strings with a maximum length of 64 characters. Values are strings
-with a maximum length of 512 characters.
- |
+| `metadata` | map | Yes |  |  | Set of 16 key-value pairs that can be attached to an object. This can be <br> useful for storing additional information about the object in a structured <br> format, and querying for objects via API or the dashboard.  <br>  <br> Keys are strings with a maximum length of 64 characters. Values are strings <br> with a maximum length of 512 characters. <br>  |
 |   ↳ (additional properties) | string | - | - | - | Additional properties of this object |
 **Example:**
 

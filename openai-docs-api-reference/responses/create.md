@@ -21,147 +21,27 @@ as input for the model's response.
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `metadata` | map | No |  |  | Set of 16 key-value pairs that can be attached to an object. This can be
-useful for storing additional information about the object in a structured
-format, and querying for objects via API or the dashboard. 
-
-Keys are strings with a maximum length of 64 characters. Values are strings
-with a maximum length of 512 characters.
- |
+| `metadata` | map | No |  |  | Set of 16 key-value pairs that can be attached to an object. This can be <br> useful for storing additional information about the object in a structured <br> format, and querying for objects via API or the dashboard.  <br>  <br> Keys are strings with a maximum length of 64 characters. Values are strings <br> with a maximum length of 512 characters. <br>  |
 |   ↳ (additional properties) | string | - | - | - | Additional properties of this object |
-| `temperature` | number | No | `1` |  | What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
-We generally recommend altering this or `top_p` but not both.
- |
-| `top_p` | number | No | `1` |  | An alternative to sampling with temperature, called nucleus sampling,
-where the model considers the results of the tokens with top_p probability
-mass. So 0.1 means only the tokens comprising the top 10% probability mass
-are considered.
-
-We generally recommend altering this or `temperature` but not both.
- |
-| `user` | string | No |  |  | A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices#end-user-ids).
- |
-| `service_tier` | string | No | `auto` | `auto`, `default`, `flex` | Specifies the latency tier to use for processing the request. This parameter is relevant for customers subscribed to the scale tier service:
-  - If set to 'auto', and the Project is Scale tier enabled, the system
-    will utilize scale tier credits until they are exhausted.
-  - If set to 'auto', and the Project is not Scale tier enabled, the request will be processed using the default service tier with a lower uptime SLA and no latency guarentee.
-  - If set to 'default', the request will be processed using the default service tier with a lower uptime SLA and no latency guarentee.
-  - If set to 'flex', the request will be processed with the Flex Processing service tier. [Learn more](/docs/guides/flex-processing).
-  - When not set, the default behavior is 'auto'.
-
-  When this parameter is set, the response body will include the `service_tier` utilized.
- |
-| `previous_response_id` | string | No |  |  | The unique ID of the previous response to the model. Use this to
-create multi-turn conversations. Learn more about 
-[conversation state](/docs/guides/conversation-state).
- |
-| `model` | anyOf: anyOf: string | string | string | Yes |  |  | Model ID used to generate the response, like `gpt-4o` or `o3`. OpenAI
-offers a wide range of models with different capabilities, performance
-characteristics, and price points. Refer to the [model guide](/docs/models)
-to browse and compare available models.
- |
-| `reasoning` | object (3 properties) | No |  |  | **o-series models only**
-
-Configuration options for 
-[reasoning models](https://platform.openai.com/docs/guides/reasoning).
- |
-Constrains effort on reasoning for 
-[reasoning models](https://platform.openai.com/docs/guides/reasoning).
-Currently supported values are `low`, `medium`, and `high`. Reducing
-reasoning effort can result in faster responses and fewer tokens used
-on reasoning in a response.
- |
-|   ↳ `summary` | string | No |  | `auto`, `concise`, `detailed` | A summary of the reasoning performed by the model. This can be
-useful for debugging and understanding the model's reasoning process.
-One of `auto`, `concise`, or `detailed`.
- |
-|   ↳ `generate_summary` | string | No |  | `auto`, `concise`, `detailed` | **Deprecated:** use `summary` instead.
-
-A summary of the reasoning performed by the model. This can be
-useful for debugging and understanding the model's reasoning process.
-One of `auto`, `concise`, or `detailed`.
- |
-| `max_output_tokens` | integer | No |  |  | An upper bound for the number of tokens that can be generated for a response, including visible output tokens and [reasoning tokens](/docs/guides/reasoning).
- |
-| `instructions` | string | No |  |  | Inserts a system (or developer) message as the first item in the model's context.
-
-When using along with `previous_response_id`, the instructions from a previous
-response will not be carried over to the next response. This makes it simple
-to swap out system (or developer) messages in new responses.
- |
-| `text` | object (1 property) | No |  |  | Configuration options for a text response from the model. Can be plain
-text or structured JSON data. Learn more:
-- [Text inputs and outputs](/docs/guides/text)
-- [Structured Outputs](/docs/guides/structured-outputs)
- |
-Configuring `{ "type": "json_schema" }` enables Structured Outputs, 
-which ensures the model will match your supplied JSON schema. Learn more in the 
-[Structured Outputs guide](/docs/guides/structured-outputs).
-
-The default format is `{ "type": "text" }` with no additional options.
-
-**Not recommended for gpt-4o and newer models:**
-
-Setting to `{ "type": "json_object" }` enables the older JSON mode, which
-ensures the message the model generates is valid JSON. Using `json_schema`
-is preferred for models that support it.
- |
-| `tools` | array of oneOf: object (5 properties) | object (5 properties) | object (3 properties) | object (4 properties) | No |  |  | An array of tools the model may call while generating a response. You 
-can specify which tool to use by setting the `tool_choice` parameter.
-
-The two categories of tools you can provide the model are:
-
-- **Built-in tools**: Tools that are provided by OpenAI that extend the
-  model's capabilities, like [web search](/docs/guides/tools-web-search)
-  or [file search](/docs/guides/tools-file-search). Learn more about
-  [built-in tools](/docs/guides/tools).
-- **Function calls (custom tools)**: Functions that are defined by you,
-  enabling the model to call your own code. Learn more about
-  [function calling](/docs/guides/function-calling).
- |
-| `tool_choice` | oneOf: string | object (1 property) | object (2 properties) | No |  |  | How the model should select which tool (or tools) to use when generating
-a response. See the `tools` parameter to see how to specify which tools
-the model can call.
- |
-| `truncation` | string | No | `disabled` | `auto`, `disabled` | The truncation strategy to use for the model response.
-- `auto`: If the context of this response and previous ones exceeds
-  the model's context window size, the model will truncate the 
-  response to fit the context window by dropping input items in the
-  middle of the conversation. 
-- `disabled` (default): If a model response will exceed the context window 
-  size for a model, the request will fail with a 400 error.
- |
-| `input` | oneOf: string | array of oneOf: object (3 properties) | object | object (2 properties) | Yes |  |  | Text, image, or file inputs to the model, used to generate a response.
-
-Learn more:
-- [Text inputs and outputs](/docs/guides/text)
-- [Image inputs](/docs/guides/images)
-- [File inputs](/docs/guides/pdf-files)
-- [Conversation state](/docs/guides/conversation-state)
-- [Function calling](/docs/guides/function-calling)
- |
-| `include` | array of string | No |  |  | Specify additional output data to include in the model response. Currently
-supported values are:
-- `file_search_call.results`: Include the search results of
-  the file search tool call.
-- `message.input_image.image_url`: Include image urls from the input message.
-- `computer_call_output.output.image_url`: Include image urls from the computer call output.
-- `reasoning.encrypted_content`: Includes an encrypted version of reasoning 
-  tokens in reasoning item outputs. This enables reasoning items to be used in
-  multi-turn conversations when using the Responses API statelessly (like
-  when the `store` parameter is set to `false`, or when an organization is
-  enrolled in the zero data retention program).
- |
-| `parallel_tool_calls` | boolean | No | `true` |  | Whether to allow the model to run tool calls in parallel.
- |
-| `store` | boolean | No | `true` |  | Whether to store the generated model response for later retrieval via
-API.
- |
-| `stream` | boolean | No | `false` |  | If set to true, the model response data will be streamed to the client
-as it is generated using [server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events#Event_stream_format).
-See the [Streaming section below](/docs/api-reference/responses-streaming)
-for more information.
- |
+| `temperature` | number | No | `1` |  | What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic. <br> We generally recommend altering this or `top_p` but not both. <br>  |
+| `top_p` | number | No | `1` |  | An alternative to sampling with temperature, called nucleus sampling, <br> where the model considers the results of the tokens with top_p probability <br> mass. So 0.1 means only the tokens comprising the top 10% probability mass <br> are considered. <br>  <br> We generally recommend altering this or `temperature` but not both. <br>  |
+| `user` | string | No |  |  | A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices#end-user-ids). <br>  |
+| `service_tier` | string | No | `auto` | `auto`, `default`, `flex` | Specifies the latency tier to use for processing the request. This parameter is relevant for customers subscribed to the scale tier service: <br>   - If set to 'auto', and the Project is Scale tier enabled, the system <br>     will utilize scale tier credits until they are exhausted. <br>   - If set to 'auto', and the Project is not Scale tier enabled, the request will be processed using the default service tier with a lower uptime SLA and no latency guarentee. <br>   - If set to 'default', the request will be processed using the default service tier with a lower uptime SLA and no latency guarentee. <br>   - If set to 'flex', the request will be processed with the Flex Processing service tier. [Learn more](/docs/guides/flex-processing). <br>   - When not set, the default behavior is 'auto'. <br>  <br>   When this parameter is set, the response body will include the `service_tier` utilized. <br>  |
+| `previous_response_id` | string | No |  |  | The unique ID of the previous response to the model. Use this to <br> create multi-turn conversations. Learn more about  <br> [conversation state](/docs/guides/conversation-state). <br>  |
+| `model` | anyOf: anyOf: string | string | string | Yes |  |  | Model ID used to generate the response, like `gpt-4o` or `o3`. OpenAI <br> offers a wide range of models with different capabilities, performance <br> characteristics, and price points. Refer to the [model guide](/docs/models) <br> to browse and compare available models. <br>  |
+| `reasoning` | object (3 properties) | No |  |  | **o-series models only** <br>  <br> Configuration options for  <br> [reasoning models](https://platform.openai.com/docs/guides/reasoning). <br>  |
+|   ↳ `generate_summary` | string | No |  | `auto`, `concise`, `detailed` | **Deprecated:** use `summary` instead. <br>  <br> A summary of the reasoning performed by the model. This can be <br> useful for debugging and understanding the model's reasoning process. <br> One of `auto`, `concise`, or `detailed`. <br>  |
+| `max_output_tokens` | integer | No |  |  | An upper bound for the number of tokens that can be generated for a response, including visible output tokens and [reasoning tokens](/docs/guides/reasoning). <br>  |
+| `instructions` | string | No |  |  | Inserts a system (or developer) message as the first item in the model's context. <br>  <br> When using along with `previous_response_id`, the instructions from a previous <br> response will not be carried over to the next response. This makes it simple <br> to swap out system (or developer) messages in new responses. <br>  |
+| `text` | object (1 property) | No |  |  | Configuration options for a text response from the model. Can be plain <br> text or structured JSON data. Learn more: <br> - [Text inputs and outputs](/docs/guides/text) <br> - [Structured Outputs](/docs/guides/structured-outputs) <br>  |
+| `tools` | array of oneOf: object (5 properties) | object (5 properties) | object (3 properties) | object (4 properties) | No |  |  | An array of tools the model may call while generating a response. You  <br> can specify which tool to use by setting the `tool_choice` parameter. <br>  <br> The two categories of tools you can provide the model are: <br>  <br> - **Built-in tools**: Tools that are provided by OpenAI that extend the <br>   model's capabilities, like [web search](/docs/guides/tools-web-search) <br>   or [file search](/docs/guides/tools-file-search). Learn more about <br>   [built-in tools](/docs/guides/tools). <br> - **Function calls (custom tools)**: Functions that are defined by you, <br>   enabling the model to call your own code. Learn more about <br>   [function calling](/docs/guides/function-calling). <br>  |
+| `tool_choice` | oneOf: string | object (1 property) | object (2 properties) | No |  |  | How the model should select which tool (or tools) to use when generating <br> a response. See the `tools` parameter to see how to specify which tools <br> the model can call. <br>  |
+| `truncation` | string | No | `disabled` | `auto`, `disabled` | The truncation strategy to use for the model response. <br> - `auto`: If the context of this response and previous ones exceeds <br>   the model's context window size, the model will truncate the  <br>   response to fit the context window by dropping input items in the <br>   middle of the conversation.  <br> - `disabled` (default): If a model response will exceed the context window  <br>   size for a model, the request will fail with a 400 error. <br>  |
+| `input` | oneOf: string | array of oneOf: object (3 properties) | object | object (2 properties) | Yes |  |  | Text, image, or file inputs to the model, used to generate a response. <br>  <br> Learn more: <br> - [Text inputs and outputs](/docs/guides/text) <br> - [Image inputs](/docs/guides/images) <br> - [File inputs](/docs/guides/pdf-files) <br> - [Conversation state](/docs/guides/conversation-state) <br> - [Function calling](/docs/guides/function-calling) <br>  |
+| `include` | array of string | No |  |  | Specify additional output data to include in the model response. Currently <br> supported values are: <br> - `file_search_call.results`: Include the search results of <br>   the file search tool call. <br> - `message.input_image.image_url`: Include image urls from the input message. <br> - `computer_call_output.output.image_url`: Include image urls from the computer call output. <br> - `reasoning.encrypted_content`: Includes an encrypted version of reasoning  <br>   tokens in reasoning item outputs. This enables reasoning items to be used in <br>   multi-turn conversations when using the Responses API statelessly (like <br>   when the `store` parameter is set to `false`, or when an organization is <br>   enrolled in the zero data retention program). <br>  |
+| `parallel_tool_calls` | boolean | No | `true` |  | Whether to allow the model to run tool calls in parallel. <br>  |
+| `store` | boolean | No | `true` |  | Whether to store the generated model response for later retrieval via <br> API. <br>  |
+| `stream` | boolean | No | `false` |  | If set to true, the model response data will be streamed to the client <br> as it is generated using [server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events#Event_stream_format). <br> See the [Streaming section below](/docs/api-reference/responses-streaming) <br> for more information. <br>  |
 
 
 ### Items in `include` array
@@ -193,153 +73,35 @@ supported values are:
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `metadata` | map | Yes |  |  | Set of 16 key-value pairs that can be attached to an object. This can be
-useful for storing additional information about the object in a structured
-format, and querying for objects via API or the dashboard. 
-
-Keys are strings with a maximum length of 64 characters. Values are strings
-with a maximum length of 512 characters.
- |
+| `metadata` | map | Yes |  |  | Set of 16 key-value pairs that can be attached to an object. This can be <br> useful for storing additional information about the object in a structured <br> format, and querying for objects via API or the dashboard.  <br>  <br> Keys are strings with a maximum length of 64 characters. Values are strings <br> with a maximum length of 512 characters. <br>  |
 |   ↳ (additional properties) | string | - | - | - | Additional properties of this object |
-| `temperature` | number | Yes | `1` |  | What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
-We generally recommend altering this or `top_p` but not both.
- |
-| `top_p` | number | Yes | `1` |  | An alternative to sampling with temperature, called nucleus sampling,
-where the model considers the results of the tokens with top_p probability
-mass. So 0.1 means only the tokens comprising the top 10% probability mass
-are considered.
-
-We generally recommend altering this or `temperature` but not both.
- |
-| `user` | string | No |  |  | A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices#end-user-ids).
- |
-| `service_tier` | string | No | `auto` | `auto`, `default`, `flex` | Specifies the latency tier to use for processing the request. This parameter is relevant for customers subscribed to the scale tier service:
-  - If set to 'auto', and the Project is Scale tier enabled, the system
-    will utilize scale tier credits until they are exhausted.
-  - If set to 'auto', and the Project is not Scale tier enabled, the request will be processed using the default service tier with a lower uptime SLA and no latency guarentee.
-  - If set to 'default', the request will be processed using the default service tier with a lower uptime SLA and no latency guarentee.
-  - If set to 'flex', the request will be processed with the Flex Processing service tier. [Learn more](/docs/guides/flex-processing).
-  - When not set, the default behavior is 'auto'.
-
-  When this parameter is set, the response body will include the `service_tier` utilized.
- |
-| `previous_response_id` | string | No |  |  | The unique ID of the previous response to the model. Use this to
-create multi-turn conversations. Learn more about 
-[conversation state](/docs/guides/conversation-state).
- |
-| `model` | anyOf: anyOf: string | string | string | Yes |  |  | Model ID used to generate the response, like `gpt-4o` or `o3`. OpenAI
-offers a wide range of models with different capabilities, performance
-characteristics, and price points. Refer to the [model guide](/docs/models)
-to browse and compare available models.
- |
-| `reasoning` | object (3 properties) | No |  |  | **o-series models only**
-
-Configuration options for 
-[reasoning models](https://platform.openai.com/docs/guides/reasoning).
- |
-Constrains effort on reasoning for 
-[reasoning models](https://platform.openai.com/docs/guides/reasoning).
-Currently supported values are `low`, `medium`, and `high`. Reducing
-reasoning effort can result in faster responses and fewer tokens used
-on reasoning in a response.
- |
-|   ↳ `summary` | string | No |  | `auto`, `concise`, `detailed` | A summary of the reasoning performed by the model. This can be
-useful for debugging and understanding the model's reasoning process.
-One of `auto`, `concise`, or `detailed`.
- |
-|   ↳ `generate_summary` | string | No |  | `auto`, `concise`, `detailed` | **Deprecated:** use `summary` instead.
-
-A summary of the reasoning performed by the model. This can be
-useful for debugging and understanding the model's reasoning process.
-One of `auto`, `concise`, or `detailed`.
- |
-| `max_output_tokens` | integer | No |  |  | An upper bound for the number of tokens that can be generated for a response, including visible output tokens and [reasoning tokens](/docs/guides/reasoning).
- |
-| `instructions` | string | Yes |  |  | Inserts a system (or developer) message as the first item in the model's context.
-
-When using along with `previous_response_id`, the instructions from a previous
-response will not be carried over to the next response. This makes it simple
-to swap out system (or developer) messages in new responses.
- |
-| `text` | object (1 property) | No |  |  | Configuration options for a text response from the model. Can be plain
-text or structured JSON data. Learn more:
-- [Text inputs and outputs](/docs/guides/text)
-- [Structured Outputs](/docs/guides/structured-outputs)
- |
-Configuring `{ "type": "json_schema" }` enables Structured Outputs, 
-which ensures the model will match your supplied JSON schema. Learn more in the 
-[Structured Outputs guide](/docs/guides/structured-outputs).
-
-The default format is `{ "type": "text" }` with no additional options.
-
-**Not recommended for gpt-4o and newer models:**
-
-Setting to `{ "type": "json_object" }` enables the older JSON mode, which
-ensures the message the model generates is valid JSON. Using `json_schema`
-is preferred for models that support it.
- |
-| `tools` | array of oneOf: object (5 properties) | object (5 properties) | object (3 properties) | object (4 properties) | Yes |  |  | An array of tools the model may call while generating a response. You 
-can specify which tool to use by setting the `tool_choice` parameter.
-
-The two categories of tools you can provide the model are:
-
-- **Built-in tools**: Tools that are provided by OpenAI that extend the
-  model's capabilities, like [web search](/docs/guides/tools-web-search)
-  or [file search](/docs/guides/tools-file-search). Learn more about
-  [built-in tools](/docs/guides/tools).
-- **Function calls (custom tools)**: Functions that are defined by you,
-  enabling the model to call your own code. Learn more about
-  [function calling](/docs/guides/function-calling).
- |
-| `tool_choice` | oneOf: string | object (1 property) | object (2 properties) | Yes |  |  | How the model should select which tool (or tools) to use when generating
-a response. See the `tools` parameter to see how to specify which tools
-the model can call.
- |
-| `truncation` | string | No | `disabled` | `auto`, `disabled` | The truncation strategy to use for the model response.
-- `auto`: If the context of this response and previous ones exceeds
-  the model's context window size, the model will truncate the 
-  response to fit the context window by dropping input items in the
-  middle of the conversation. 
-- `disabled` (default): If a model response will exceed the context window 
-  size for a model, the request will fail with a 400 error.
- |
-| `id` | string | Yes |  |  | Unique identifier for this Response.
- |
-| `object` | string | Yes |  | `response` | The object type of this resource - always set to `response`.
- |
-| `status` | string | No |  | `completed`, `failed`, `in_progress`, `incomplete` | The status of the response generation. One of `completed`, `failed`, 
-`in_progress`, or `incomplete`.
- |
-| `created_at` | number | Yes |  |  | Unix timestamp (in seconds) of when this Response was created.
- |
-| `error` | object (2 properties) | Yes |  |  | An error object returned when the model fails to generate a Response.
- |
-|   ↳ `message` | string | Yes |  |  | A human-readable description of the error.
- |
-| `incomplete_details` | object (1 property) | Yes |  |  | Details about why the response is incomplete.
- |
-| `output` | array of anyOf: object (5 properties) | object (5 properties) | object (6 properties) | object (3 properties) | object (6 properties) | object (5 properties) | Yes |  |  | An array of content items generated by the model.
-
-- The length and order of items in the `output` array is dependent
-  on the model's response.
-- Rather than accessing the first item in the `output` array and 
-  assuming it's an `assistant` message with the content generated by
-  the model, you might consider using the `output_text` property where
-  supported in SDKs.
- |
-| `output_text` | string | No |  |  | SDK-only convenience property that contains the aggregated text output 
-from all `output_text` items in the `output` array, if any are present. 
-Supported in the Python and JavaScript SDKs.
- |
-| `usage` | object (5 properties) | No |  |  | Represents token usage details including input tokens, output tokens,
-a breakdown of output tokens, and the total tokens used.
- |
- |
+| `temperature` | number | Yes | `1` |  | What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic. <br> We generally recommend altering this or `top_p` but not both. <br>  |
+| `top_p` | number | Yes | `1` |  | An alternative to sampling with temperature, called nucleus sampling, <br> where the model considers the results of the tokens with top_p probability <br> mass. So 0.1 means only the tokens comprising the top 10% probability mass <br> are considered. <br>  <br> We generally recommend altering this or `temperature` but not both. <br>  |
+| `user` | string | No |  |  | A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices#end-user-ids). <br>  |
+| `service_tier` | string | No | `auto` | `auto`, `default`, `flex` | Specifies the latency tier to use for processing the request. This parameter is relevant for customers subscribed to the scale tier service: <br>   - If set to 'auto', and the Project is Scale tier enabled, the system <br>     will utilize scale tier credits until they are exhausted. <br>   - If set to 'auto', and the Project is not Scale tier enabled, the request will be processed using the default service tier with a lower uptime SLA and no latency guarentee. <br>   - If set to 'default', the request will be processed using the default service tier with a lower uptime SLA and no latency guarentee. <br>   - If set to 'flex', the request will be processed with the Flex Processing service tier. [Learn more](/docs/guides/flex-processing). <br>   - When not set, the default behavior is 'auto'. <br>  <br>   When this parameter is set, the response body will include the `service_tier` utilized. <br>  |
+| `previous_response_id` | string | No |  |  | The unique ID of the previous response to the model. Use this to <br> create multi-turn conversations. Learn more about  <br> [conversation state](/docs/guides/conversation-state). <br>  |
+| `model` | anyOf: anyOf: string | string | string | Yes |  |  | Model ID used to generate the response, like `gpt-4o` or `o3`. OpenAI <br> offers a wide range of models with different capabilities, performance <br> characteristics, and price points. Refer to the [model guide](/docs/models) <br> to browse and compare available models. <br>  |
+| `reasoning` | object (3 properties) | No |  |  | **o-series models only** <br>  <br> Configuration options for  <br> [reasoning models](https://platform.openai.com/docs/guides/reasoning). <br>  |
+|   ↳ `generate_summary` | string | No |  | `auto`, `concise`, `detailed` | **Deprecated:** use `summary` instead. <br>  <br> A summary of the reasoning performed by the model. This can be <br> useful for debugging and understanding the model's reasoning process. <br> One of `auto`, `concise`, or `detailed`. <br>  |
+| `max_output_tokens` | integer | No |  |  | An upper bound for the number of tokens that can be generated for a response, including visible output tokens and [reasoning tokens](/docs/guides/reasoning). <br>  |
+| `instructions` | string | Yes |  |  | Inserts a system (or developer) message as the first item in the model's context. <br>  <br> When using along with `previous_response_id`, the instructions from a previous <br> response will not be carried over to the next response. This makes it simple <br> to swap out system (or developer) messages in new responses. <br>  |
+| `text` | object (1 property) | No |  |  | Configuration options for a text response from the model. Can be plain <br> text or structured JSON data. Learn more: <br> - [Text inputs and outputs](/docs/guides/text) <br> - [Structured Outputs](/docs/guides/structured-outputs) <br>  |
+| `tools` | array of oneOf: object (5 properties) | object (5 properties) | object (3 properties) | object (4 properties) | Yes |  |  | An array of tools the model may call while generating a response. You  <br> can specify which tool to use by setting the `tool_choice` parameter. <br>  <br> The two categories of tools you can provide the model are: <br>  <br> - **Built-in tools**: Tools that are provided by OpenAI that extend the <br>   model's capabilities, like [web search](/docs/guides/tools-web-search) <br>   or [file search](/docs/guides/tools-file-search). Learn more about <br>   [built-in tools](/docs/guides/tools). <br> - **Function calls (custom tools)**: Functions that are defined by you, <br>   enabling the model to call your own code. Learn more about <br>   [function calling](/docs/guides/function-calling). <br>  |
+| `tool_choice` | oneOf: string | object (1 property) | object (2 properties) | Yes |  |  | How the model should select which tool (or tools) to use when generating <br> a response. See the `tools` parameter to see how to specify which tools <br> the model can call. <br>  |
+| `truncation` | string | No | `disabled` | `auto`, `disabled` | The truncation strategy to use for the model response. <br> - `auto`: If the context of this response and previous ones exceeds <br>   the model's context window size, the model will truncate the  <br>   response to fit the context window by dropping input items in the <br>   middle of the conversation.  <br> - `disabled` (default): If a model response will exceed the context window  <br>   size for a model, the request will fail with a 400 error. <br>  |
+| `id` | string | Yes |  |  | Unique identifier for this Response. <br>  |
+| `object` | string | Yes |  | `response` | The object type of this resource - always set to `response`. <br>  |
+| `status` | string | No |  | `completed`, `failed`, `in_progress`, `incomplete` | The status of the response generation. One of `completed`, `failed`,  <br> `in_progress`, or `incomplete`. <br>  |
+| `created_at` | number | Yes |  |  | Unix timestamp (in seconds) of when this Response was created. <br>  |
+| `error` | object (2 properties) | Yes |  |  | An error object returned when the model fails to generate a Response. <br>  |
+| `incomplete_details` | object (1 property) | Yes |  |  | Details about why the response is incomplete. <br>  |
+| `output` | array of anyOf: object (5 properties) | object (5 properties) | object (6 properties) | object (3 properties) | object (6 properties) | object (5 properties) | Yes |  |  | An array of content items generated by the model. <br>  <br> - The length and order of items in the `output` array is dependent <br>   on the model's response. <br> - Rather than accessing the first item in the `output` array and  <br>   assuming it's an `assistant` message with the content generated by <br>   the model, you might consider using the `output_text` property where <br>   supported in SDKs. <br>  |
+| `output_text` | string | No |  |  | SDK-only convenience property that contains the aggregated text output  <br> from all `output_text` items in the `output` array, if any are present.  <br> Supported in the Python and JavaScript SDKs. <br>  |
+| `usage` | object (5 properties) | No |  |  | Represents token usage details including input tokens, output tokens, <br> a breakdown of output tokens, and the total tokens used. <br>  |
 |   ↳ `output_tokens` | integer | Yes |  |  | The number of output tokens. |
 |   ↳ `output_tokens_details` | object (1 property) | Yes |  |  | A detailed breakdown of the output tokens. |
 |   ↳ `total_tokens` | integer | Yes |  |  | The total number of tokens used. |
-| `parallel_tool_calls` | boolean | Yes | `true` |  | Whether to allow the model to run tool calls in parallel.
- |
+| `parallel_tool_calls` | boolean | Yes | `true` |  | Whether to allow the model to run tool calls in parallel. <br>  |
 **Example:**
 
 ```json
@@ -415,10 +177,8 @@ Emitted when there is a partial audio response.
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `type` | string | Yes |  | `response.audio.delta` | The type of the event. Always `response.audio.delta`.
- |
-| `delta` | string | Yes |  |  | A chunk of Base64 encoded response audio bytes.
- |
+| `type` | string | Yes |  | `response.audio.delta` | The type of the event. Always `response.audio.delta`. <br>  |
+| `delta` | string | Yes |  |  | A chunk of Base64 encoded response audio bytes. <br>  |
 **Example:**
 
 ```json
@@ -440,8 +200,7 @@ Emitted when the audio response is complete.
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `type` | string | Yes |  | `response.audio.done` | The type of the event. Always `response.audio.done`.
- |
+| `type` | string | Yes |  | `response.audio.done` | The type of the event. Always `response.audio.done`. <br>  |
 **Example:**
 
 ```json
@@ -462,10 +221,8 @@ Emitted when there is a partial transcript of audio.
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `type` | string | Yes |  | `response.audio.transcript.delta` | The type of the event. Always `response.audio.transcript.delta`.
- |
-| `delta` | string | Yes |  |  | The partial transcript of the audio response.
- |
+| `type` | string | Yes |  | `response.audio.transcript.delta` | The type of the event. Always `response.audio.transcript.delta`. <br>  |
+| `delta` | string | Yes |  |  | The partial transcript of the audio response. <br>  |
 **Example:**
 
 ```json
@@ -487,8 +244,7 @@ Emitted when the full audio transcript is completed.
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `type` | string | Yes |  | `response.audio.transcript.done` | The type of the event. Always `response.audio.transcript.done`.
- |
+| `type` | string | Yes |  | `response.audio.transcript.done` | The type of the event. Always `response.audio.transcript.done`. <br>  |
 **Example:**
 
 ```json
@@ -509,12 +265,9 @@ Emitted when a partial code snippet is added by the code interpreter.
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `type` | string | Yes |  | `response.code_interpreter_call.code.delta` | The type of the event. Always `response.code_interpreter_call.code.delta`.
- |
-| `output_index` | integer | Yes |  |  | The index of the output item that the code interpreter call is in progress.
- |
-| `delta` | string | Yes |  |  | The partial code snippet added by the code interpreter.
- |
+| `type` | string | Yes |  | `response.code_interpreter_call.code.delta` | The type of the event. Always `response.code_interpreter_call.code.delta`. <br>  |
+| `output_index` | integer | Yes |  |  | The index of the output item that the code interpreter call is in progress. <br>  |
+| `delta` | string | Yes |  |  | The partial code snippet added by the code interpreter. <br>  |
 **Example:**
 
 ```json
@@ -537,12 +290,9 @@ Emitted when code snippet output is finalized by the code interpreter.
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `type` | string | Yes |  | `response.code_interpreter_call.code.done` | The type of the event. Always `response.code_interpreter_call.code.done`.
- |
-| `output_index` | integer | Yes |  |  | The index of the output item that the code interpreter call is in progress.
- |
-| `code` | string | Yes |  |  | The final code snippet output by the code interpreter.
- |
+| `type` | string | Yes |  | `response.code_interpreter_call.code.done` | The type of the event. Always `response.code_interpreter_call.code.done`. <br>  |
+| `output_index` | integer | Yes |  |  | The index of the output item that the code interpreter call is in progress. <br>  |
+| `code` | string | Yes |  |  | The final code snippet output by the code interpreter. <br>  |
 **Example:**
 
 ```json
@@ -565,20 +315,12 @@ Emitted when the code interpreter call is completed.
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `type` | string | Yes |  | `response.code_interpreter_call.completed` | The type of the event. Always `response.code_interpreter_call.completed`.
- |
-| `output_index` | integer | Yes |  |  | The index of the output item that the code interpreter call is in progress.
- |
-| `code_interpreter_call` | object (5 properties) | Yes |  |  | A tool call to run code.
- |
-|   ↳ `type` | string | Yes |  | `code_interpreter_call` | The type of the code interpreter tool call. Always `code_interpreter_call`.
- |
-|   ↳ `code` | string | Yes |  |  | The code to run.
- |
-|   ↳ `status` | string | Yes |  | `in_progress`, `interpreting`, `completed` | The status of the code interpreter tool call.
- |
-|   ↳ `results` | array of oneOf: object (2 properties) | object (2 properties) | Yes |  |  | The results of the code interpreter tool call.
- |
+| `type` | string | Yes |  | `response.code_interpreter_call.completed` | The type of the event. Always `response.code_interpreter_call.completed`. <br>  |
+| `output_index` | integer | Yes |  |  | The index of the output item that the code interpreter call is in progress. <br>  |
+| `code_interpreter_call` | object (5 properties) | Yes |  |  | A tool call to run code. <br>  |
+|   ↳ `code` | string | Yes |  |  | The code to run. <br>  |
+|   ↳ `status` | string | Yes |  | `in_progress`, `interpreting`, `completed` | The status of the code interpreter tool call. <br>  |
+|   ↳ `results` | array of oneOf: object (2 properties) | object (2 properties) | Yes |  |  | The results of the code interpreter tool call. <br>  |
 **Example:**
 
 ```json
@@ -601,20 +343,12 @@ Emitted when a code interpreter call is in progress.
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `type` | string | Yes |  | `response.code_interpreter_call.in_progress` | The type of the event. Always `response.code_interpreter_call.in_progress`.
- |
-| `output_index` | integer | Yes |  |  | The index of the output item that the code interpreter call is in progress.
- |
-| `code_interpreter_call` | object (5 properties) | Yes |  |  | A tool call to run code.
- |
-|   ↳ `type` | string | Yes |  | `code_interpreter_call` | The type of the code interpreter tool call. Always `code_interpreter_call`.
- |
-|   ↳ `code` | string | Yes |  |  | The code to run.
- |
-|   ↳ `status` | string | Yes |  | `in_progress`, `interpreting`, `completed` | The status of the code interpreter tool call.
- |
-|   ↳ `results` | array of oneOf: object (2 properties) | object (2 properties) | Yes |  |  | The results of the code interpreter tool call.
- |
+| `type` | string | Yes |  | `response.code_interpreter_call.in_progress` | The type of the event. Always `response.code_interpreter_call.in_progress`. <br>  |
+| `output_index` | integer | Yes |  |  | The index of the output item that the code interpreter call is in progress. <br>  |
+| `code_interpreter_call` | object (5 properties) | Yes |  |  | A tool call to run code. <br>  |
+|   ↳ `code` | string | Yes |  |  | The code to run. <br>  |
+|   ↳ `status` | string | Yes |  | `in_progress`, `interpreting`, `completed` | The status of the code interpreter tool call. <br>  |
+|   ↳ `results` | array of oneOf: object (2 properties) | object (2 properties) | Yes |  |  | The results of the code interpreter tool call. <br>  |
 **Example:**
 
 ```json
@@ -637,20 +371,12 @@ Emitted when the code interpreter is actively interpreting the code snippet.
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `type` | string | Yes |  | `response.code_interpreter_call.interpreting` | The type of the event. Always `response.code_interpreter_call.interpreting`.
- |
-| `output_index` | integer | Yes |  |  | The index of the output item that the code interpreter call is in progress.
- |
-| `code_interpreter_call` | object (5 properties) | Yes |  |  | A tool call to run code.
- |
-|   ↳ `type` | string | Yes |  | `code_interpreter_call` | The type of the code interpreter tool call. Always `code_interpreter_call`.
- |
-|   ↳ `code` | string | Yes |  |  | The code to run.
- |
-|   ↳ `status` | string | Yes |  | `in_progress`, `interpreting`, `completed` | The status of the code interpreter tool call.
- |
-|   ↳ `results` | array of oneOf: object (2 properties) | object (2 properties) | Yes |  |  | The results of the code interpreter tool call.
- |
+| `type` | string | Yes |  | `response.code_interpreter_call.interpreting` | The type of the event. Always `response.code_interpreter_call.interpreting`. <br>  |
+| `output_index` | integer | Yes |  |  | The index of the output item that the code interpreter call is in progress. <br>  |
+| `code_interpreter_call` | object (5 properties) | Yes |  |  | A tool call to run code. <br>  |
+|   ↳ `code` | string | Yes |  |  | The code to run. <br>  |
+|   ↳ `status` | string | Yes |  | `in_progress`, `interpreting`, `completed` | The status of the code interpreter tool call. <br>  |
+|   ↳ `results` | array of oneOf: object (2 properties) | object (2 properties) | Yes |  |  | The results of the code interpreter tool call. <br>  |
 **Example:**
 
 ```json
@@ -673,155 +399,35 @@ Emitted when the model response is complete.
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `type` | string | Yes |  | `response.completed` | The type of the event. Always `response.completed`.
- |
-| `response` | object (24 properties) | Yes |  |  | Properties of the completed response.
- |
-format, and querying for objects via API or the dashboard. 
-
-Keys are strings with a maximum length of 64 characters. Values are strings
-with a maximum length of 512 characters.
- |
-|   ↳   ↳ (additional properties) | string | - | - | - | Additional properties of this object |
-|   ↳ `temperature` | number | Yes | `1` |  | What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
-We generally recommend altering this or `top_p` but not both.
- |
-|   ↳ `top_p` | number | Yes | `1` |  | An alternative to sampling with temperature, called nucleus sampling,
-where the model considers the results of the tokens with top_p probability
-mass. So 0.1 means only the tokens comprising the top 10% probability mass
-are considered.
-
-We generally recommend altering this or `temperature` but not both.
- |
-|   ↳ `user` | string | No |  |  | A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices#end-user-ids).
- |
-|   ↳ `service_tier` | string | No | `auto` | `auto`, `default`, `flex` | Specifies the latency tier to use for processing the request. This parameter is relevant for customers subscribed to the scale tier service:
-  - If set to 'auto', and the Project is Scale tier enabled, the system
-    will utilize scale tier credits until they are exhausted.
-  - If set to 'auto', and the Project is not Scale tier enabled, the request will be processed using the default service tier with a lower uptime SLA and no latency guarentee.
-  - If set to 'default', the request will be processed using the default service tier with a lower uptime SLA and no latency guarentee.
-  - If set to 'flex', the request will be processed with the Flex Processing service tier. [Learn more](/docs/guides/flex-processing).
-  - When not set, the default behavior is 'auto'.
-
-  When this parameter is set, the response body will include the `service_tier` utilized.
- |
-|   ↳ `previous_response_id` | string | No |  |  | The unique ID of the previous response to the model. Use this to
-create multi-turn conversations. Learn more about 
-[conversation state](/docs/guides/conversation-state).
- |
-|   ↳ `model` | anyOf: anyOf: string | string | string | Yes |  |  | Model ID used to generate the response, like `gpt-4o` or `o3`. OpenAI
-offers a wide range of models with different capabilities, performance
-characteristics, and price points. Refer to the [model guide](/docs/models)
-to browse and compare available models.
- |
-|   ↳ `reasoning` | object (3 properties) | No |  |  | **o-series models only**
-
-Configuration options for 
-[reasoning models](https://platform.openai.com/docs/guides/reasoning).
- |
-Constrains effort on reasoning for 
-[reasoning models](https://platform.openai.com/docs/guides/reasoning).
-Currently supported values are `low`, `medium`, and `high`. Reducing
-reasoning effort can result in faster responses and fewer tokens used
-on reasoning in a response.
- |
-|     ↳ `summary` | string | No |  | `auto`, `concise`, `detailed` | A summary of the reasoning performed by the model. This can be
-useful for debugging and understanding the model's reasoning process.
-One of `auto`, `concise`, or `detailed`.
- |
-|     ↳ `generate_summary` | string | No |  | `auto`, `concise`, `detailed` | **Deprecated:** use `summary` instead.
-
-A summary of the reasoning performed by the model. This can be
-useful for debugging and understanding the model's reasoning process.
-One of `auto`, `concise`, or `detailed`.
- |
-|   ↳ `max_output_tokens` | integer | No |  |  | An upper bound for the number of tokens that can be generated for a response, including visible output tokens and [reasoning tokens](/docs/guides/reasoning).
- |
-|   ↳ `instructions` | string | Yes |  |  | Inserts a system (or developer) message as the first item in the model's context.
-
-When using along with `previous_response_id`, the instructions from a previous
-response will not be carried over to the next response. This makes it simple
-to swap out system (or developer) messages in new responses.
- |
-|   ↳ `text` | object (1 property) | No |  |  | Configuration options for a text response from the model. Can be plain
-text or structured JSON data. Learn more:
-- [Text inputs and outputs](/docs/guides/text)
-- [Structured Outputs](/docs/guides/structured-outputs)
- |
-Configuring `{ "type": "json_schema" }` enables Structured Outputs, 
-which ensures the model will match your supplied JSON schema. Learn more in the 
-[Structured Outputs guide](/docs/guides/structured-outputs).
-
-The default format is `{ "type": "text" }` with no additional options.
-
-**Not recommended for gpt-4o and newer models:**
-
-Setting to `{ "type": "json_object" }` enables the older JSON mode, which
-ensures the message the model generates is valid JSON. Using `json_schema`
-is preferred for models that support it.
- |
-|   ↳ `tools` | array of oneOf: object (5 properties) | object (5 properties) | object (3 properties) | object (4 properties) | Yes |  |  | An array of tools the model may call while generating a response. You 
-can specify which tool to use by setting the `tool_choice` parameter.
-
-The two categories of tools you can provide the model are:
-
-- **Built-in tools**: Tools that are provided by OpenAI that extend the
-  model's capabilities, like [web search](/docs/guides/tools-web-search)
-  or [file search](/docs/guides/tools-file-search). Learn more about
-  [built-in tools](/docs/guides/tools).
-- **Function calls (custom tools)**: Functions that are defined by you,
-  enabling the model to call your own code. Learn more about
-  [function calling](/docs/guides/function-calling).
- |
-|   ↳ `tool_choice` | oneOf: string | object (1 property) | object (2 properties) | Yes |  |  | How the model should select which tool (or tools) to use when generating
-a response. See the `tools` parameter to see how to specify which tools
-the model can call.
- |
-|   ↳ `truncation` | string | No | `disabled` | `auto`, `disabled` | The truncation strategy to use for the model response.
-- `auto`: If the context of this response and previous ones exceeds
-  the model's context window size, the model will truncate the 
-  response to fit the context window by dropping input items in the
-  middle of the conversation. 
-- `disabled` (default): If a model response will exceed the context window 
-  size for a model, the request will fail with a 400 error.
- |
-|   ↳ `id` | string | Yes |  |  | Unique identifier for this Response.
- |
-|   ↳ `object` | string | Yes |  | `response` | The object type of this resource - always set to `response`.
- |
-|   ↳ `status` | string | No |  | `completed`, `failed`, `in_progress`, `incomplete` | The status of the response generation. One of `completed`, `failed`, 
-`in_progress`, or `incomplete`.
- |
-|   ↳ `created_at` | number | Yes |  |  | Unix timestamp (in seconds) of when this Response was created.
- |
-|   ↳ `error` | object (2 properties) | Yes |  |  | An error object returned when the model fails to generate a Response.
- |
-|     ↳ `message` | string | Yes |  |  | A human-readable description of the error.
- |
-|   ↳ `incomplete_details` | object (1 property) | Yes |  |  | Details about why the response is incomplete.
- |
-|   ↳ `output` | array of anyOf: object (5 properties) | object (5 properties) | object (6 properties) | object (3 properties) | object (6 properties) | object (5 properties) | Yes |  |  | An array of content items generated by the model.
-
-- The length and order of items in the `output` array is dependent
-  on the model's response.
-- Rather than accessing the first item in the `output` array and 
-  assuming it's an `assistant` message with the content generated by
-  the model, you might consider using the `output_text` property where
-  supported in SDKs.
- |
-|   ↳ `output_text` | string | No |  |  | SDK-only convenience property that contains the aggregated text output 
-from all `output_text` items in the `output` array, if any are present. 
-Supported in the Python and JavaScript SDKs.
- |
-|   ↳ `usage` | object (5 properties) | No |  |  | Represents token usage details including input tokens, output tokens,
-a breakdown of output tokens, and the total tokens used.
- |
- |
+| `type` | string | Yes |  | `response.completed` | The type of the event. Always `response.completed`. <br>  |
+| `response` | object (24 properties) | Yes |  |  | Properties of the completed response. <br>  |
+|   ↳ `temperature` | number | Yes | `1` |  | What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic. <br> We generally recommend altering this or `top_p` but not both. <br>  |
+|   ↳ `top_p` | number | Yes | `1` |  | An alternative to sampling with temperature, called nucleus sampling, <br> where the model considers the results of the tokens with top_p probability <br> mass. So 0.1 means only the tokens comprising the top 10% probability mass <br> are considered. <br>  <br> We generally recommend altering this or `temperature` but not both. <br>  |
+|   ↳ `user` | string | No |  |  | A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices#end-user-ids). <br>  |
+|   ↳ `service_tier` | string | No | `auto` | `auto`, `default`, `flex` | Specifies the latency tier to use for processing the request. This parameter is relevant for customers subscribed to the scale tier service: <br>   - If set to 'auto', and the Project is Scale tier enabled, the system <br>     will utilize scale tier credits until they are exhausted. <br>   - If set to 'auto', and the Project is not Scale tier enabled, the request will be processed using the default service tier with a lower uptime SLA and no latency guarentee. <br>   - If set to 'default', the request will be processed using the default service tier with a lower uptime SLA and no latency guarentee. <br>   - If set to 'flex', the request will be processed with the Flex Processing service tier. [Learn more](/docs/guides/flex-processing). <br>   - When not set, the default behavior is 'auto'. <br>  <br>   When this parameter is set, the response body will include the `service_tier` utilized. <br>  |
+|   ↳ `previous_response_id` | string | No |  |  | The unique ID of the previous response to the model. Use this to <br> create multi-turn conversations. Learn more about  <br> [conversation state](/docs/guides/conversation-state). <br>  |
+|   ↳ `model` | anyOf: anyOf: string | string | string | Yes |  |  | Model ID used to generate the response, like `gpt-4o` or `o3`. OpenAI <br> offers a wide range of models with different capabilities, performance <br> characteristics, and price points. Refer to the [model guide](/docs/models) <br> to browse and compare available models. <br>  |
+|   ↳ `reasoning` | object (3 properties) | No |  |  | **o-series models only** <br>  <br> Configuration options for  <br> [reasoning models](https://platform.openai.com/docs/guides/reasoning). <br>  |
+|     ↳ `generate_summary` | string | No |  | `auto`, `concise`, `detailed` | **Deprecated:** use `summary` instead. <br>  <br> A summary of the reasoning performed by the model. This can be <br> useful for debugging and understanding the model's reasoning process. <br> One of `auto`, `concise`, or `detailed`. <br>  |
+|   ↳ `max_output_tokens` | integer | No |  |  | An upper bound for the number of tokens that can be generated for a response, including visible output tokens and [reasoning tokens](/docs/guides/reasoning). <br>  |
+|   ↳ `instructions` | string | Yes |  |  | Inserts a system (or developer) message as the first item in the model's context. <br>  <br> When using along with `previous_response_id`, the instructions from a previous <br> response will not be carried over to the next response. This makes it simple <br> to swap out system (or developer) messages in new responses. <br>  |
+|   ↳ `text` | object (1 property) | No |  |  | Configuration options for a text response from the model. Can be plain <br> text or structured JSON data. Learn more: <br> - [Text inputs and outputs](/docs/guides/text) <br> - [Structured Outputs](/docs/guides/structured-outputs) <br>  |
+|   ↳ `tools` | array of oneOf: object (5 properties) | object (5 properties) | object (3 properties) | object (4 properties) | Yes |  |  | An array of tools the model may call while generating a response. You  <br> can specify which tool to use by setting the `tool_choice` parameter. <br>  <br> The two categories of tools you can provide the model are: <br>  <br> - **Built-in tools**: Tools that are provided by OpenAI that extend the <br>   model's capabilities, like [web search](/docs/guides/tools-web-search) <br>   or [file search](/docs/guides/tools-file-search). Learn more about <br>   [built-in tools](/docs/guides/tools). <br> - **Function calls (custom tools)**: Functions that are defined by you, <br>   enabling the model to call your own code. Learn more about <br>   [function calling](/docs/guides/function-calling). <br>  |
+|   ↳ `tool_choice` | oneOf: string | object (1 property) | object (2 properties) | Yes |  |  | How the model should select which tool (or tools) to use when generating <br> a response. See the `tools` parameter to see how to specify which tools <br> the model can call. <br>  |
+|   ↳ `truncation` | string | No | `disabled` | `auto`, `disabled` | The truncation strategy to use for the model response. <br> - `auto`: If the context of this response and previous ones exceeds <br>   the model's context window size, the model will truncate the  <br>   response to fit the context window by dropping input items in the <br>   middle of the conversation.  <br> - `disabled` (default): If a model response will exceed the context window  <br>   size for a model, the request will fail with a 400 error. <br>  |
+|   ↳ `id` | string | Yes |  |  | Unique identifier for this Response. <br>  |
+|   ↳ `object` | string | Yes |  | `response` | The object type of this resource - always set to `response`. <br>  |
+|   ↳ `status` | string | No |  | `completed`, `failed`, `in_progress`, `incomplete` | The status of the response generation. One of `completed`, `failed`,  <br> `in_progress`, or `incomplete`. <br>  |
+|   ↳ `created_at` | number | Yes |  |  | Unix timestamp (in seconds) of when this Response was created. <br>  |
+|   ↳ `error` | object (2 properties) | Yes |  |  | An error object returned when the model fails to generate a Response. <br>  |
+|   ↳ `incomplete_details` | object (1 property) | Yes |  |  | Details about why the response is incomplete. <br>  |
+|   ↳ `output` | array of anyOf: object (5 properties) | object (5 properties) | object (6 properties) | object (3 properties) | object (6 properties) | object (5 properties) | Yes |  |  | An array of content items generated by the model. <br>  <br> - The length and order of items in the `output` array is dependent <br>   on the model's response. <br> - Rather than accessing the first item in the `output` array and  <br>   assuming it's an `assistant` message with the content generated by <br>   the model, you might consider using the `output_text` property where <br>   supported in SDKs. <br>  |
+|   ↳ `output_text` | string | No |  |  | SDK-only convenience property that contains the aggregated text output  <br> from all `output_text` items in the `output` array, if any are present.  <br> Supported in the Python and JavaScript SDKs. <br>  |
+|   ↳ `usage` | object (5 properties) | No |  |  | Represents token usage details including input tokens, output tokens, <br> a breakdown of output tokens, and the total tokens used. <br>  |
 |     ↳ `output_tokens` | integer | Yes |  |  | The number of output tokens. |
 |     ↳ `output_tokens_details` | object (1 property) | Yes |  |  | A detailed breakdown of the output tokens. |
 |     ↳ `total_tokens` | integer | Yes |  |  | The total number of tokens used. |
-|   ↳ `parallel_tool_calls` | boolean | Yes | `true` |  | Whether to allow the model to run tool calls in parallel.
- |
+|   ↳ `parallel_tool_calls` | boolean | Yes | `true` |  | Whether to allow the model to run tool calls in parallel. <br>  |
 **Example:**
 
 ```json
@@ -890,16 +496,11 @@ Emitted when a new content part is added.
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `type` | string | Yes |  | `response.content_part.added` | The type of the event. Always `response.content_part.added`.
- |
-| `item_id` | string | Yes |  |  | The ID of the output item that the content part was added to.
- |
-| `output_index` | integer | Yes |  |  | The index of the output item that the content part was added to.
- |
-| `content_index` | integer | Yes |  |  | The index of the content part that was added.
- |
-| `part` | oneOf: object (3 properties) | object (2 properties) | Yes |  |  | The content part that was added.
- |
+| `type` | string | Yes |  | `response.content_part.added` | The type of the event. Always `response.content_part.added`. <br>  |
+| `item_id` | string | Yes |  |  | The ID of the output item that the content part was added to. <br>  |
+| `output_index` | integer | Yes |  |  | The index of the output item that the content part was added to. <br>  |
+| `content_index` | integer | Yes |  |  | The index of the content part that was added. <br>  |
+| `part` | oneOf: object (3 properties) | object (2 properties) | Yes |  |  | The content part that was added. <br>  |
 **Example:**
 
 ```json
@@ -927,16 +528,11 @@ Emitted when a content part is done.
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `type` | string | Yes |  | `response.content_part.done` | The type of the event. Always `response.content_part.done`.
- |
-| `item_id` | string | Yes |  |  | The ID of the output item that the content part was added to.
- |
-| `output_index` | integer | Yes |  |  | The index of the output item that the content part was added to.
- |
-| `content_index` | integer | Yes |  |  | The index of the content part that is done.
- |
-| `part` | oneOf: object (3 properties) | object (2 properties) | Yes |  |  | The content part that is done.
- |
+| `type` | string | Yes |  | `response.content_part.done` | The type of the event. Always `response.content_part.done`. <br>  |
+| `item_id` | string | Yes |  |  | The ID of the output item that the content part was added to. <br>  |
+| `output_index` | integer | Yes |  |  | The index of the output item that the content part was added to. <br>  |
+| `content_index` | integer | Yes |  |  | The index of the content part that is done. <br>  |
+| `part` | oneOf: object (3 properties) | object (2 properties) | Yes |  |  | The content part that is done. <br>  |
 **Example:**
 
 ```json
@@ -965,155 +561,35 @@ An event that is emitted when a response is created.
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `type` | string | Yes |  | `response.created` | The type of the event. Always `response.created`.
- |
-| `response` | object (24 properties) | Yes |  |  | The response that was created.
- |
-format, and querying for objects via API or the dashboard. 
-
-Keys are strings with a maximum length of 64 characters. Values are strings
-with a maximum length of 512 characters.
- |
-|   ↳   ↳ (additional properties) | string | - | - | - | Additional properties of this object |
-|   ↳ `temperature` | number | Yes | `1` |  | What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
-We generally recommend altering this or `top_p` but not both.
- |
-|   ↳ `top_p` | number | Yes | `1` |  | An alternative to sampling with temperature, called nucleus sampling,
-where the model considers the results of the tokens with top_p probability
-mass. So 0.1 means only the tokens comprising the top 10% probability mass
-are considered.
-
-We generally recommend altering this or `temperature` but not both.
- |
-|   ↳ `user` | string | No |  |  | A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices#end-user-ids).
- |
-|   ↳ `service_tier` | string | No | `auto` | `auto`, `default`, `flex` | Specifies the latency tier to use for processing the request. This parameter is relevant for customers subscribed to the scale tier service:
-  - If set to 'auto', and the Project is Scale tier enabled, the system
-    will utilize scale tier credits until they are exhausted.
-  - If set to 'auto', and the Project is not Scale tier enabled, the request will be processed using the default service tier with a lower uptime SLA and no latency guarentee.
-  - If set to 'default', the request will be processed using the default service tier with a lower uptime SLA and no latency guarentee.
-  - If set to 'flex', the request will be processed with the Flex Processing service tier. [Learn more](/docs/guides/flex-processing).
-  - When not set, the default behavior is 'auto'.
-
-  When this parameter is set, the response body will include the `service_tier` utilized.
- |
-|   ↳ `previous_response_id` | string | No |  |  | The unique ID of the previous response to the model. Use this to
-create multi-turn conversations. Learn more about 
-[conversation state](/docs/guides/conversation-state).
- |
-|   ↳ `model` | anyOf: anyOf: string | string | string | Yes |  |  | Model ID used to generate the response, like `gpt-4o` or `o3`. OpenAI
-offers a wide range of models with different capabilities, performance
-characteristics, and price points. Refer to the [model guide](/docs/models)
-to browse and compare available models.
- |
-|   ↳ `reasoning` | object (3 properties) | No |  |  | **o-series models only**
-
-Configuration options for 
-[reasoning models](https://platform.openai.com/docs/guides/reasoning).
- |
-Constrains effort on reasoning for 
-[reasoning models](https://platform.openai.com/docs/guides/reasoning).
-Currently supported values are `low`, `medium`, and `high`. Reducing
-reasoning effort can result in faster responses and fewer tokens used
-on reasoning in a response.
- |
-|     ↳ `summary` | string | No |  | `auto`, `concise`, `detailed` | A summary of the reasoning performed by the model. This can be
-useful for debugging and understanding the model's reasoning process.
-One of `auto`, `concise`, or `detailed`.
- |
-|     ↳ `generate_summary` | string | No |  | `auto`, `concise`, `detailed` | **Deprecated:** use `summary` instead.
-
-A summary of the reasoning performed by the model. This can be
-useful for debugging and understanding the model's reasoning process.
-One of `auto`, `concise`, or `detailed`.
- |
-|   ↳ `max_output_tokens` | integer | No |  |  | An upper bound for the number of tokens that can be generated for a response, including visible output tokens and [reasoning tokens](/docs/guides/reasoning).
- |
-|   ↳ `instructions` | string | Yes |  |  | Inserts a system (or developer) message as the first item in the model's context.
-
-When using along with `previous_response_id`, the instructions from a previous
-response will not be carried over to the next response. This makes it simple
-to swap out system (or developer) messages in new responses.
- |
-|   ↳ `text` | object (1 property) | No |  |  | Configuration options for a text response from the model. Can be plain
-text or structured JSON data. Learn more:
-- [Text inputs and outputs](/docs/guides/text)
-- [Structured Outputs](/docs/guides/structured-outputs)
- |
-Configuring `{ "type": "json_schema" }` enables Structured Outputs, 
-which ensures the model will match your supplied JSON schema. Learn more in the 
-[Structured Outputs guide](/docs/guides/structured-outputs).
-
-The default format is `{ "type": "text" }` with no additional options.
-
-**Not recommended for gpt-4o and newer models:**
-
-Setting to `{ "type": "json_object" }` enables the older JSON mode, which
-ensures the message the model generates is valid JSON. Using `json_schema`
-is preferred for models that support it.
- |
-|   ↳ `tools` | array of oneOf: object (5 properties) | object (5 properties) | object (3 properties) | object (4 properties) | Yes |  |  | An array of tools the model may call while generating a response. You 
-can specify which tool to use by setting the `tool_choice` parameter.
-
-The two categories of tools you can provide the model are:
-
-- **Built-in tools**: Tools that are provided by OpenAI that extend the
-  model's capabilities, like [web search](/docs/guides/tools-web-search)
-  or [file search](/docs/guides/tools-file-search). Learn more about
-  [built-in tools](/docs/guides/tools).
-- **Function calls (custom tools)**: Functions that are defined by you,
-  enabling the model to call your own code. Learn more about
-  [function calling](/docs/guides/function-calling).
- |
-|   ↳ `tool_choice` | oneOf: string | object (1 property) | object (2 properties) | Yes |  |  | How the model should select which tool (or tools) to use when generating
-a response. See the `tools` parameter to see how to specify which tools
-the model can call.
- |
-|   ↳ `truncation` | string | No | `disabled` | `auto`, `disabled` | The truncation strategy to use for the model response.
-- `auto`: If the context of this response and previous ones exceeds
-  the model's context window size, the model will truncate the 
-  response to fit the context window by dropping input items in the
-  middle of the conversation. 
-- `disabled` (default): If a model response will exceed the context window 
-  size for a model, the request will fail with a 400 error.
- |
-|   ↳ `id` | string | Yes |  |  | Unique identifier for this Response.
- |
-|   ↳ `object` | string | Yes |  | `response` | The object type of this resource - always set to `response`.
- |
-|   ↳ `status` | string | No |  | `completed`, `failed`, `in_progress`, `incomplete` | The status of the response generation. One of `completed`, `failed`, 
-`in_progress`, or `incomplete`.
- |
-|   ↳ `created_at` | number | Yes |  |  | Unix timestamp (in seconds) of when this Response was created.
- |
-|   ↳ `error` | object (2 properties) | Yes |  |  | An error object returned when the model fails to generate a Response.
- |
-|     ↳ `message` | string | Yes |  |  | A human-readable description of the error.
- |
-|   ↳ `incomplete_details` | object (1 property) | Yes |  |  | Details about why the response is incomplete.
- |
-|   ↳ `output` | array of anyOf: object (5 properties) | object (5 properties) | object (6 properties) | object (3 properties) | object (6 properties) | object (5 properties) | Yes |  |  | An array of content items generated by the model.
-
-- The length and order of items in the `output` array is dependent
-  on the model's response.
-- Rather than accessing the first item in the `output` array and 
-  assuming it's an `assistant` message with the content generated by
-  the model, you might consider using the `output_text` property where
-  supported in SDKs.
- |
-|   ↳ `output_text` | string | No |  |  | SDK-only convenience property that contains the aggregated text output 
-from all `output_text` items in the `output` array, if any are present. 
-Supported in the Python and JavaScript SDKs.
- |
-|   ↳ `usage` | object (5 properties) | No |  |  | Represents token usage details including input tokens, output tokens,
-a breakdown of output tokens, and the total tokens used.
- |
- |
+| `type` | string | Yes |  | `response.created` | The type of the event. Always `response.created`. <br>  |
+| `response` | object (24 properties) | Yes |  |  | The response that was created. <br>  |
+|   ↳ `temperature` | number | Yes | `1` |  | What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic. <br> We generally recommend altering this or `top_p` but not both. <br>  |
+|   ↳ `top_p` | number | Yes | `1` |  | An alternative to sampling with temperature, called nucleus sampling, <br> where the model considers the results of the tokens with top_p probability <br> mass. So 0.1 means only the tokens comprising the top 10% probability mass <br> are considered. <br>  <br> We generally recommend altering this or `temperature` but not both. <br>  |
+|   ↳ `user` | string | No |  |  | A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices#end-user-ids). <br>  |
+|   ↳ `service_tier` | string | No | `auto` | `auto`, `default`, `flex` | Specifies the latency tier to use for processing the request. This parameter is relevant for customers subscribed to the scale tier service: <br>   - If set to 'auto', and the Project is Scale tier enabled, the system <br>     will utilize scale tier credits until they are exhausted. <br>   - If set to 'auto', and the Project is not Scale tier enabled, the request will be processed using the default service tier with a lower uptime SLA and no latency guarentee. <br>   - If set to 'default', the request will be processed using the default service tier with a lower uptime SLA and no latency guarentee. <br>   - If set to 'flex', the request will be processed with the Flex Processing service tier. [Learn more](/docs/guides/flex-processing). <br>   - When not set, the default behavior is 'auto'. <br>  <br>   When this parameter is set, the response body will include the `service_tier` utilized. <br>  |
+|   ↳ `previous_response_id` | string | No |  |  | The unique ID of the previous response to the model. Use this to <br> create multi-turn conversations. Learn more about  <br> [conversation state](/docs/guides/conversation-state). <br>  |
+|   ↳ `model` | anyOf: anyOf: string | string | string | Yes |  |  | Model ID used to generate the response, like `gpt-4o` or `o3`. OpenAI <br> offers a wide range of models with different capabilities, performance <br> characteristics, and price points. Refer to the [model guide](/docs/models) <br> to browse and compare available models. <br>  |
+|   ↳ `reasoning` | object (3 properties) | No |  |  | **o-series models only** <br>  <br> Configuration options for  <br> [reasoning models](https://platform.openai.com/docs/guides/reasoning). <br>  |
+|     ↳ `generate_summary` | string | No |  | `auto`, `concise`, `detailed` | **Deprecated:** use `summary` instead. <br>  <br> A summary of the reasoning performed by the model. This can be <br> useful for debugging and understanding the model's reasoning process. <br> One of `auto`, `concise`, or `detailed`. <br>  |
+|   ↳ `max_output_tokens` | integer | No |  |  | An upper bound for the number of tokens that can be generated for a response, including visible output tokens and [reasoning tokens](/docs/guides/reasoning). <br>  |
+|   ↳ `instructions` | string | Yes |  |  | Inserts a system (or developer) message as the first item in the model's context. <br>  <br> When using along with `previous_response_id`, the instructions from a previous <br> response will not be carried over to the next response. This makes it simple <br> to swap out system (or developer) messages in new responses. <br>  |
+|   ↳ `text` | object (1 property) | No |  |  | Configuration options for a text response from the model. Can be plain <br> text or structured JSON data. Learn more: <br> - [Text inputs and outputs](/docs/guides/text) <br> - [Structured Outputs](/docs/guides/structured-outputs) <br>  |
+|   ↳ `tools` | array of oneOf: object (5 properties) | object (5 properties) | object (3 properties) | object (4 properties) | Yes |  |  | An array of tools the model may call while generating a response. You  <br> can specify which tool to use by setting the `tool_choice` parameter. <br>  <br> The two categories of tools you can provide the model are: <br>  <br> - **Built-in tools**: Tools that are provided by OpenAI that extend the <br>   model's capabilities, like [web search](/docs/guides/tools-web-search) <br>   or [file search](/docs/guides/tools-file-search). Learn more about <br>   [built-in tools](/docs/guides/tools). <br> - **Function calls (custom tools)**: Functions that are defined by you, <br>   enabling the model to call your own code. Learn more about <br>   [function calling](/docs/guides/function-calling). <br>  |
+|   ↳ `tool_choice` | oneOf: string | object (1 property) | object (2 properties) | Yes |  |  | How the model should select which tool (or tools) to use when generating <br> a response. See the `tools` parameter to see how to specify which tools <br> the model can call. <br>  |
+|   ↳ `truncation` | string | No | `disabled` | `auto`, `disabled` | The truncation strategy to use for the model response. <br> - `auto`: If the context of this response and previous ones exceeds <br>   the model's context window size, the model will truncate the  <br>   response to fit the context window by dropping input items in the <br>   middle of the conversation.  <br> - `disabled` (default): If a model response will exceed the context window  <br>   size for a model, the request will fail with a 400 error. <br>  |
+|   ↳ `id` | string | Yes |  |  | Unique identifier for this Response. <br>  |
+|   ↳ `object` | string | Yes |  | `response` | The object type of this resource - always set to `response`. <br>  |
+|   ↳ `status` | string | No |  | `completed`, `failed`, `in_progress`, `incomplete` | The status of the response generation. One of `completed`, `failed`,  <br> `in_progress`, or `incomplete`. <br>  |
+|   ↳ `created_at` | number | Yes |  |  | Unix timestamp (in seconds) of when this Response was created. <br>  |
+|   ↳ `error` | object (2 properties) | Yes |  |  | An error object returned when the model fails to generate a Response. <br>  |
+|   ↳ `incomplete_details` | object (1 property) | Yes |  |  | Details about why the response is incomplete. <br>  |
+|   ↳ `output` | array of anyOf: object (5 properties) | object (5 properties) | object (6 properties) | object (3 properties) | object (6 properties) | object (5 properties) | Yes |  |  | An array of content items generated by the model. <br>  <br> - The length and order of items in the `output` array is dependent <br>   on the model's response. <br> - Rather than accessing the first item in the `output` array and  <br>   assuming it's an `assistant` message with the content generated by <br>   the model, you might consider using the `output_text` property where <br>   supported in SDKs. <br>  |
+|   ↳ `output_text` | string | No |  |  | SDK-only convenience property that contains the aggregated text output  <br> from all `output_text` items in the `output` array, if any are present.  <br> Supported in the Python and JavaScript SDKs. <br>  |
+|   ↳ `usage` | object (5 properties) | No |  |  | Represents token usage details including input tokens, output tokens, <br> a breakdown of output tokens, and the total tokens used. <br>  |
 |     ↳ `output_tokens` | integer | Yes |  |  | The number of output tokens. |
 |     ↳ `output_tokens_details` | object (1 property) | Yes |  |  | A detailed breakdown of the output tokens. |
 |     ↳ `total_tokens` | integer | Yes |  |  | The total number of tokens used. |
-|   ↳ `parallel_tool_calls` | boolean | Yes | `true` |  | Whether to allow the model to run tool calls in parallel.
- |
+|   ↳ `parallel_tool_calls` | boolean | Yes | `true` |  | Whether to allow the model to run tool calls in parallel. <br>  |
 **Example:**
 
 ```json
@@ -1165,14 +641,10 @@ Emitted when an error occurs.
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `type` | string | Yes |  | `error` | The type of the event. Always `error`.
- |
-| `code` | string | Yes |  |  | The error code.
- |
-| `message` | string | Yes |  |  | The error message.
- |
-| `param` | string | Yes |  |  | The error parameter.
- |
+| `type` | string | Yes |  | `error` | The type of the event. Always `error`. <br>  |
+| `code` | string | Yes |  |  | The error code. <br>  |
+| `message` | string | Yes |  |  | The error message. <br>  |
+| `param` | string | Yes |  |  | The error parameter. <br>  |
 **Example:**
 
 ```json
@@ -1195,12 +667,9 @@ Emitted when a file search call is completed (results found).
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `type` | string | Yes |  | `response.file_search_call.completed` | The type of the event. Always `response.file_search_call.completed`.
- |
-| `output_index` | integer | Yes |  |  | The index of the output item that the file search call is initiated.
- |
-| `item_id` | string | Yes |  |  | The ID of the output item that the file search call is initiated.
- |
+| `type` | string | Yes |  | `response.file_search_call.completed` | The type of the event. Always `response.file_search_call.completed`. <br>  |
+| `output_index` | integer | Yes |  |  | The index of the output item that the file search call is initiated. <br>  |
+| `item_id` | string | Yes |  |  | The ID of the output item that the file search call is initiated. <br>  |
 **Example:**
 
 ```json
@@ -1222,12 +691,9 @@ Emitted when a file search call is initiated.
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `type` | string | Yes |  | `response.file_search_call.in_progress` | The type of the event. Always `response.file_search_call.in_progress`.
- |
-| `output_index` | integer | Yes |  |  | The index of the output item that the file search call is initiated.
- |
-| `item_id` | string | Yes |  |  | The ID of the output item that the file search call is initiated.
- |
+| `type` | string | Yes |  | `response.file_search_call.in_progress` | The type of the event. Always `response.file_search_call.in_progress`. <br>  |
+| `output_index` | integer | Yes |  |  | The index of the output item that the file search call is initiated. <br>  |
+| `item_id` | string | Yes |  |  | The ID of the output item that the file search call is initiated. <br>  |
 **Example:**
 
 ```json
@@ -1249,12 +715,9 @@ Emitted when a file search is currently searching.
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `type` | string | Yes |  | `response.file_search_call.searching` | The type of the event. Always `response.file_search_call.searching`.
- |
-| `output_index` | integer | Yes |  |  | The index of the output item that the file search call is searching.
- |
-| `item_id` | string | Yes |  |  | The ID of the output item that the file search call is initiated.
- |
+| `type` | string | Yes |  | `response.file_search_call.searching` | The type of the event. Always `response.file_search_call.searching`. <br>  |
+| `output_index` | integer | Yes |  |  | The index of the output item that the file search call is searching. <br>  |
+| `item_id` | string | Yes |  |  | The ID of the output item that the file search call is initiated. <br>  |
 **Example:**
 
 ```json
@@ -1276,14 +739,10 @@ Emitted when there is a partial function-call arguments delta.
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `type` | string | Yes |  | `response.function_call_arguments.delta` | The type of the event. Always `response.function_call_arguments.delta`.
- |
-| `item_id` | string | Yes |  |  | The ID of the output item that the function-call arguments delta is added to.
- |
-| `output_index` | integer | Yes |  |  | The index of the output item that the function-call arguments delta is added to.
- |
-| `delta` | string | Yes |  |  | The function-call arguments delta that is added.
- |
+| `type` | string | Yes |  | `response.function_call_arguments.delta` | The type of the event. Always `response.function_call_arguments.delta`. <br>  |
+| `item_id` | string | Yes |  |  | The ID of the output item that the function-call arguments delta is added to. <br>  |
+| `output_index` | integer | Yes |  |  | The index of the output item that the function-call arguments delta is added to. <br>  |
+| `delta` | string | Yes |  |  | The function-call arguments delta that is added. <br>  |
 **Example:**
 
 ```json
@@ -1332,155 +791,35 @@ Emitted when the response is in progress.
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `type` | string | Yes |  | `response.in_progress` | The type of the event. Always `response.in_progress`.
- |
-| `response` | object (24 properties) | Yes |  |  | The response that is in progress.
- |
-format, and querying for objects via API or the dashboard. 
-
-Keys are strings with a maximum length of 64 characters. Values are strings
-with a maximum length of 512 characters.
- |
-|   ↳   ↳ (additional properties) | string | - | - | - | Additional properties of this object |
-|   ↳ `temperature` | number | Yes | `1` |  | What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
-We generally recommend altering this or `top_p` but not both.
- |
-|   ↳ `top_p` | number | Yes | `1` |  | An alternative to sampling with temperature, called nucleus sampling,
-where the model considers the results of the tokens with top_p probability
-mass. So 0.1 means only the tokens comprising the top 10% probability mass
-are considered.
-
-We generally recommend altering this or `temperature` but not both.
- |
-|   ↳ `user` | string | No |  |  | A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices#end-user-ids).
- |
-|   ↳ `service_tier` | string | No | `auto` | `auto`, `default`, `flex` | Specifies the latency tier to use for processing the request. This parameter is relevant for customers subscribed to the scale tier service:
-  - If set to 'auto', and the Project is Scale tier enabled, the system
-    will utilize scale tier credits until they are exhausted.
-  - If set to 'auto', and the Project is not Scale tier enabled, the request will be processed using the default service tier with a lower uptime SLA and no latency guarentee.
-  - If set to 'default', the request will be processed using the default service tier with a lower uptime SLA and no latency guarentee.
-  - If set to 'flex', the request will be processed with the Flex Processing service tier. [Learn more](/docs/guides/flex-processing).
-  - When not set, the default behavior is 'auto'.
-
-  When this parameter is set, the response body will include the `service_tier` utilized.
- |
-|   ↳ `previous_response_id` | string | No |  |  | The unique ID of the previous response to the model. Use this to
-create multi-turn conversations. Learn more about 
-[conversation state](/docs/guides/conversation-state).
- |
-|   ↳ `model` | anyOf: anyOf: string | string | string | Yes |  |  | Model ID used to generate the response, like `gpt-4o` or `o3`. OpenAI
-offers a wide range of models with different capabilities, performance
-characteristics, and price points. Refer to the [model guide](/docs/models)
-to browse and compare available models.
- |
-|   ↳ `reasoning` | object (3 properties) | No |  |  | **o-series models only**
-
-Configuration options for 
-[reasoning models](https://platform.openai.com/docs/guides/reasoning).
- |
-Constrains effort on reasoning for 
-[reasoning models](https://platform.openai.com/docs/guides/reasoning).
-Currently supported values are `low`, `medium`, and `high`. Reducing
-reasoning effort can result in faster responses and fewer tokens used
-on reasoning in a response.
- |
-|     ↳ `summary` | string | No |  | `auto`, `concise`, `detailed` | A summary of the reasoning performed by the model. This can be
-useful for debugging and understanding the model's reasoning process.
-One of `auto`, `concise`, or `detailed`.
- |
-|     ↳ `generate_summary` | string | No |  | `auto`, `concise`, `detailed` | **Deprecated:** use `summary` instead.
-
-A summary of the reasoning performed by the model. This can be
-useful for debugging and understanding the model's reasoning process.
-One of `auto`, `concise`, or `detailed`.
- |
-|   ↳ `max_output_tokens` | integer | No |  |  | An upper bound for the number of tokens that can be generated for a response, including visible output tokens and [reasoning tokens](/docs/guides/reasoning).
- |
-|   ↳ `instructions` | string | Yes |  |  | Inserts a system (or developer) message as the first item in the model's context.
-
-When using along with `previous_response_id`, the instructions from a previous
-response will not be carried over to the next response. This makes it simple
-to swap out system (or developer) messages in new responses.
- |
-|   ↳ `text` | object (1 property) | No |  |  | Configuration options for a text response from the model. Can be plain
-text or structured JSON data. Learn more:
-- [Text inputs and outputs](/docs/guides/text)
-- [Structured Outputs](/docs/guides/structured-outputs)
- |
-Configuring `{ "type": "json_schema" }` enables Structured Outputs, 
-which ensures the model will match your supplied JSON schema. Learn more in the 
-[Structured Outputs guide](/docs/guides/structured-outputs).
-
-The default format is `{ "type": "text" }` with no additional options.
-
-**Not recommended for gpt-4o and newer models:**
-
-Setting to `{ "type": "json_object" }` enables the older JSON mode, which
-ensures the message the model generates is valid JSON. Using `json_schema`
-is preferred for models that support it.
- |
-|   ↳ `tools` | array of oneOf: object (5 properties) | object (5 properties) | object (3 properties) | object (4 properties) | Yes |  |  | An array of tools the model may call while generating a response. You 
-can specify which tool to use by setting the `tool_choice` parameter.
-
-The two categories of tools you can provide the model are:
-
-- **Built-in tools**: Tools that are provided by OpenAI that extend the
-  model's capabilities, like [web search](/docs/guides/tools-web-search)
-  or [file search](/docs/guides/tools-file-search). Learn more about
-  [built-in tools](/docs/guides/tools).
-- **Function calls (custom tools)**: Functions that are defined by you,
-  enabling the model to call your own code. Learn more about
-  [function calling](/docs/guides/function-calling).
- |
-|   ↳ `tool_choice` | oneOf: string | object (1 property) | object (2 properties) | Yes |  |  | How the model should select which tool (or tools) to use when generating
-a response. See the `tools` parameter to see how to specify which tools
-the model can call.
- |
-|   ↳ `truncation` | string | No | `disabled` | `auto`, `disabled` | The truncation strategy to use for the model response.
-- `auto`: If the context of this response and previous ones exceeds
-  the model's context window size, the model will truncate the 
-  response to fit the context window by dropping input items in the
-  middle of the conversation. 
-- `disabled` (default): If a model response will exceed the context window 
-  size for a model, the request will fail with a 400 error.
- |
-|   ↳ `id` | string | Yes |  |  | Unique identifier for this Response.
- |
-|   ↳ `object` | string | Yes |  | `response` | The object type of this resource - always set to `response`.
- |
-|   ↳ `status` | string | No |  | `completed`, `failed`, `in_progress`, `incomplete` | The status of the response generation. One of `completed`, `failed`, 
-`in_progress`, or `incomplete`.
- |
-|   ↳ `created_at` | number | Yes |  |  | Unix timestamp (in seconds) of when this Response was created.
- |
-|   ↳ `error` | object (2 properties) | Yes |  |  | An error object returned when the model fails to generate a Response.
- |
-|     ↳ `message` | string | Yes |  |  | A human-readable description of the error.
- |
-|   ↳ `incomplete_details` | object (1 property) | Yes |  |  | Details about why the response is incomplete.
- |
-|   ↳ `output` | array of anyOf: object (5 properties) | object (5 properties) | object (6 properties) | object (3 properties) | object (6 properties) | object (5 properties) | Yes |  |  | An array of content items generated by the model.
-
-- The length and order of items in the `output` array is dependent
-  on the model's response.
-- Rather than accessing the first item in the `output` array and 
-  assuming it's an `assistant` message with the content generated by
-  the model, you might consider using the `output_text` property where
-  supported in SDKs.
- |
-|   ↳ `output_text` | string | No |  |  | SDK-only convenience property that contains the aggregated text output 
-from all `output_text` items in the `output` array, if any are present. 
-Supported in the Python and JavaScript SDKs.
- |
-|   ↳ `usage` | object (5 properties) | No |  |  | Represents token usage details including input tokens, output tokens,
-a breakdown of output tokens, and the total tokens used.
- |
- |
+| `type` | string | Yes |  | `response.in_progress` | The type of the event. Always `response.in_progress`. <br>  |
+| `response` | object (24 properties) | Yes |  |  | The response that is in progress. <br>  |
+|   ↳ `temperature` | number | Yes | `1` |  | What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic. <br> We generally recommend altering this or `top_p` but not both. <br>  |
+|   ↳ `top_p` | number | Yes | `1` |  | An alternative to sampling with temperature, called nucleus sampling, <br> where the model considers the results of the tokens with top_p probability <br> mass. So 0.1 means only the tokens comprising the top 10% probability mass <br> are considered. <br>  <br> We generally recommend altering this or `temperature` but not both. <br>  |
+|   ↳ `user` | string | No |  |  | A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices#end-user-ids). <br>  |
+|   ↳ `service_tier` | string | No | `auto` | `auto`, `default`, `flex` | Specifies the latency tier to use for processing the request. This parameter is relevant for customers subscribed to the scale tier service: <br>   - If set to 'auto', and the Project is Scale tier enabled, the system <br>     will utilize scale tier credits until they are exhausted. <br>   - If set to 'auto', and the Project is not Scale tier enabled, the request will be processed using the default service tier with a lower uptime SLA and no latency guarentee. <br>   - If set to 'default', the request will be processed using the default service tier with a lower uptime SLA and no latency guarentee. <br>   - If set to 'flex', the request will be processed with the Flex Processing service tier. [Learn more](/docs/guides/flex-processing). <br>   - When not set, the default behavior is 'auto'. <br>  <br>   When this parameter is set, the response body will include the `service_tier` utilized. <br>  |
+|   ↳ `previous_response_id` | string | No |  |  | The unique ID of the previous response to the model. Use this to <br> create multi-turn conversations. Learn more about  <br> [conversation state](/docs/guides/conversation-state). <br>  |
+|   ↳ `model` | anyOf: anyOf: string | string | string | Yes |  |  | Model ID used to generate the response, like `gpt-4o` or `o3`. OpenAI <br> offers a wide range of models with different capabilities, performance <br> characteristics, and price points. Refer to the [model guide](/docs/models) <br> to browse and compare available models. <br>  |
+|   ↳ `reasoning` | object (3 properties) | No |  |  | **o-series models only** <br>  <br> Configuration options for  <br> [reasoning models](https://platform.openai.com/docs/guides/reasoning). <br>  |
+|     ↳ `generate_summary` | string | No |  | `auto`, `concise`, `detailed` | **Deprecated:** use `summary` instead. <br>  <br> A summary of the reasoning performed by the model. This can be <br> useful for debugging and understanding the model's reasoning process. <br> One of `auto`, `concise`, or `detailed`. <br>  |
+|   ↳ `max_output_tokens` | integer | No |  |  | An upper bound for the number of tokens that can be generated for a response, including visible output tokens and [reasoning tokens](/docs/guides/reasoning). <br>  |
+|   ↳ `instructions` | string | Yes |  |  | Inserts a system (or developer) message as the first item in the model's context. <br>  <br> When using along with `previous_response_id`, the instructions from a previous <br> response will not be carried over to the next response. This makes it simple <br> to swap out system (or developer) messages in new responses. <br>  |
+|   ↳ `text` | object (1 property) | No |  |  | Configuration options for a text response from the model. Can be plain <br> text or structured JSON data. Learn more: <br> - [Text inputs and outputs](/docs/guides/text) <br> - [Structured Outputs](/docs/guides/structured-outputs) <br>  |
+|   ↳ `tools` | array of oneOf: object (5 properties) | object (5 properties) | object (3 properties) | object (4 properties) | Yes |  |  | An array of tools the model may call while generating a response. You  <br> can specify which tool to use by setting the `tool_choice` parameter. <br>  <br> The two categories of tools you can provide the model are: <br>  <br> - **Built-in tools**: Tools that are provided by OpenAI that extend the <br>   model's capabilities, like [web search](/docs/guides/tools-web-search) <br>   or [file search](/docs/guides/tools-file-search). Learn more about <br>   [built-in tools](/docs/guides/tools). <br> - **Function calls (custom tools)**: Functions that are defined by you, <br>   enabling the model to call your own code. Learn more about <br>   [function calling](/docs/guides/function-calling). <br>  |
+|   ↳ `tool_choice` | oneOf: string | object (1 property) | object (2 properties) | Yes |  |  | How the model should select which tool (or tools) to use when generating <br> a response. See the `tools` parameter to see how to specify which tools <br> the model can call. <br>  |
+|   ↳ `truncation` | string | No | `disabled` | `auto`, `disabled` | The truncation strategy to use for the model response. <br> - `auto`: If the context of this response and previous ones exceeds <br>   the model's context window size, the model will truncate the  <br>   response to fit the context window by dropping input items in the <br>   middle of the conversation.  <br> - `disabled` (default): If a model response will exceed the context window  <br>   size for a model, the request will fail with a 400 error. <br>  |
+|   ↳ `id` | string | Yes |  |  | Unique identifier for this Response. <br>  |
+|   ↳ `object` | string | Yes |  | `response` | The object type of this resource - always set to `response`. <br>  |
+|   ↳ `status` | string | No |  | `completed`, `failed`, `in_progress`, `incomplete` | The status of the response generation. One of `completed`, `failed`,  <br> `in_progress`, or `incomplete`. <br>  |
+|   ↳ `created_at` | number | Yes |  |  | Unix timestamp (in seconds) of when this Response was created. <br>  |
+|   ↳ `error` | object (2 properties) | Yes |  |  | An error object returned when the model fails to generate a Response. <br>  |
+|   ↳ `incomplete_details` | object (1 property) | Yes |  |  | Details about why the response is incomplete. <br>  |
+|   ↳ `output` | array of anyOf: object (5 properties) | object (5 properties) | object (6 properties) | object (3 properties) | object (6 properties) | object (5 properties) | Yes |  |  | An array of content items generated by the model. <br>  <br> - The length and order of items in the `output` array is dependent <br>   on the model's response. <br> - Rather than accessing the first item in the `output` array and  <br>   assuming it's an `assistant` message with the content generated by <br>   the model, you might consider using the `output_text` property where <br>   supported in SDKs. <br>  |
+|   ↳ `output_text` | string | No |  |  | SDK-only convenience property that contains the aggregated text output  <br> from all `output_text` items in the `output` array, if any are present.  <br> Supported in the Python and JavaScript SDKs. <br>  |
+|   ↳ `usage` | object (5 properties) | No |  |  | Represents token usage details including input tokens, output tokens, <br> a breakdown of output tokens, and the total tokens used. <br>  |
 |     ↳ `output_tokens` | integer | Yes |  |  | The number of output tokens. |
 |     ↳ `output_tokens_details` | object (1 property) | Yes |  |  | A detailed breakdown of the output tokens. |
 |     ↳ `total_tokens` | integer | Yes |  |  | The total number of tokens used. |
-|   ↳ `parallel_tool_calls` | boolean | Yes | `true` |  | Whether to allow the model to run tool calls in parallel.
- |
+|   ↳ `parallel_tool_calls` | boolean | Yes | `true` |  | Whether to allow the model to run tool calls in parallel. <br>  |
 **Example:**
 
 ```json
@@ -1533,155 +872,35 @@ An event that is emitted when a response fails.
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `type` | string | Yes |  | `response.failed` | The type of the event. Always `response.failed`.
- |
-| `response` | object (24 properties) | Yes |  |  | The response that failed.
- |
-format, and querying for objects via API or the dashboard. 
-
-Keys are strings with a maximum length of 64 characters. Values are strings
-with a maximum length of 512 characters.
- |
-|   ↳   ↳ (additional properties) | string | - | - | - | Additional properties of this object |
-|   ↳ `temperature` | number | Yes | `1` |  | What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
-We generally recommend altering this or `top_p` but not both.
- |
-|   ↳ `top_p` | number | Yes | `1` |  | An alternative to sampling with temperature, called nucleus sampling,
-where the model considers the results of the tokens with top_p probability
-mass. So 0.1 means only the tokens comprising the top 10% probability mass
-are considered.
-
-We generally recommend altering this or `temperature` but not both.
- |
-|   ↳ `user` | string | No |  |  | A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices#end-user-ids).
- |
-|   ↳ `service_tier` | string | No | `auto` | `auto`, `default`, `flex` | Specifies the latency tier to use for processing the request. This parameter is relevant for customers subscribed to the scale tier service:
-  - If set to 'auto', and the Project is Scale tier enabled, the system
-    will utilize scale tier credits until they are exhausted.
-  - If set to 'auto', and the Project is not Scale tier enabled, the request will be processed using the default service tier with a lower uptime SLA and no latency guarentee.
-  - If set to 'default', the request will be processed using the default service tier with a lower uptime SLA and no latency guarentee.
-  - If set to 'flex', the request will be processed with the Flex Processing service tier. [Learn more](/docs/guides/flex-processing).
-  - When not set, the default behavior is 'auto'.
-
-  When this parameter is set, the response body will include the `service_tier` utilized.
- |
-|   ↳ `previous_response_id` | string | No |  |  | The unique ID of the previous response to the model. Use this to
-create multi-turn conversations. Learn more about 
-[conversation state](/docs/guides/conversation-state).
- |
-|   ↳ `model` | anyOf: anyOf: string | string | string | Yes |  |  | Model ID used to generate the response, like `gpt-4o` or `o3`. OpenAI
-offers a wide range of models with different capabilities, performance
-characteristics, and price points. Refer to the [model guide](/docs/models)
-to browse and compare available models.
- |
-|   ↳ `reasoning` | object (3 properties) | No |  |  | **o-series models only**
-
-Configuration options for 
-[reasoning models](https://platform.openai.com/docs/guides/reasoning).
- |
-Constrains effort on reasoning for 
-[reasoning models](https://platform.openai.com/docs/guides/reasoning).
-Currently supported values are `low`, `medium`, and `high`. Reducing
-reasoning effort can result in faster responses and fewer tokens used
-on reasoning in a response.
- |
-|     ↳ `summary` | string | No |  | `auto`, `concise`, `detailed` | A summary of the reasoning performed by the model. This can be
-useful for debugging and understanding the model's reasoning process.
-One of `auto`, `concise`, or `detailed`.
- |
-|     ↳ `generate_summary` | string | No |  | `auto`, `concise`, `detailed` | **Deprecated:** use `summary` instead.
-
-A summary of the reasoning performed by the model. This can be
-useful for debugging and understanding the model's reasoning process.
-One of `auto`, `concise`, or `detailed`.
- |
-|   ↳ `max_output_tokens` | integer | No |  |  | An upper bound for the number of tokens that can be generated for a response, including visible output tokens and [reasoning tokens](/docs/guides/reasoning).
- |
-|   ↳ `instructions` | string | Yes |  |  | Inserts a system (or developer) message as the first item in the model's context.
-
-When using along with `previous_response_id`, the instructions from a previous
-response will not be carried over to the next response. This makes it simple
-to swap out system (or developer) messages in new responses.
- |
-|   ↳ `text` | object (1 property) | No |  |  | Configuration options for a text response from the model. Can be plain
-text or structured JSON data. Learn more:
-- [Text inputs and outputs](/docs/guides/text)
-- [Structured Outputs](/docs/guides/structured-outputs)
- |
-Configuring `{ "type": "json_schema" }` enables Structured Outputs, 
-which ensures the model will match your supplied JSON schema. Learn more in the 
-[Structured Outputs guide](/docs/guides/structured-outputs).
-
-The default format is `{ "type": "text" }` with no additional options.
-
-**Not recommended for gpt-4o and newer models:**
-
-Setting to `{ "type": "json_object" }` enables the older JSON mode, which
-ensures the message the model generates is valid JSON. Using `json_schema`
-is preferred for models that support it.
- |
-|   ↳ `tools` | array of oneOf: object (5 properties) | object (5 properties) | object (3 properties) | object (4 properties) | Yes |  |  | An array of tools the model may call while generating a response. You 
-can specify which tool to use by setting the `tool_choice` parameter.
-
-The two categories of tools you can provide the model are:
-
-- **Built-in tools**: Tools that are provided by OpenAI that extend the
-  model's capabilities, like [web search](/docs/guides/tools-web-search)
-  or [file search](/docs/guides/tools-file-search). Learn more about
-  [built-in tools](/docs/guides/tools).
-- **Function calls (custom tools)**: Functions that are defined by you,
-  enabling the model to call your own code. Learn more about
-  [function calling](/docs/guides/function-calling).
- |
-|   ↳ `tool_choice` | oneOf: string | object (1 property) | object (2 properties) | Yes |  |  | How the model should select which tool (or tools) to use when generating
-a response. See the `tools` parameter to see how to specify which tools
-the model can call.
- |
-|   ↳ `truncation` | string | No | `disabled` | `auto`, `disabled` | The truncation strategy to use for the model response.
-- `auto`: If the context of this response and previous ones exceeds
-  the model's context window size, the model will truncate the 
-  response to fit the context window by dropping input items in the
-  middle of the conversation. 
-- `disabled` (default): If a model response will exceed the context window 
-  size for a model, the request will fail with a 400 error.
- |
-|   ↳ `id` | string | Yes |  |  | Unique identifier for this Response.
- |
-|   ↳ `object` | string | Yes |  | `response` | The object type of this resource - always set to `response`.
- |
-|   ↳ `status` | string | No |  | `completed`, `failed`, `in_progress`, `incomplete` | The status of the response generation. One of `completed`, `failed`, 
-`in_progress`, or `incomplete`.
- |
-|   ↳ `created_at` | number | Yes |  |  | Unix timestamp (in seconds) of when this Response was created.
- |
-|   ↳ `error` | object (2 properties) | Yes |  |  | An error object returned when the model fails to generate a Response.
- |
-|     ↳ `message` | string | Yes |  |  | A human-readable description of the error.
- |
-|   ↳ `incomplete_details` | object (1 property) | Yes |  |  | Details about why the response is incomplete.
- |
-|   ↳ `output` | array of anyOf: object (5 properties) | object (5 properties) | object (6 properties) | object (3 properties) | object (6 properties) | object (5 properties) | Yes |  |  | An array of content items generated by the model.
-
-- The length and order of items in the `output` array is dependent
-  on the model's response.
-- Rather than accessing the first item in the `output` array and 
-  assuming it's an `assistant` message with the content generated by
-  the model, you might consider using the `output_text` property where
-  supported in SDKs.
- |
-|   ↳ `output_text` | string | No |  |  | SDK-only convenience property that contains the aggregated text output 
-from all `output_text` items in the `output` array, if any are present. 
-Supported in the Python and JavaScript SDKs.
- |
-|   ↳ `usage` | object (5 properties) | No |  |  | Represents token usage details including input tokens, output tokens,
-a breakdown of output tokens, and the total tokens used.
- |
- |
+| `type` | string | Yes |  | `response.failed` | The type of the event. Always `response.failed`. <br>  |
+| `response` | object (24 properties) | Yes |  |  | The response that failed. <br>  |
+|   ↳ `temperature` | number | Yes | `1` |  | What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic. <br> We generally recommend altering this or `top_p` but not both. <br>  |
+|   ↳ `top_p` | number | Yes | `1` |  | An alternative to sampling with temperature, called nucleus sampling, <br> where the model considers the results of the tokens with top_p probability <br> mass. So 0.1 means only the tokens comprising the top 10% probability mass <br> are considered. <br>  <br> We generally recommend altering this or `temperature` but not both. <br>  |
+|   ↳ `user` | string | No |  |  | A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices#end-user-ids). <br>  |
+|   ↳ `service_tier` | string | No | `auto` | `auto`, `default`, `flex` | Specifies the latency tier to use for processing the request. This parameter is relevant for customers subscribed to the scale tier service: <br>   - If set to 'auto', and the Project is Scale tier enabled, the system <br>     will utilize scale tier credits until they are exhausted. <br>   - If set to 'auto', and the Project is not Scale tier enabled, the request will be processed using the default service tier with a lower uptime SLA and no latency guarentee. <br>   - If set to 'default', the request will be processed using the default service tier with a lower uptime SLA and no latency guarentee. <br>   - If set to 'flex', the request will be processed with the Flex Processing service tier. [Learn more](/docs/guides/flex-processing). <br>   - When not set, the default behavior is 'auto'. <br>  <br>   When this parameter is set, the response body will include the `service_tier` utilized. <br>  |
+|   ↳ `previous_response_id` | string | No |  |  | The unique ID of the previous response to the model. Use this to <br> create multi-turn conversations. Learn more about  <br> [conversation state](/docs/guides/conversation-state). <br>  |
+|   ↳ `model` | anyOf: anyOf: string | string | string | Yes |  |  | Model ID used to generate the response, like `gpt-4o` or `o3`. OpenAI <br> offers a wide range of models with different capabilities, performance <br> characteristics, and price points. Refer to the [model guide](/docs/models) <br> to browse and compare available models. <br>  |
+|   ↳ `reasoning` | object (3 properties) | No |  |  | **o-series models only** <br>  <br> Configuration options for  <br> [reasoning models](https://platform.openai.com/docs/guides/reasoning). <br>  |
+|     ↳ `generate_summary` | string | No |  | `auto`, `concise`, `detailed` | **Deprecated:** use `summary` instead. <br>  <br> A summary of the reasoning performed by the model. This can be <br> useful for debugging and understanding the model's reasoning process. <br> One of `auto`, `concise`, or `detailed`. <br>  |
+|   ↳ `max_output_tokens` | integer | No |  |  | An upper bound for the number of tokens that can be generated for a response, including visible output tokens and [reasoning tokens](/docs/guides/reasoning). <br>  |
+|   ↳ `instructions` | string | Yes |  |  | Inserts a system (or developer) message as the first item in the model's context. <br>  <br> When using along with `previous_response_id`, the instructions from a previous <br> response will not be carried over to the next response. This makes it simple <br> to swap out system (or developer) messages in new responses. <br>  |
+|   ↳ `text` | object (1 property) | No |  |  | Configuration options for a text response from the model. Can be plain <br> text or structured JSON data. Learn more: <br> - [Text inputs and outputs](/docs/guides/text) <br> - [Structured Outputs](/docs/guides/structured-outputs) <br>  |
+|   ↳ `tools` | array of oneOf: object (5 properties) | object (5 properties) | object (3 properties) | object (4 properties) | Yes |  |  | An array of tools the model may call while generating a response. You  <br> can specify which tool to use by setting the `tool_choice` parameter. <br>  <br> The two categories of tools you can provide the model are: <br>  <br> - **Built-in tools**: Tools that are provided by OpenAI that extend the <br>   model's capabilities, like [web search](/docs/guides/tools-web-search) <br>   or [file search](/docs/guides/tools-file-search). Learn more about <br>   [built-in tools](/docs/guides/tools). <br> - **Function calls (custom tools)**: Functions that are defined by you, <br>   enabling the model to call your own code. Learn more about <br>   [function calling](/docs/guides/function-calling). <br>  |
+|   ↳ `tool_choice` | oneOf: string | object (1 property) | object (2 properties) | Yes |  |  | How the model should select which tool (or tools) to use when generating <br> a response. See the `tools` parameter to see how to specify which tools <br> the model can call. <br>  |
+|   ↳ `truncation` | string | No | `disabled` | `auto`, `disabled` | The truncation strategy to use for the model response. <br> - `auto`: If the context of this response and previous ones exceeds <br>   the model's context window size, the model will truncate the  <br>   response to fit the context window by dropping input items in the <br>   middle of the conversation.  <br> - `disabled` (default): If a model response will exceed the context window  <br>   size for a model, the request will fail with a 400 error. <br>  |
+|   ↳ `id` | string | Yes |  |  | Unique identifier for this Response. <br>  |
+|   ↳ `object` | string | Yes |  | `response` | The object type of this resource - always set to `response`. <br>  |
+|   ↳ `status` | string | No |  | `completed`, `failed`, `in_progress`, `incomplete` | The status of the response generation. One of `completed`, `failed`,  <br> `in_progress`, or `incomplete`. <br>  |
+|   ↳ `created_at` | number | Yes |  |  | Unix timestamp (in seconds) of when this Response was created. <br>  |
+|   ↳ `error` | object (2 properties) | Yes |  |  | An error object returned when the model fails to generate a Response. <br>  |
+|   ↳ `incomplete_details` | object (1 property) | Yes |  |  | Details about why the response is incomplete. <br>  |
+|   ↳ `output` | array of anyOf: object (5 properties) | object (5 properties) | object (6 properties) | object (3 properties) | object (6 properties) | object (5 properties) | Yes |  |  | An array of content items generated by the model. <br>  <br> - The length and order of items in the `output` array is dependent <br>   on the model's response. <br> - Rather than accessing the first item in the `output` array and  <br>   assuming it's an `assistant` message with the content generated by <br>   the model, you might consider using the `output_text` property where <br>   supported in SDKs. <br>  |
+|   ↳ `output_text` | string | No |  |  | SDK-only convenience property that contains the aggregated text output  <br> from all `output_text` items in the `output` array, if any are present.  <br> Supported in the Python and JavaScript SDKs. <br>  |
+|   ↳ `usage` | object (5 properties) | No |  |  | Represents token usage details including input tokens, output tokens, <br> a breakdown of output tokens, and the total tokens used. <br>  |
 |     ↳ `output_tokens` | integer | Yes |  |  | The number of output tokens. |
 |     ↳ `output_tokens_details` | object (1 property) | Yes |  |  | A detailed breakdown of the output tokens. |
 |     ↳ `total_tokens` | integer | Yes |  |  | The total number of tokens used. |
-|   ↳ `parallel_tool_calls` | boolean | Yes | `true` |  | Whether to allow the model to run tool calls in parallel.
- |
+|   ↳ `parallel_tool_calls` | boolean | Yes | `true` |  | Whether to allow the model to run tool calls in parallel. <br>  |
 **Example:**
 
 ```json
@@ -1733,155 +952,35 @@ An event that is emitted when a response finishes as incomplete.
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `type` | string | Yes |  | `response.incomplete` | The type of the event. Always `response.incomplete`.
- |
-| `response` | object (24 properties) | Yes |  |  | The response that was incomplete.
- |
-format, and querying for objects via API or the dashboard. 
-
-Keys are strings with a maximum length of 64 characters. Values are strings
-with a maximum length of 512 characters.
- |
-|   ↳   ↳ (additional properties) | string | - | - | - | Additional properties of this object |
-|   ↳ `temperature` | number | Yes | `1` |  | What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
-We generally recommend altering this or `top_p` but not both.
- |
-|   ↳ `top_p` | number | Yes | `1` |  | An alternative to sampling with temperature, called nucleus sampling,
-where the model considers the results of the tokens with top_p probability
-mass. So 0.1 means only the tokens comprising the top 10% probability mass
-are considered.
-
-We generally recommend altering this or `temperature` but not both.
- |
-|   ↳ `user` | string | No |  |  | A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices#end-user-ids).
- |
-|   ↳ `service_tier` | string | No | `auto` | `auto`, `default`, `flex` | Specifies the latency tier to use for processing the request. This parameter is relevant for customers subscribed to the scale tier service:
-  - If set to 'auto', and the Project is Scale tier enabled, the system
-    will utilize scale tier credits until they are exhausted.
-  - If set to 'auto', and the Project is not Scale tier enabled, the request will be processed using the default service tier with a lower uptime SLA and no latency guarentee.
-  - If set to 'default', the request will be processed using the default service tier with a lower uptime SLA and no latency guarentee.
-  - If set to 'flex', the request will be processed with the Flex Processing service tier. [Learn more](/docs/guides/flex-processing).
-  - When not set, the default behavior is 'auto'.
-
-  When this parameter is set, the response body will include the `service_tier` utilized.
- |
-|   ↳ `previous_response_id` | string | No |  |  | The unique ID of the previous response to the model. Use this to
-create multi-turn conversations. Learn more about 
-[conversation state](/docs/guides/conversation-state).
- |
-|   ↳ `model` | anyOf: anyOf: string | string | string | Yes |  |  | Model ID used to generate the response, like `gpt-4o` or `o3`. OpenAI
-offers a wide range of models with different capabilities, performance
-characteristics, and price points. Refer to the [model guide](/docs/models)
-to browse and compare available models.
- |
-|   ↳ `reasoning` | object (3 properties) | No |  |  | **o-series models only**
-
-Configuration options for 
-[reasoning models](https://platform.openai.com/docs/guides/reasoning).
- |
-Constrains effort on reasoning for 
-[reasoning models](https://platform.openai.com/docs/guides/reasoning).
-Currently supported values are `low`, `medium`, and `high`. Reducing
-reasoning effort can result in faster responses and fewer tokens used
-on reasoning in a response.
- |
-|     ↳ `summary` | string | No |  | `auto`, `concise`, `detailed` | A summary of the reasoning performed by the model. This can be
-useful for debugging and understanding the model's reasoning process.
-One of `auto`, `concise`, or `detailed`.
- |
-|     ↳ `generate_summary` | string | No |  | `auto`, `concise`, `detailed` | **Deprecated:** use `summary` instead.
-
-A summary of the reasoning performed by the model. This can be
-useful for debugging and understanding the model's reasoning process.
-One of `auto`, `concise`, or `detailed`.
- |
-|   ↳ `max_output_tokens` | integer | No |  |  | An upper bound for the number of tokens that can be generated for a response, including visible output tokens and [reasoning tokens](/docs/guides/reasoning).
- |
-|   ↳ `instructions` | string | Yes |  |  | Inserts a system (or developer) message as the first item in the model's context.
-
-When using along with `previous_response_id`, the instructions from a previous
-response will not be carried over to the next response. This makes it simple
-to swap out system (or developer) messages in new responses.
- |
-|   ↳ `text` | object (1 property) | No |  |  | Configuration options for a text response from the model. Can be plain
-text or structured JSON data. Learn more:
-- [Text inputs and outputs](/docs/guides/text)
-- [Structured Outputs](/docs/guides/structured-outputs)
- |
-Configuring `{ "type": "json_schema" }` enables Structured Outputs, 
-which ensures the model will match your supplied JSON schema. Learn more in the 
-[Structured Outputs guide](/docs/guides/structured-outputs).
-
-The default format is `{ "type": "text" }` with no additional options.
-
-**Not recommended for gpt-4o and newer models:**
-
-Setting to `{ "type": "json_object" }` enables the older JSON mode, which
-ensures the message the model generates is valid JSON. Using `json_schema`
-is preferred for models that support it.
- |
-|   ↳ `tools` | array of oneOf: object (5 properties) | object (5 properties) | object (3 properties) | object (4 properties) | Yes |  |  | An array of tools the model may call while generating a response. You 
-can specify which tool to use by setting the `tool_choice` parameter.
-
-The two categories of tools you can provide the model are:
-
-- **Built-in tools**: Tools that are provided by OpenAI that extend the
-  model's capabilities, like [web search](/docs/guides/tools-web-search)
-  or [file search](/docs/guides/tools-file-search). Learn more about
-  [built-in tools](/docs/guides/tools).
-- **Function calls (custom tools)**: Functions that are defined by you,
-  enabling the model to call your own code. Learn more about
-  [function calling](/docs/guides/function-calling).
- |
-|   ↳ `tool_choice` | oneOf: string | object (1 property) | object (2 properties) | Yes |  |  | How the model should select which tool (or tools) to use when generating
-a response. See the `tools` parameter to see how to specify which tools
-the model can call.
- |
-|   ↳ `truncation` | string | No | `disabled` | `auto`, `disabled` | The truncation strategy to use for the model response.
-- `auto`: If the context of this response and previous ones exceeds
-  the model's context window size, the model will truncate the 
-  response to fit the context window by dropping input items in the
-  middle of the conversation. 
-- `disabled` (default): If a model response will exceed the context window 
-  size for a model, the request will fail with a 400 error.
- |
-|   ↳ `id` | string | Yes |  |  | Unique identifier for this Response.
- |
-|   ↳ `object` | string | Yes |  | `response` | The object type of this resource - always set to `response`.
- |
-|   ↳ `status` | string | No |  | `completed`, `failed`, `in_progress`, `incomplete` | The status of the response generation. One of `completed`, `failed`, 
-`in_progress`, or `incomplete`.
- |
-|   ↳ `created_at` | number | Yes |  |  | Unix timestamp (in seconds) of when this Response was created.
- |
-|   ↳ `error` | object (2 properties) | Yes |  |  | An error object returned when the model fails to generate a Response.
- |
-|     ↳ `message` | string | Yes |  |  | A human-readable description of the error.
- |
-|   ↳ `incomplete_details` | object (1 property) | Yes |  |  | Details about why the response is incomplete.
- |
-|   ↳ `output` | array of anyOf: object (5 properties) | object (5 properties) | object (6 properties) | object (3 properties) | object (6 properties) | object (5 properties) | Yes |  |  | An array of content items generated by the model.
-
-- The length and order of items in the `output` array is dependent
-  on the model's response.
-- Rather than accessing the first item in the `output` array and 
-  assuming it's an `assistant` message with the content generated by
-  the model, you might consider using the `output_text` property where
-  supported in SDKs.
- |
-|   ↳ `output_text` | string | No |  |  | SDK-only convenience property that contains the aggregated text output 
-from all `output_text` items in the `output` array, if any are present. 
-Supported in the Python and JavaScript SDKs.
- |
-|   ↳ `usage` | object (5 properties) | No |  |  | Represents token usage details including input tokens, output tokens,
-a breakdown of output tokens, and the total tokens used.
- |
- |
+| `type` | string | Yes |  | `response.incomplete` | The type of the event. Always `response.incomplete`. <br>  |
+| `response` | object (24 properties) | Yes |  |  | The response that was incomplete. <br>  |
+|   ↳ `temperature` | number | Yes | `1` |  | What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic. <br> We generally recommend altering this or `top_p` but not both. <br>  |
+|   ↳ `top_p` | number | Yes | `1` |  | An alternative to sampling with temperature, called nucleus sampling, <br> where the model considers the results of the tokens with top_p probability <br> mass. So 0.1 means only the tokens comprising the top 10% probability mass <br> are considered. <br>  <br> We generally recommend altering this or `temperature` but not both. <br>  |
+|   ↳ `user` | string | No |  |  | A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices#end-user-ids). <br>  |
+|   ↳ `service_tier` | string | No | `auto` | `auto`, `default`, `flex` | Specifies the latency tier to use for processing the request. This parameter is relevant for customers subscribed to the scale tier service: <br>   - If set to 'auto', and the Project is Scale tier enabled, the system <br>     will utilize scale tier credits until they are exhausted. <br>   - If set to 'auto', and the Project is not Scale tier enabled, the request will be processed using the default service tier with a lower uptime SLA and no latency guarentee. <br>   - If set to 'default', the request will be processed using the default service tier with a lower uptime SLA and no latency guarentee. <br>   - If set to 'flex', the request will be processed with the Flex Processing service tier. [Learn more](/docs/guides/flex-processing). <br>   - When not set, the default behavior is 'auto'. <br>  <br>   When this parameter is set, the response body will include the `service_tier` utilized. <br>  |
+|   ↳ `previous_response_id` | string | No |  |  | The unique ID of the previous response to the model. Use this to <br> create multi-turn conversations. Learn more about  <br> [conversation state](/docs/guides/conversation-state). <br>  |
+|   ↳ `model` | anyOf: anyOf: string | string | string | Yes |  |  | Model ID used to generate the response, like `gpt-4o` or `o3`. OpenAI <br> offers a wide range of models with different capabilities, performance <br> characteristics, and price points. Refer to the [model guide](/docs/models) <br> to browse and compare available models. <br>  |
+|   ↳ `reasoning` | object (3 properties) | No |  |  | **o-series models only** <br>  <br> Configuration options for  <br> [reasoning models](https://platform.openai.com/docs/guides/reasoning). <br>  |
+|     ↳ `generate_summary` | string | No |  | `auto`, `concise`, `detailed` | **Deprecated:** use `summary` instead. <br>  <br> A summary of the reasoning performed by the model. This can be <br> useful for debugging and understanding the model's reasoning process. <br> One of `auto`, `concise`, or `detailed`. <br>  |
+|   ↳ `max_output_tokens` | integer | No |  |  | An upper bound for the number of tokens that can be generated for a response, including visible output tokens and [reasoning tokens](/docs/guides/reasoning). <br>  |
+|   ↳ `instructions` | string | Yes |  |  | Inserts a system (or developer) message as the first item in the model's context. <br>  <br> When using along with `previous_response_id`, the instructions from a previous <br> response will not be carried over to the next response. This makes it simple <br> to swap out system (or developer) messages in new responses. <br>  |
+|   ↳ `text` | object (1 property) | No |  |  | Configuration options for a text response from the model. Can be plain <br> text or structured JSON data. Learn more: <br> - [Text inputs and outputs](/docs/guides/text) <br> - [Structured Outputs](/docs/guides/structured-outputs) <br>  |
+|   ↳ `tools` | array of oneOf: object (5 properties) | object (5 properties) | object (3 properties) | object (4 properties) | Yes |  |  | An array of tools the model may call while generating a response. You  <br> can specify which tool to use by setting the `tool_choice` parameter. <br>  <br> The two categories of tools you can provide the model are: <br>  <br> - **Built-in tools**: Tools that are provided by OpenAI that extend the <br>   model's capabilities, like [web search](/docs/guides/tools-web-search) <br>   or [file search](/docs/guides/tools-file-search). Learn more about <br>   [built-in tools](/docs/guides/tools). <br> - **Function calls (custom tools)**: Functions that are defined by you, <br>   enabling the model to call your own code. Learn more about <br>   [function calling](/docs/guides/function-calling). <br>  |
+|   ↳ `tool_choice` | oneOf: string | object (1 property) | object (2 properties) | Yes |  |  | How the model should select which tool (or tools) to use when generating <br> a response. See the `tools` parameter to see how to specify which tools <br> the model can call. <br>  |
+|   ↳ `truncation` | string | No | `disabled` | `auto`, `disabled` | The truncation strategy to use for the model response. <br> - `auto`: If the context of this response and previous ones exceeds <br>   the model's context window size, the model will truncate the  <br>   response to fit the context window by dropping input items in the <br>   middle of the conversation.  <br> - `disabled` (default): If a model response will exceed the context window  <br>   size for a model, the request will fail with a 400 error. <br>  |
+|   ↳ `id` | string | Yes |  |  | Unique identifier for this Response. <br>  |
+|   ↳ `object` | string | Yes |  | `response` | The object type of this resource - always set to `response`. <br>  |
+|   ↳ `status` | string | No |  | `completed`, `failed`, `in_progress`, `incomplete` | The status of the response generation. One of `completed`, `failed`,  <br> `in_progress`, or `incomplete`. <br>  |
+|   ↳ `created_at` | number | Yes |  |  | Unix timestamp (in seconds) of when this Response was created. <br>  |
+|   ↳ `error` | object (2 properties) | Yes |  |  | An error object returned when the model fails to generate a Response. <br>  |
+|   ↳ `incomplete_details` | object (1 property) | Yes |  |  | Details about why the response is incomplete. <br>  |
+|   ↳ `output` | array of anyOf: object (5 properties) | object (5 properties) | object (6 properties) | object (3 properties) | object (6 properties) | object (5 properties) | Yes |  |  | An array of content items generated by the model. <br>  <br> - The length and order of items in the `output` array is dependent <br>   on the model's response. <br> - Rather than accessing the first item in the `output` array and  <br>   assuming it's an `assistant` message with the content generated by <br>   the model, you might consider using the `output_text` property where <br>   supported in SDKs. <br>  |
+|   ↳ `output_text` | string | No |  |  | SDK-only convenience property that contains the aggregated text output  <br> from all `output_text` items in the `output` array, if any are present.  <br> Supported in the Python and JavaScript SDKs. <br>  |
+|   ↳ `usage` | object (5 properties) | No |  |  | Represents token usage details including input tokens, output tokens, <br> a breakdown of output tokens, and the total tokens used. <br>  |
 |     ↳ `output_tokens` | integer | Yes |  |  | The number of output tokens. |
 |     ↳ `output_tokens_details` | object (1 property) | Yes |  |  | A detailed breakdown of the output tokens. |
 |     ↳ `total_tokens` | integer | Yes |  |  | The total number of tokens used. |
-|   ↳ `parallel_tool_calls` | boolean | Yes | `true` |  | Whether to allow the model to run tool calls in parallel.
- |
+|   ↳ `parallel_tool_calls` | boolean | Yes | `true` |  | Whether to allow the model to run tool calls in parallel. <br>  |
 **Example:**
 
 ```json
@@ -1931,12 +1030,9 @@ Emitted when a new output item is added.
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `type` | string | Yes |  | `response.output_item.added` | The type of the event. Always `response.output_item.added`.
- |
-| `output_index` | integer | Yes |  |  | The index of the output item that was added.
- |
-| `item` | anyOf: object (5 properties) | object (5 properties) | object (6 properties) | object (3 properties) | object (6 properties) | object (5 properties) | Yes |  |  | The output item that was added.
- |
+| `type` | string | Yes |  | `response.output_item.added` | The type of the event. Always `response.output_item.added`. <br>  |
+| `output_index` | integer | Yes |  |  | The index of the output item that was added. <br>  |
+| `item` | anyOf: object (5 properties) | object (5 properties) | object (6 properties) | object (3 properties) | object (6 properties) | object (5 properties) | Yes |  |  | The output item that was added. <br>  |
 **Example:**
 
 ```json
@@ -1964,12 +1060,9 @@ Emitted when an output item is marked done.
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `type` | string | Yes |  | `response.output_item.done` | The type of the event. Always `response.output_item.done`.
- |
-| `output_index` | integer | Yes |  |  | The index of the output item that was marked done.
- |
-| `item` | anyOf: object (5 properties) | object (5 properties) | object (6 properties) | object (3 properties) | object (6 properties) | object (5 properties) | Yes |  |  | The output item that was marked done.
- |
+| `type` | string | Yes |  | `response.output_item.done` | The type of the event. Always `response.output_item.done`. <br>  |
+| `output_index` | integer | Yes |  |  | The index of the output item that was marked done. <br>  |
+| `item` | anyOf: object (5 properties) | object (5 properties) | object (6 properties) | object (3 properties) | object (6 properties) | object (5 properties) | Yes |  |  | The output item that was marked done. <br>  |
 **Example:**
 
 ```json
@@ -2003,16 +1096,11 @@ Emitted when a new reasoning summary part is added.
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `type` | string | Yes |  | `response.reasoning_summary_part.added` | The type of the event. Always `response.reasoning_summary_part.added`.
- |
-| `item_id` | string | Yes |  |  | The ID of the item this summary part is associated with.
- |
-| `output_index` | integer | Yes |  |  | The index of the output item this summary part is associated with.
- |
-| `summary_index` | integer | Yes |  |  | The index of the summary part within the reasoning summary.
- |
-| `part` | object (2 properties) | Yes |  |  | The summary part that was added.
- |
+| `type` | string | Yes |  | `response.reasoning_summary_part.added` | The type of the event. Always `response.reasoning_summary_part.added`. <br>  |
+| `item_id` | string | Yes |  |  | The ID of the item this summary part is associated with. <br>  |
+| `output_index` | integer | Yes |  |  | The index of the output item this summary part is associated with. <br>  |
+| `summary_index` | integer | Yes |  |  | The index of the summary part within the reasoning summary. <br>  |
+| `part` | object (2 properties) | Yes |  |  | The summary part that was added. <br>  |
 **Example:**
 
 ```json
@@ -2039,16 +1127,11 @@ Emitted when a reasoning summary part is completed.
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `type` | string | Yes |  | `response.reasoning_summary_part.done` | The type of the event. Always `response.reasoning_summary_part.done`.
- |
-| `item_id` | string | Yes |  |  | The ID of the item this summary part is associated with.
- |
-| `output_index` | integer | Yes |  |  | The index of the output item this summary part is associated with.
- |
-| `summary_index` | integer | Yes |  |  | The index of the summary part within the reasoning summary.
- |
-| `part` | object (2 properties) | Yes |  |  | The completed summary part.
- |
+| `type` | string | Yes |  | `response.reasoning_summary_part.done` | The type of the event. Always `response.reasoning_summary_part.done`. <br>  |
+| `item_id` | string | Yes |  |  | The ID of the item this summary part is associated with. <br>  |
+| `output_index` | integer | Yes |  |  | The index of the output item this summary part is associated with. <br>  |
+| `summary_index` | integer | Yes |  |  | The index of the summary part within the reasoning summary. <br>  |
+| `part` | object (2 properties) | Yes |  |  | The completed summary part. <br>  |
 **Example:**
 
 ```json
@@ -2075,16 +1158,11 @@ Emitted when a delta is added to a reasoning summary text.
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `type` | string | Yes |  | `response.reasoning_summary_text.delta` | The type of the event. Always `response.reasoning_summary_text.delta`.
- |
-| `item_id` | string | Yes |  |  | The ID of the item this summary text delta is associated with.
- |
-| `output_index` | integer | Yes |  |  | The index of the output item this summary text delta is associated with.
- |
-| `summary_index` | integer | Yes |  |  | The index of the summary part within the reasoning summary.
- |
-| `delta` | string | Yes |  |  | The text delta that was added to the summary.
- |
+| `type` | string | Yes |  | `response.reasoning_summary_text.delta` | The type of the event. Always `response.reasoning_summary_text.delta`. <br>  |
+| `item_id` | string | Yes |  |  | The ID of the item this summary text delta is associated with. <br>  |
+| `output_index` | integer | Yes |  |  | The index of the output item this summary text delta is associated with. <br>  |
+| `summary_index` | integer | Yes |  |  | The index of the summary part within the reasoning summary. <br>  |
+| `delta` | string | Yes |  |  | The text delta that was added to the summary. <br>  |
 **Example:**
 
 ```json
@@ -2108,16 +1186,11 @@ Emitted when a reasoning summary text is completed.
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `type` | string | Yes |  | `response.reasoning_summary_text.done` | The type of the event. Always `response.reasoning_summary_text.done`.
- |
-| `item_id` | string | Yes |  |  | The ID of the item this summary text is associated with.
- |
-| `output_index` | integer | Yes |  |  | The index of the output item this summary text is associated with.
- |
-| `summary_index` | integer | Yes |  |  | The index of the summary part within the reasoning summary.
- |
-| `text` | string | Yes |  |  | The full text of the completed reasoning summary.
- |
+| `type` | string | Yes |  | `response.reasoning_summary_text.done` | The type of the event. Always `response.reasoning_summary_text.done`. <br>  |
+| `item_id` | string | Yes |  |  | The ID of the item this summary text is associated with. <br>  |
+| `output_index` | integer | Yes |  |  | The index of the output item this summary text is associated with. <br>  |
+| `summary_index` | integer | Yes |  |  | The index of the summary part within the reasoning summary. <br>  |
+| `text` | string | Yes |  |  | The full text of the completed reasoning summary. <br>  |
 **Example:**
 
 ```json
@@ -2141,16 +1214,11 @@ Emitted when there is a partial refusal text.
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `type` | string | Yes |  | `response.refusal.delta` | The type of the event. Always `response.refusal.delta`.
- |
-| `item_id` | string | Yes |  |  | The ID of the output item that the refusal text is added to.
- |
-| `output_index` | integer | Yes |  |  | The index of the output item that the refusal text is added to.
- |
-| `content_index` | integer | Yes |  |  | The index of the content part that the refusal text is added to.
- |
-| `delta` | string | Yes |  |  | The refusal text that is added.
- |
+| `type` | string | Yes |  | `response.refusal.delta` | The type of the event. Always `response.refusal.delta`. <br>  |
+| `item_id` | string | Yes |  |  | The ID of the output item that the refusal text is added to. <br>  |
+| `output_index` | integer | Yes |  |  | The index of the output item that the refusal text is added to. <br>  |
+| `content_index` | integer | Yes |  |  | The index of the content part that the refusal text is added to. <br>  |
+| `delta` | string | Yes |  |  | The refusal text that is added. <br>  |
 **Example:**
 
 ```json
@@ -2174,16 +1242,11 @@ Emitted when refusal text is finalized.
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `type` | string | Yes |  | `response.refusal.done` | The type of the event. Always `response.refusal.done`.
- |
-| `item_id` | string | Yes |  |  | The ID of the output item that the refusal text is finalized.
- |
-| `output_index` | integer | Yes |  |  | The index of the output item that the refusal text is finalized.
- |
-| `content_index` | integer | Yes |  |  | The index of the content part that the refusal text is finalized.
- |
-| `refusal` | string | Yes |  |  | The refusal text that is finalized.
- |
+| `type` | string | Yes |  | `response.refusal.done` | The type of the event. Always `response.refusal.done`. <br>  |
+| `item_id` | string | Yes |  |  | The ID of the output item that the refusal text is finalized. <br>  |
+| `output_index` | integer | Yes |  |  | The index of the output item that the refusal text is finalized. <br>  |
+| `content_index` | integer | Yes |  |  | The index of the content part that the refusal text is finalized. <br>  |
+| `refusal` | string | Yes |  |  | The refusal text that is finalized. <br>  |
 **Example:**
 
 ```json
@@ -2207,16 +1270,11 @@ Emitted when a text annotation is added.
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `type` | string | Yes |  | `response.output_text.annotation.added` | The type of the event. Always `response.output_text.annotation.added`.
- |
-| `item_id` | string | Yes |  |  | The ID of the output item that the text annotation was added to.
- |
-| `output_index` | integer | Yes |  |  | The index of the output item that the text annotation was added to.
- |
-| `content_index` | integer | Yes |  |  | The index of the content part that the text annotation was added to.
- |
-| `annotation_index` | integer | Yes |  |  | The index of the annotation that was added.
- |
+| `type` | string | Yes |  | `response.output_text.annotation.added` | The type of the event. Always `response.output_text.annotation.added`. <br>  |
+| `item_id` | string | Yes |  |  | The ID of the output item that the text annotation was added to. <br>  |
+| `output_index` | integer | Yes |  |  | The index of the output item that the text annotation was added to. <br>  |
+| `content_index` | integer | Yes |  |  | The index of the content part that the text annotation was added to. <br>  |
+| `annotation_index` | integer | Yes |  |  | The index of the annotation that was added. <br>  |
 | `annotation` | oneOf: object (3 properties) | object (5 properties) | object (3 properties) | Yes |  |  |  |
 **Example:**
 
@@ -2247,16 +1305,11 @@ Emitted when there is an additional text delta.
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `type` | string | Yes |  | `response.output_text.delta` | The type of the event. Always `response.output_text.delta`.
- |
-| `item_id` | string | Yes |  |  | The ID of the output item that the text delta was added to.
- |
-| `output_index` | integer | Yes |  |  | The index of the output item that the text delta was added to.
- |
-| `content_index` | integer | Yes |  |  | The index of the content part that the text delta was added to.
- |
-| `delta` | string | Yes |  |  | The text delta that was added.
- |
+| `type` | string | Yes |  | `response.output_text.delta` | The type of the event. Always `response.output_text.delta`. <br>  |
+| `item_id` | string | Yes |  |  | The ID of the output item that the text delta was added to. <br>  |
+| `output_index` | integer | Yes |  |  | The index of the output item that the text delta was added to. <br>  |
+| `content_index` | integer | Yes |  |  | The index of the content part that the text delta was added to. <br>  |
+| `delta` | string | Yes |  |  | The text delta that was added. <br>  |
 **Example:**
 
 ```json
@@ -2280,16 +1333,11 @@ Emitted when text content is finalized.
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `type` | string | Yes |  | `response.output_text.done` | The type of the event. Always `response.output_text.done`.
- |
-| `item_id` | string | Yes |  |  | The ID of the output item that the text content is finalized.
- |
-| `output_index` | integer | Yes |  |  | The index of the output item that the text content is finalized.
- |
-| `content_index` | integer | Yes |  |  | The index of the content part that the text content is finalized.
- |
-| `text` | string | Yes |  |  | The text content that is finalized.
- |
+| `type` | string | Yes |  | `response.output_text.done` | The type of the event. Always `response.output_text.done`. <br>  |
+| `item_id` | string | Yes |  |  | The ID of the output item that the text content is finalized. <br>  |
+| `output_index` | integer | Yes |  |  | The index of the output item that the text content is finalized. <br>  |
+| `content_index` | integer | Yes |  |  | The index of the content part that the text content is finalized. <br>  |
+| `text` | string | Yes |  |  | The text content that is finalized. <br>  |
 **Example:**
 
 ```json
@@ -2313,12 +1361,9 @@ Emitted when a web search call is completed.
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `type` | string | Yes |  | `response.web_search_call.completed` | The type of the event. Always `response.web_search_call.completed`.
- |
-| `output_index` | integer | Yes |  |  | The index of the output item that the web search call is associated with.
- |
-| `item_id` | string | Yes |  |  | Unique ID for the output item associated with the web search call.
- |
+| `type` | string | Yes |  | `response.web_search_call.completed` | The type of the event. Always `response.web_search_call.completed`. <br>  |
+| `output_index` | integer | Yes |  |  | The index of the output item that the web search call is associated with. <br>  |
+| `item_id` | string | Yes |  |  | Unique ID for the output item associated with the web search call. <br>  |
 **Example:**
 
 ```json
@@ -2340,12 +1385,9 @@ Emitted when a web search call is initiated.
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `type` | string | Yes |  | `response.web_search_call.in_progress` | The type of the event. Always `response.web_search_call.in_progress`.
- |
-| `output_index` | integer | Yes |  |  | The index of the output item that the web search call is associated with.
- |
-| `item_id` | string | Yes |  |  | Unique ID for the output item associated with the web search call.
- |
+| `type` | string | Yes |  | `response.web_search_call.in_progress` | The type of the event. Always `response.web_search_call.in_progress`. <br>  |
+| `output_index` | integer | Yes |  |  | The index of the output item that the web search call is associated with. <br>  |
+| `item_id` | string | Yes |  |  | Unique ID for the output item associated with the web search call. <br>  |
 **Example:**
 
 ```json
@@ -2367,12 +1409,9 @@ Emitted when a web search call is executing.
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `type` | string | Yes |  | `response.web_search_call.searching` | The type of the event. Always `response.web_search_call.searching`.
- |
-| `output_index` | integer | Yes |  |  | The index of the output item that the web search call is associated with.
- |
-| `item_id` | string | Yes |  |  | Unique ID for the output item associated with the web search call.
- |
+| `type` | string | Yes |  | `response.web_search_call.searching` | The type of the event. Always `response.web_search_call.searching`. <br>  |
+| `output_index` | integer | Yes |  |  | The index of the output item that the web search call is associated with. <br>  |
+| `item_id` | string | Yes |  |  | Unique ID for the output item associated with the web search call. <br>  |
 **Example:**
 
 ```json

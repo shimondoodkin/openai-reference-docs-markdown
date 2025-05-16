@@ -18,13 +18,7 @@ Create a vector store.
 | `name` | string | No |  |  | The name of the vector store. |
 | `expires_after` | object (2 properties) | No |  |  | The expiration policy for a vector store. |
 | `chunking_strategy` | object | No |  |  | The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy. Only applicable if `file_ids` is non-empty. |
-| `metadata` | map | No |  |  | Set of 16 key-value pairs that can be attached to an object. This can be
-useful for storing additional information about the object in a structured
-format, and querying for objects via API or the dashboard. 
-
-Keys are strings with a maximum length of 64 characters. Values are strings
-with a maximum length of 512 characters.
- |
+| `metadata` | map | No |  |  | Set of 16 key-value pairs that can be attached to an object. This can be <br> useful for storing additional information about the object in a structured <br> format, and querying for objects via API or the dashboard.  <br>  <br> Keys are strings with a maximum length of 64 characters. Values are strings <br> with a maximum length of 512 characters. <br>  |
 |   ↳ (additional properties) | string | - | - | - | Additional properties of this object |
 ## Responses
 
@@ -55,13 +49,7 @@ A vector store is a collection of processed files can be used by the `file_searc
 | `expires_after` | object (2 properties) | No |  |  | The expiration policy for a vector store. |
 | `expires_at` | integer | No |  |  | The Unix timestamp (in seconds) for when the vector store will expire. |
 | `last_active_at` | integer | Yes |  |  | The Unix timestamp (in seconds) for when the vector store was last active. |
-| `metadata` | map | Yes |  |  | Set of 16 key-value pairs that can be attached to an object. This can be
-useful for storing additional information about the object in a structured
-format, and querying for objects via API or the dashboard. 
-
-Keys are strings with a maximum length of 64 characters. Values are strings
-with a maximum length of 512 characters.
- |
+| `metadata` | map | Yes |  |  | Set of 16 key-value pairs that can be attached to an object. This can be <br> useful for storing additional information about the object in a structured <br> format, and querying for objects via API or the dashboard.  <br>  <br> Keys are strings with a maximum length of 64 characters. Values are strings <br> with a maximum length of 512 characters. <br>  |
 |   ↳ (additional properties) | string | - | - | - | Additional properties of this object |
 **Example:**
 

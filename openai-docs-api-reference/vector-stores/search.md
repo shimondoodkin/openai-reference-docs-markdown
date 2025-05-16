@@ -59,12 +59,7 @@ Each item is of type `string` - The query used for this search.
 | `file_id` | string | Yes |  |  | The ID of the vector store file. |
 | `filename` | string | Yes |  |  | The name of the vector store file. |
 | `score` | number | Yes |  |  | The similarity score for the result. |
-| `attributes` | map | Yes |  |  | Set of 16 key-value pairs that can be attached to an object. This can be 
-useful for storing additional information about the object in a structured 
-format, and querying for objects via API or the dashboard. Keys are strings 
-with a maximum length of 64 characters. Values are strings with a maximum 
-length of 512 characters, booleans, or numbers.
- |
+| `attributes` | map | Yes |  |  | Set of 16 key-value pairs that can be attached to an object. This can be  <br> useful for storing additional information about the object in a structured  <br> format, and querying for objects via API or the dashboard. Keys are strings  <br> with a maximum length of 64 characters. Values are strings with a maximum  <br> length of 512 characters, booleans, or numbers. <br>  |
 |   ↳ (additional properties) | oneOf: string | number | boolean | - | - | - | Additional properties of this object |
 | `content` | array of object (2 properties) | Yes |  |  | Content chunks from the file. |
 

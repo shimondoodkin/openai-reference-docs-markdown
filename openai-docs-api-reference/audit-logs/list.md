@@ -16,12 +16,9 @@ List user actions and configuration changes within this organization.
 | `actor_ids[]` | array of string | No | Return only events performed by these actors. Can be a user ID, a service account ID, or an api key tracking ID. |
 | `actor_emails[]` | array of string | No | Return only events performed by users with these emails. |
 | `resource_ids[]` | array of string | No | Return only events performed on these targets. For example, a project ID updated. |
-| `limit` | integer | No | A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20.
- |
-| `after` | string | No | A cursor for use in pagination. `after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list.
- |
-| `before` | string | No | A cursor for use in pagination. `before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with obj_foo, your subsequent call can include before=obj_foo in order to fetch the previous page of the list.
- |
+| `limit` | integer | No | A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20. <br>  |
+| `after` | string | No | A cursor for use in pagination. `after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list. <br>  |
+| `before` | string | No | A cursor for use in pagination. `before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with obj_foo, your subsequent call can include before=obj_foo in order to fetch the previous page of the list. <br>  |
 
 ## Responses
 

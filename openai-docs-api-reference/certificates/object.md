@@ -6,12 +6,7 @@ Represents an individual `certificate` uploaded to the organization.
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `object` | string | Yes |  | `certificate`, `organization.certificate`, `organization.project.certificate` | The object type.
-
-- If creating, updating, or getting a specific certificate, the object type is `certificate`.
-- If listing, activating, or deactivating certificates for the organization, the object type is `organization.certificate`.
-- If listing, activating, or deactivating certificates for a project, the object type is `organization.project.certificate`.
- |
+| `object` | string | Yes |  | `certificate`, `organization.certificate`, `organization.project.certificate` | The object type. <br>  <br> - If creating, updating, or getting a specific certificate, the object type is `certificate`. <br> - If listing, activating, or deactivating certificates for the organization, the object type is `organization.certificate`. <br> - If listing, activating, or deactivating certificates for a project, the object type is `organization.project.certificate`. <br>  |
 | `id` | string | Yes |  |  | The identifier, which can be referenced in API endpoints |
 | `name` | string | Yes |  |  | The name of the certificate. |
 | `created_at` | integer | Yes |  |  | The Unix timestamp (in seconds) of when the certificate was uploaded. |

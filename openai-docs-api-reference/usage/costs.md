@@ -15,8 +15,7 @@ Get costs details for the organization.
 | `bucket_width` | string | No | Width of each time bucket in response. Currently only `1d` is supported, default to `1d`. |
 | `project_ids` | array of string | No | Return only costs for these projects. |
 | `group_by` | array of string | No | Group the costs by the specified fields. Support fields include `project_id`, `line_item` and any combination of them. |
-| `limit` | integer | No | A limit on the number of buckets to be returned. Limit can range between 1 and 180, and the default is 7.
- |
+| `limit` | integer | No | A limit on the number of buckets to be returned. Limit can range between 1 and 180, and the default is 7. <br>  |
 | `page` | string | No | A cursor for use in pagination. Corresponding to the `next_page` field from the previous response. |
 
 ## Responses

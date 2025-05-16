@@ -7,8 +7,7 @@ Represents a transcription response returned by model, based on the provided inp
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
 | `text` | string | Yes |  |  | The transcribed text. |
-| `logprobs` | array of object (3 properties) | No |  |  | The log probabilities of the tokens in the transcription. Only returned with the models `gpt-4o-transcribe` and `gpt-4o-mini-transcribe` if `logprobs` is added to the `include` array.
- |
+| `logprobs` | array of object (3 properties) | No |  |  | The log probabilities of the tokens in the transcription. Only returned with the models `gpt-4o-transcribe` and `gpt-4o-mini-transcribe` if `logprobs` is added to the `include` array. <br>  |
 
 
 ### Items in `logprobs` array

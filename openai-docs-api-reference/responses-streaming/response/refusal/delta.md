@@ -6,16 +6,11 @@ Emitted when there is a partial refusal text.
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `type` | string | Yes |  | `response.refusal.delta` | The type of the event. Always `response.refusal.delta`.
- |
-| `item_id` | string | Yes |  |  | The ID of the output item that the refusal text is added to.
- |
-| `output_index` | integer | Yes |  |  | The index of the output item that the refusal text is added to.
- |
-| `content_index` | integer | Yes |  |  | The index of the content part that the refusal text is added to.
- |
-| `delta` | string | Yes |  |  | The refusal text that is added.
- |
+| `type` | string | Yes |  | `response.refusal.delta` | The type of the event. Always `response.refusal.delta`. <br>  |
+| `item_id` | string | Yes |  |  | The ID of the output item that the refusal text is added to. <br>  |
+| `output_index` | integer | Yes |  |  | The index of the output item that the refusal text is added to. <br>  |
+| `content_index` | integer | Yes |  |  | The index of the content part that the refusal text is added to. <br>  |
+| `delta` | string | Yes |  |  | The refusal text that is added. <br>  |
 
 ## Property Details
 

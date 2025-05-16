@@ -13,10 +13,8 @@ Organization owners can use this endpoint to delete a permission for a fine-tune
 
 | Name | Type | Required | Description |
 | ---- | ---- | -------- | ----------- |
-| `fine_tuned_model_checkpoint` | string | Yes | The ID of the fine-tuned model checkpoint to delete a permission for.
- |
-| `permission_id` | string | Yes | The ID of the fine-tuned model checkpoint permission to delete.
- |
+| `fine_tuned_model_checkpoint` | string | Yes | The ID of the fine-tuned model checkpoint to delete a permission for. <br>  |
+| `permission_id` | string | Yes | The ID of the fine-tuned model checkpoint permission to delete. <br>  |
 
 ## Responses
 

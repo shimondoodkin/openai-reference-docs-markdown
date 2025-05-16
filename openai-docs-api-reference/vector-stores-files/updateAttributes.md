@@ -23,12 +23,7 @@ Update attributes on a vector store file.
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `attributes` | map | Yes |  |  | Set of 16 key-value pairs that can be attached to an object. This can be 
-useful for storing additional information about the object in a structured 
-format, and querying for objects via API or the dashboard. Keys are strings 
-with a maximum length of 64 characters. Values are strings with a maximum 
-length of 512 characters, booleans, or numbers.
- |
+| `attributes` | map | Yes |  |  | Set of 16 key-value pairs that can be attached to an object. This can be  <br> useful for storing additional information about the object in a structured  <br> format, and querying for objects via API or the dashboard. Keys are strings  <br> with a maximum length of 64 characters. Values are strings with a maximum  <br> length of 512 characters, booleans, or numbers. <br>  |
 |   ↳ (additional properties) | oneOf: string | number | boolean | - | - | - | Additional properties of this object |
 ## Responses
 
@@ -54,12 +49,7 @@ A list of files attached to a vector store.
 | `status` | string | Yes |  | `in_progress`, `completed`, `cancelled`, `failed` | The status of the vector store file, which can be either `in_progress`, `completed`, `cancelled`, or `failed`. The status `completed` indicates that the vector store file is ready for use. |
 | `last_error` | object (2 properties) | Yes |  |  | The last error associated with this vector store file. Will be `null` if there are no errors. |
 | `chunking_strategy` | object | No |  |  | The strategy used to chunk the file. |
-| `attributes` | map | No |  |  | Set of 16 key-value pairs that can be attached to an object. This can be 
-useful for storing additional information about the object in a structured 
-format, and querying for objects via API or the dashboard. Keys are strings 
-with a maximum length of 64 characters. Values are strings with a maximum 
-length of 512 characters, booleans, or numbers.
- |
+| `attributes` | map | No |  |  | Set of 16 key-value pairs that can be attached to an object. This can be  <br> useful for storing additional information about the object in a structured  <br> format, and querying for objects via API or the dashboard. Keys are strings  <br> with a maximum length of 64 characters. Values are strings with a maximum  <br> length of 512 characters, booleans, or numbers. <br>  |
 |   ↳ (additional properties) | oneOf: string | number | boolean | - | - | - | Additional properties of this object |
 **Example:**
 

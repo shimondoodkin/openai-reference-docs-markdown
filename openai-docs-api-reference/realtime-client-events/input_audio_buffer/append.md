@@ -18,9 +18,7 @@ not send a confirmation response to this event.
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
 | `event_id` | string | No |  |  | Optional client-generated ID used to identify this event. |
 | `type` | string | Yes |  | `input_audio_buffer.append` | The event type, must be `input_audio_buffer.append`. |
-| `audio` | string | Yes |  |  | Base64-encoded audio bytes. This must be in the format specified by the 
-`input_audio_format` field in the session configuration.
- |
+| `audio` | string | Yes |  |  | Base64-encoded audio bytes. This must be in the format specified by the  <br> `input_audio_format` field in the session configuration. <br>  |
 
 ## Property Details
 

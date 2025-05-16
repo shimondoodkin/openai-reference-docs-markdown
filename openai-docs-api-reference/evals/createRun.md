@@ -26,13 +26,7 @@ Create a new evaluation run. This is the endpoint that will kick off grading.
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
 | `name` | string | No |  |  | The name of the run. |
-| `metadata` | map | No |  |  | Set of 16 key-value pairs that can be attached to an object. This can be
-useful for storing additional information about the object in a structured
-format, and querying for objects via API or the dashboard. 
-
-Keys are strings with a maximum length of 64 characters. Values are strings
-with a maximum length of 512 characters.
- |
+| `metadata` | map | No |  |  | Set of 16 key-value pairs that can be attached to an object. This can be <br> useful for storing additional information about the object in a structured <br> format, and querying for objects via API or the dashboard.  <br>  <br> Keys are strings with a maximum length of 64 characters. Values are strings <br> with a maximum length of 512 characters. <br>  |
 |   ↳ (additional properties) | string | - | - | - | Additional properties of this object |
 | `data_source` | object | Yes |  |  | Details about the run's data source. |
 ## Responses
@@ -66,16 +60,9 @@ A schema representing an evaluation run.
 | `per_model_usage` | array of object (6 properties) | Yes |  |  | Usage statistics for each model during the evaluation run. |
 | `per_testing_criteria_results` | array of object (3 properties) | Yes |  |  | Results per testing criteria applied during the evaluation run. |
 | `data_source` | object | Yes |  |  | Information about the run's data source. |
-| `metadata` | map | Yes |  |  | Set of 16 key-value pairs that can be attached to an object. This can be
-useful for storing additional information about the object in a structured
-format, and querying for objects via API or the dashboard. 
-
-Keys are strings with a maximum length of 64 characters. Values are strings
-with a maximum length of 512 characters.
- |
+| `metadata` | map | Yes |  |  | Set of 16 key-value pairs that can be attached to an object. This can be <br> useful for storing additional information about the object in a structured <br> format, and querying for objects via API or the dashboard.  <br>  <br> Keys are strings with a maximum length of 64 characters. Values are strings <br> with a maximum length of 512 characters. <br>  |
 |   ↳ (additional properties) | string | - | - | - | Additional properties of this object |
-| `error` | object (2 properties) | Yes |  |  | An object representing an error response from the Eval API.
- |
+| `error` | object (2 properties) | Yes |  |  | An object representing an error response from the Eval API. <br>  |
 
 
 ### Items in `per_model_usage` array

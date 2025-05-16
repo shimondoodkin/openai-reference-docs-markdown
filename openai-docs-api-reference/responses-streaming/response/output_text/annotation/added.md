@@ -6,16 +6,11 @@ Emitted when a text annotation is added.
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `type` | string | Yes |  | `response.output_text.annotation.added` | The type of the event. Always `response.output_text.annotation.added`.
- |
-| `item_id` | string | Yes |  |  | The ID of the output item that the text annotation was added to.
- |
-| `output_index` | integer | Yes |  |  | The index of the output item that the text annotation was added to.
- |
-| `content_index` | integer | Yes |  |  | The index of the content part that the text annotation was added to.
- |
-| `annotation_index` | integer | Yes |  |  | The index of the annotation that was added.
- |
+| `type` | string | Yes |  | `response.output_text.annotation.added` | The type of the event. Always `response.output_text.annotation.added`. <br>  |
+| `item_id` | string | Yes |  |  | The ID of the output item that the text annotation was added to. <br>  |
+| `output_index` | integer | Yes |  |  | The index of the output item that the text annotation was added to. <br>  |
+| `content_index` | integer | Yes |  |  | The index of the content part that the text annotation was added to. <br>  |
+| `annotation_index` | integer | Yes |  |  | The index of the annotation that was added. <br>  |
 | `annotation` | oneOf: object (3 properties) | object (5 properties) | object (3 properties) | Yes |  |  |  |
 
 ## Property Details

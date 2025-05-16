@@ -8,8 +8,7 @@ The response from the image generation endpoint.
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
 | `created` | integer | Yes |  |  | The Unix timestamp (in seconds) of when the image was created. |
 | `data` | array of object (3 properties) | No |  |  | The list of generated images. |
-| `usage` | object (4 properties) | No |  |  | For `gpt-image-1` only, the token usage information for the image generation.
- |
+| `usage` | object (4 properties) | No |  |  | For `gpt-image-1` only, the token usage information for the image generation. <br>  |
 |   ↳ `output_tokens` | integer | Yes |  |  | The number of image tokens in the output image. |
 |   ↳ `input_tokens_details` | object (2 properties) | Yes |  |  | The input tokens detailed information for the image generation. |
 

@@ -12,11 +12,9 @@ recommend to implementors to monitor and log error messages by default.
 | `event_id` | string | Yes |  |  | The unique ID of the server event. |
 | `type` | string | Yes |  | `error` | The event type, must be `error`. |
 | `error` | object (5 properties) | Yes |  |  | Details of the error. |
-|   ↳ `code` | string | No |  |  | Error code, if any. |
 |   ↳ `message` | string | Yes |  |  | A human-readable error message. |
 |   ↳ `param` | string | No |  |  | Parameter related to the error, if any. |
-|   ↳ `event_id` | string | No |  |  | The event_id of the client event that caused the error, if applicable.
- |
+|   ↳ `event_id` | string | No |  |  | The event_id of the client event that caused the error, if applicable. <br>  |
 
 ## Property Details
 

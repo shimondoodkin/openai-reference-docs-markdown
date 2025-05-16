@@ -16,20 +16,11 @@ Returns a list of input items for a given response.
 
 | Name | Type | Required | Description |
 | ---- | ---- | -------- | ----------- |
-| `limit` | integer | No | A limit on the number of objects to be returned. Limit can range between
-1 and 100, and the default is 20.
- |
-| `order` | string | No | The order to return the input items in. Default is `asc`.
-- `asc`: Return the input items in ascending order.
-- `desc`: Return the input items in descending order.
- |
-| `after` | string | No | An item ID to list items after, used in pagination.
- |
-| `before` | string | No | An item ID to list items before, used in pagination.
- |
-| `include` | array of string | No | Additional fields to include in the response. See the `include`
-parameter for Response creation above for more information.
- |
+| `limit` | integer | No | A limit on the number of objects to be returned. Limit can range between <br> 1 and 100, and the default is 20. <br>  |
+| `order` | string | No | The order to return the input items in. Default is `asc`. <br> - `asc`: Return the input items in ascending order. <br> - `desc`: Return the input items in descending order. <br>  |
+| `after` | string | No | An item ID to list items after, used in pagination. <br>  |
+| `before` | string | No | An item ID to list items before, used in pagination. <br>  |
+| `include` | array of string | No | Additional fields to include in the response. See the `include` <br> parameter for Response creation above for more information. <br>  |
 
 ## Responses
 

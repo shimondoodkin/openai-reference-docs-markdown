@@ -6,12 +6,9 @@ Emitted when a file search is currently searching.
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `type` | string | Yes |  | `response.file_search_call.searching` | The type of the event. Always `response.file_search_call.searching`.
- |
-| `output_index` | integer | Yes |  |  | The index of the output item that the file search call is searching.
- |
-| `item_id` | string | Yes |  |  | The ID of the output item that the file search call is initiated.
- |
+| `type` | string | Yes |  | `response.file_search_call.searching` | The type of the event. Always `response.file_search_call.searching`. <br>  |
+| `output_index` | integer | Yes |  |  | The index of the output item that the file search call is searching. <br>  |
+| `item_id` | string | Yes |  |  | The ID of the output item that the file search call is initiated. <br>  |
 
 ## Property Details
 

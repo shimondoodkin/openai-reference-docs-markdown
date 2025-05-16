@@ -17,9 +17,7 @@ the model's interpretation, and should be treated as a rough guide.
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
 | `event_id` | string | Yes |  |  | The unique ID of the server event. |
-| `type` | string | Yes |  | `conversation.item.input_audio_transcription.completed` | The event type, must be
-`conversation.item.input_audio_transcription.completed`.
- |
+| `type` | string | Yes |  | `conversation.item.input_audio_transcription.completed` | The event type, must be <br> `conversation.item.input_audio_transcription.completed`. <br>  |
 | `item_id` | string | Yes |  |  | The ID of the user message item containing the audio. |
 | `content_index` | integer | Yes |  |  | The index of the content part containing the audio. |
 | `transcript` | string | Yes |  |  | The transcribed text. |
@@ -30,12 +28,9 @@ the model's interpretation, and should be treated as a rough guide.
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `token` | string | Yes |  |  | The token that was used to generate the log probability.
- |
-| `logprob` | number | Yes |  |  | The log probability of the token.
- |
-| `bytes` | array of integer | Yes |  |  | The bytes that were used to generate the log probability.
- |
+| `token` | string | Yes |  |  | The token that was used to generate the log probability. <br>  |
+| `logprob` | number | Yes |  |  | The log probability of the token. <br>  |
+| `bytes` | array of integer | Yes |  |  | The bytes that were used to generate the log probability. <br>  |
 
 ## Property Details
 

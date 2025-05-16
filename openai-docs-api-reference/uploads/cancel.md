@@ -11,8 +11,7 @@ Cancels the Upload. No Parts may be added after an Upload is cancelled.
 
 | Name | Type | Required | Description |
 | ---- | ---- | -------- | ----------- |
-| `upload_id` | string | Yes | The ID of the Upload.
- |
+| `upload_id` | string | Yes | The ID of the Upload. <br>  |
 
 ## Responses
 

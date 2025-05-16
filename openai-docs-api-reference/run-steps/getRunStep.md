@@ -18,10 +18,7 @@ Retrieves a run step.
 
 | Name | Type | Required | Description |
 | ---- | ---- | -------- | ----------- |
-| `include[]` | array of string | No | A list of additional fields to include in the response. Currently the only supported value is `step_details.tool_calls[*].file_search.results[*].content` to fetch the file search result content.
-
-See the [file search tool documentation](/docs/assistants/tools/file-search#customizing-file-search-settings) for more information.
- |
+| `include[]` | array of string | No | A list of additional fields to include in the response. Currently the only supported value is `step_details.tool_calls[*].file_search.results[*].content` to fetch the file search result content. <br>  <br> See the [file search tool documentation](/docs/assistants/tools/file-search#customizing-file-search-settings) for more information. <br>  |
 
 ## Responses
 
@@ -54,13 +51,7 @@ Represents a step in execution of a run.
 | `cancelled_at` | integer | Yes |  |  | The Unix timestamp (in seconds) for when the run step was cancelled. |
 | `failed_at` | integer | Yes |  |  | The Unix timestamp (in seconds) for when the run step failed. |
 | `completed_at` | integer | Yes |  |  | The Unix timestamp (in seconds) for when the run step completed. |
-| `metadata` | map | Yes |  |  | Set of 16 key-value pairs that can be attached to an object. This can be
-useful for storing additional information about the object in a structured
-format, and querying for objects via API or the dashboard. 
-
-Keys are strings with a maximum length of 64 characters. Values are strings
-with a maximum length of 512 characters.
- |
+| `metadata` | map | Yes |  |  | Set of 16 key-value pairs that can be attached to an object. This can be <br> useful for storing additional information about the object in a structured <br> format, and querying for objects via API or the dashboard.  <br>  <br> Keys are strings with a maximum length of 64 characters. Values are strings <br> with a maximum length of 512 characters. <br>  |
 |   ↳ (additional properties) | string | - | - | - | Additional properties of this object |
 | `usage` | object (3 properties) | Yes |  |  | Usage statistics related to the run step. This value will be `null` while the run step's status is `in_progress`. |
 |   ↳ `total_tokens` | integer | Yes |  |  | Total number of tokens used (prompt + completion). |

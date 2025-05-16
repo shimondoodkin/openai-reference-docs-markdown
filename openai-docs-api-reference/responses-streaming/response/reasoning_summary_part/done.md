@@ -6,16 +6,11 @@ Emitted when a reasoning summary part is completed.
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `type` | string | Yes |  | `response.reasoning_summary_part.done` | The type of the event. Always `response.reasoning_summary_part.done`.
- |
-| `item_id` | string | Yes |  |  | The ID of the item this summary part is associated with.
- |
-| `output_index` | integer | Yes |  |  | The index of the output item this summary part is associated with.
- |
-| `summary_index` | integer | Yes |  |  | The index of the summary part within the reasoning summary.
- |
-| `part` | object (2 properties) | Yes |  |  | The completed summary part.
- |
+| `type` | string | Yes |  | `response.reasoning_summary_part.done` | The type of the event. Always `response.reasoning_summary_part.done`. <br>  |
+| `item_id` | string | Yes |  |  | The ID of the item this summary part is associated with. <br>  |
+| `output_index` | integer | Yes |  |  | The index of the output item this summary part is associated with. <br>  |
+| `summary_index` | integer | Yes |  |  | The index of the summary part within the reasoning summary. <br>  |
+| `part` | object (2 properties) | Yes |  |  | The completed summary part. <br>  |
 
 ## Property Details
 

@@ -6,16 +6,11 @@ Emitted when a content part is done.
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `type` | string | Yes |  | `response.content_part.done` | The type of the event. Always `response.content_part.done`.
- |
-| `item_id` | string | Yes |  |  | The ID of the output item that the content part was added to.
- |
-| `output_index` | integer | Yes |  |  | The index of the output item that the content part was added to.
- |
-| `content_index` | integer | Yes |  |  | The index of the content part that is done.
- |
-| `part` | oneOf: object (3 properties) | object (2 properties) | Yes |  |  | The content part that is done.
- |
+| `type` | string | Yes |  | `response.content_part.done` | The type of the event. Always `response.content_part.done`. <br>  |
+| `item_id` | string | Yes |  |  | The ID of the output item that the content part was added to. <br>  |
+| `output_index` | integer | Yes |  |  | The index of the output item that the content part was added to. <br>  |
+| `content_index` | integer | Yes |  |  | The index of the content part that is done. <br>  |
+| `part` | oneOf: object (3 properties) | object (2 properties) | Yes |  |  | The content part that is done. <br>  |
 
 ## Property Details
 

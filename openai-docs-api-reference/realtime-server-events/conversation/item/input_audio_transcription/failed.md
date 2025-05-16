@@ -10,9 +10,7 @@ request for a user message failed. These events are separate from other
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
 | `event_id` | string | Yes |  |  | The unique ID of the server event. |
-| `type` | string | Yes |  | `conversation.item.input_audio_transcription.failed` | The event type, must be
-`conversation.item.input_audio_transcription.failed`.
- |
+| `type` | string | Yes |  | `conversation.item.input_audio_transcription.failed` | The event type, must be <br> `conversation.item.input_audio_transcription.failed`. <br>  |
 | `item_id` | string | Yes |  |  | The ID of the user message item. |
 | `content_index` | integer | Yes |  |  | The index of the content part containing the audio. |
 | `error` | object (4 properties) | Yes |  |  | Details of the transcription error. |

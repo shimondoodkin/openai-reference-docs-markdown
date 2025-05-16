@@ -8,8 +8,7 @@ Returned when the model-generated function call arguments are updated.
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
 | `event_id` | string | Yes |  |  | The unique ID of the server event. |
-| `type` | string | Yes |  | `response.function_call_arguments.delta` | The event type, must be `response.function_call_arguments.delta`.
- |
+| `type` | string | Yes |  | `response.function_call_arguments.delta` | The event type, must be `response.function_call_arguments.delta`. <br>  |
 | `response_id` | string | Yes |  |  | The ID of the response. |
 | `item_id` | string | Yes |  |  | The ID of the function call item. |
 | `output_index` | integer | Yes |  |  | The index of the output item in the response. |

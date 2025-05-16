@@ -15,8 +15,7 @@ It is possible to add multiple Parts in parallel. You can decide the intended or
 
 | Name | Type | Required | Description |
 | ---- | ---- | -------- | ----------- |
-| `upload_id` | string | Yes | The ID of the Upload.
- |
+| `upload_id` | string | Yes | The ID of the Upload. <br>  |
 
 ## Request Body
 
@@ -28,8 +27,7 @@ It is possible to add multiple Parts in parallel. You can decide the intended or
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `data` | string | Yes |  |  | The chunk of bytes for this Part.
- |
+| `data` | string | Yes |  |  | The chunk of bytes for this Part. <br>  |
 ## Responses
 
 ### 200 - OK

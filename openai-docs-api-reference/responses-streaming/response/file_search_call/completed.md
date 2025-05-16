@@ -6,12 +6,9 @@ Emitted when a file search call is completed (results found).
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `type` | string | Yes |  | `response.file_search_call.completed` | The type of the event. Always `response.file_search_call.completed`.
- |
-| `output_index` | integer | Yes |  |  | The index of the output item that the file search call is initiated.
- |
-| `item_id` | string | Yes |  |  | The ID of the output item that the file search call is initiated.
- |
+| `type` | string | Yes |  | `response.file_search_call.completed` | The type of the event. Always `response.file_search_call.completed`. <br>  |
+| `output_index` | integer | Yes |  |  | The index of the output item that the file search call is initiated. <br>  |
+| `item_id` | string | Yes |  |  | The ID of the output item that the file search call is initiated. <br>  |
 
 ## Property Details
 

@@ -6,12 +6,9 @@ Emitted when an output item is marked done.
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `type` | string | Yes |  | `response.output_item.done` | The type of the event. Always `response.output_item.done`.
- |
-| `output_index` | integer | Yes |  |  | The index of the output item that was marked done.
- |
-| `item` | anyOf: object (5 properties) | object (5 properties) | object (6 properties) | object (3 properties) | object (6 properties) | object (5 properties) | Yes |  |  | The output item that was marked done.
- |
+| `type` | string | Yes |  | `response.output_item.done` | The type of the event. Always `response.output_item.done`. <br>  |
+| `output_index` | integer | Yes |  |  | The index of the output item that was marked done. <br>  |
+| `item` | anyOf: object (5 properties) | object (5 properties) | object (6 properties) | object (3 properties) | object (6 properties) | object (5 properties) | Yes |  |  | The output item that was marked done. <br>  |
 
 ## Property Details
 

@@ -20,13 +20,9 @@ in the evaluation.
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `role` | string | Yes |  | `user`, `assistant`, `system`, `developer` | The role of the message input. One of `user`, `assistant`, `system`, or
-`developer`.
- |
-| `content` | oneOf: string | object (2 properties) | object (2 properties) | Yes |  |  | Text inputs to the model - can contain template strings.
- |
-| `type` | string | No |  | `message` | The type of the message input. Always `message`.
- |
+| `role` | string | Yes |  | `user`, `assistant`, `system`, `developer` | The role of the message input. One of `user`, `assistant`, `system`, or <br> `developer`. <br>  |
+| `content` | oneOf: string | object (2 properties) | object (2 properties) | Yes |  |  | Text inputs to the model - can contain template strings. <br>  |
+| `type` | string | No |  | `message` | The type of the message input. Always `message`. <br>  |
 
 ## Property Details
 

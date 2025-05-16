@@ -19,14 +19,9 @@ event.
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
 | `event_id` | string | No |  |  | Optional client-generated ID used to identify this event. |
 | `type` | string | Yes |  | `conversation.item.truncate` | The event type, must be `conversation.item.truncate`. |
-| `item_id` | string | Yes |  |  | The ID of the assistant message item to truncate. Only assistant message 
-items can be truncated.
- |
+| `item_id` | string | Yes |  |  | The ID of the assistant message item to truncate. Only assistant message  <br> items can be truncated. <br>  |
 | `content_index` | integer | Yes |  |  | The index of the content part to truncate. Set this to 0. |
-| `audio_end_ms` | integer | Yes |  |  | Inclusive duration up to which audio is truncated, in milliseconds. If 
-the audio_end_ms is greater than the actual audio duration, the server 
-will respond with an error.
- |
+| `audio_end_ms` | integer | Yes |  |  | Inclusive duration up to which audio is truncated, in milliseconds. If  <br> the audio_end_ms is greater than the actual audio duration, the server  <br> will respond with an error. <br>  |
 
 ## Property Details
 

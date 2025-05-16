@@ -10,10 +10,8 @@ List your organization's batches.
 
 | Name | Type | Required | Description |
 | ---- | ---- | -------- | ----------- |
-| `after` | string | No | A cursor for use in pagination. `after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list.
- |
-| `limit` | integer | No | A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20.
- |
+| `after` | string | No | A cursor for use in pagination. `after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list. <br>  |
+| `limit` | integer | No | A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20. <br>  |
 
 ## Responses
 
@@ -68,13 +66,7 @@ List your organization's batches.
 | `cancelled_at` | integer | No |  |  | The Unix timestamp (in seconds) for when the batch was cancelled. |
 | `request_counts` | object (3 properties) | No |  |  | The request counts for different statuses within the batch. |
 |   ↳ `failed` | integer | Yes |  |  | Number of requests that have failed. |
-| `metadata` | map | No |  |  | Set of 16 key-value pairs that can be attached to an object. This can be
-useful for storing additional information about the object in a structured
-format, and querying for objects via API or the dashboard. 
-
-Keys are strings with a maximum length of 64 characters. Values are strings
-with a maximum length of 512 characters.
- |
+| `metadata` | map | No |  |  | Set of 16 key-value pairs that can be attached to an object. This can be <br> useful for storing additional information about the object in a structured <br> format, and querying for objects via API or the dashboard.  <br>  <br> Keys are strings with a maximum length of 64 characters. Values are strings <br> with a maximum length of 512 characters. <br>  |
 |   ↳ (additional properties) | string | - | - | - | Additional properties of this object |
 ## Examples
 

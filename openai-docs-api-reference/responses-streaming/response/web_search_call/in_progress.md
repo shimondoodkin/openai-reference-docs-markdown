@@ -6,12 +6,9 @@ Emitted when a web search call is initiated.
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `type` | string | Yes |  | `response.web_search_call.in_progress` | The type of the event. Always `response.web_search_call.in_progress`.
- |
-| `output_index` | integer | Yes |  |  | The index of the output item that the web search call is associated with.
- |
-| `item_id` | string | Yes |  |  | Unique ID for the output item associated with the web search call.
- |
+| `type` | string | Yes |  | `response.web_search_call.in_progress` | The type of the event. Always `response.web_search_call.in_progress`. <br>  |
+| `output_index` | integer | Yes |  |  | The index of the output item that the web search call is associated with. <br>  |
+| `item_id` | string | Yes |  |  | Unique ID for the output item associated with the web search call. <br>  |
 
 ## Property Details
 

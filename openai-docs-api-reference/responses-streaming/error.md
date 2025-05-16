@@ -6,14 +6,10 @@ Emitted when an error occurs.
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `type` | string | Yes |  | `error` | The type of the event. Always `error`.
- |
-| `code` | string | Yes |  |  | The error code.
- |
-| `message` | string | Yes |  |  | The error message.
- |
-| `param` | string | Yes |  |  | The error parameter.
- |
+| `type` | string | Yes |  | `error` | The type of the event. Always `error`. <br>  |
+| `code` | string | Yes |  |  | The error code. <br>  |
+| `message` | string | Yes |  |  | The error message. <br>  |
+| `param` | string | Yes |  |  | The error parameter. <br>  |
 
 ## Property Details
 

@@ -11,8 +11,7 @@ Get status updates for a fine-tuning job.
 
 | Name | Type | Required | Description |
 | ---- | ---- | -------- | ----------- |
-| `fine_tuning_job_id` | string | Yes | The ID of the fine-tuning job to get events for.
- |
+| `fine_tuning_job_id` | string | Yes | The ID of the fine-tuning job to get events for. <br>  |
 
 ### Query Parameters
 

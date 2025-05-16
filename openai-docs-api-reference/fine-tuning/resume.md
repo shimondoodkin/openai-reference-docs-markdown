@@ -11,8 +11,7 @@ Resume a fine-tune job.
 
 | Name | Type | Required | Description |
 | ---- | ---- | -------- | ----------- |
-| `fine_tuning_job_id` | string | Yes | The ID of the fine-tuning job to resume.
- |
+| `fine_tuning_job_id` | string | Yes | The ID of the fine-tuning job to resume. <br>  |
 
 ## Responses
 
@@ -38,13 +37,7 @@ The `fine_tuning.job` object represents a fine-tuning job that has been created 
 | `fine_tuned_model` | string | Yes |  |  | The name of the fine-tuned model that is being created. The value will be null if the fine-tuning job is still running. |
 | `finished_at` | integer | Yes |  |  | The Unix timestamp (in seconds) for when the fine-tuning job was finished. The value will be null if the fine-tuning job is still running. |
 | `hyperparameters` | object (3 properties) | Yes |  |  | The hyperparameters used for the fine-tuning job. This value will only be returned when running `supervised` jobs. |
- |
-|   ↳ `learning_rate_multiplier` | oneOf: string | number | No | `auto` |  | Scaling factor for the learning rate. A smaller learning rate may be useful to avoid
-overfitting.
- |
-|   ↳ `n_epochs` | oneOf: string | integer | No | `auto` |  | The number of epochs to train the model for. An epoch refers to one full cycle
-through the training dataset.
- |
+|   ↳ `n_epochs` | oneOf: string | integer | No | `auto` |  | The number of epochs to train the model for. An epoch refers to one full cycle <br> through the training dataset. <br>  |
 | `model` | string | Yes |  |  | The base model that is being fine-tuned. |
 | `object` | string | Yes |  | `fine_tuning.job` | The object type, which is always "fine_tuning.job". |
 | `organization_id` | string | Yes |  |  | The organization that owns the fine-tuning job. |
@@ -57,35 +50,15 @@ through the training dataset.
 | `seed` | integer | Yes |  |  | The seed used for the fine-tuning job. |
 | `estimated_finish` | integer | No |  |  | The Unix timestamp (in seconds) for when the fine-tuning job is estimated to finish. The value will be null if the fine-tuning job is not running. |
 | `method` | object (4 properties) | No |  |  | The method used for fine-tuning. |
- |
-|       ↳ `n_epochs` | oneOf: string | integer | No | `auto` |  | The number of epochs to train the model for. An epoch refers to one full cycle through the training dataset.
- |
 |   ↳ `dpo` | object (1 property) | No |  |  | Configuration for the DPO fine-tuning method. |
- |
-|       ↳ `learning_rate_multiplier` | oneOf: string | number | No | `auto` |  | Scaling factor for the learning rate. A smaller learning rate may be useful to avoid overfitting.
- |
-|       ↳ `n_epochs` | oneOf: string | integer | No | `auto` |  | The number of epochs to train the model for. An epoch refers to one full cycle through the training dataset.
- |
+|       ↳ `n_epochs` | oneOf: string | integer | No | `auto` |  | The number of epochs to train the model for. An epoch refers to one full cycle through the training dataset. <br>  |
 |   ↳ `reinforcement` | object (2 properties) | No |  |  | Configuration for the reinforcement fine-tuning method. |
-|       ↳ `learning_rate_multiplier` | oneOf: string | number | No | `auto` |  | Scaling factor for the learning rate. A smaller learning rate may be useful to avoid overfitting.
- |
-|       ↳ `n_epochs` | oneOf: string | integer | No | `auto` |  | The number of epochs to train the model for. An epoch refers to one full cycle through the training dataset.
- |
-|       ↳ `reasoning_effort` | string | No | `default` | `default`, `low`, `medium`, `high` | Level of reasoning effort.
- |
-|       ↳ `compute_multiplier` | oneOf: string | number | No | `auto` |  | Multiplier on amount of compute used for exploring search space during training.
- |
-|       ↳ `eval_interval` | oneOf: string | integer | No | `auto` |  | The number of training steps between evaluation runs.
- |
-|       ↳ `eval_samples` | oneOf: string | integer | No | `auto` |  | Number of evaluation samples to generate per training step.
- |
-| `metadata` | map | No |  |  | Set of 16 key-value pairs that can be attached to an object. This can be
-useful for storing additional information about the object in a structured
-format, and querying for objects via API or the dashboard. 
-
-Keys are strings with a maximum length of 64 characters. Values are strings
-with a maximum length of 512 characters.
- |
+|       ↳ `n_epochs` | oneOf: string | integer | No | `auto` |  | The number of epochs to train the model for. An epoch refers to one full cycle through the training dataset. <br>  |
+|       ↳ `reasoning_effort` | string | No | `default` | `default`, `low`, `medium`, `high` | Level of reasoning effort. <br>  |
+|       ↳ `compute_multiplier` | oneOf: string | number | No | `auto` |  | Multiplier on amount of compute used for exploring search space during training. <br>  |
+|       ↳ `eval_interval` | oneOf: string | integer | No | `auto` |  | The number of training steps between evaluation runs. <br>  |
+|       ↳ `eval_samples` | oneOf: string | integer | No | `auto` |  | Number of evaluation samples to generate per training step. <br>  |
+| `metadata` | map | No |  |  | Set of 16 key-value pairs that can be attached to an object. This can be <br> useful for storing additional information about the object in a structured <br> format, and querying for objects via API or the dashboard.  <br>  <br> Keys are strings with a maximum length of 64 characters. Values are strings <br> with a maximum length of 512 characters. <br>  |
 |   ↳ (additional properties) | string | - | - | - | Additional properties of this object |
 **Example:**
 

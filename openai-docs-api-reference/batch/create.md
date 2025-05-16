@@ -14,21 +14,10 @@ Creates and executes a batch from an uploaded file of requests
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `input_file_id` | string | Yes |  |  | The ID of an uploaded file that contains requests for the new batch.
-
-See [upload file](/docs/api-reference/files/create) for how to upload a file.
-
-Your input file must be formatted as a [JSONL file](/docs/api-reference/batch/request-input), and must be uploaded with the purpose `batch`. The file can contain up to 50,000 requests, and can be up to 200 MB in size.
- |
+| `input_file_id` | string | Yes |  |  | The ID of an uploaded file that contains requests for the new batch. <br>  <br> See [upload file](/docs/api-reference/files/create) for how to upload a file. <br>  <br> Your input file must be formatted as a [JSONL file](/docs/api-reference/batch/request-input), and must be uploaded with the purpose `batch`. The file can contain up to 50,000 requests, and can be up to 200 MB in size. <br>  |
 | `endpoint` | string | Yes |  | `/v1/responses`, `/v1/chat/completions`, `/v1/embeddings`, `/v1/completions` | The endpoint to be used for all requests in the batch. Currently `/v1/responses`, `/v1/chat/completions`, `/v1/embeddings`, and `/v1/completions` are supported. Note that `/v1/embeddings` batches are also restricted to a maximum of 50,000 embedding inputs across all requests in the batch. |
 | `completion_window` | string | Yes |  | `24h` | The time frame within which the batch should be processed. Currently only `24h` is supported. |
-| `metadata` | map | No |  |  | Set of 16 key-value pairs that can be attached to an object. This can be
-useful for storing additional information about the object in a structured
-format, and querying for objects via API or the dashboard. 
-
-Keys are strings with a maximum length of 64 characters. Values are strings
-with a maximum length of 512 characters.
- |
+| `metadata` | map | No |  |  | Set of 16 key-value pairs that can be attached to an object. This can be <br> useful for storing additional information about the object in a structured <br> format, and querying for objects via API or the dashboard.  <br>  <br> Keys are strings with a maximum length of 64 characters. Values are strings <br> with a maximum length of 512 characters. <br>  |
 |   ↳ (additional properties) | string | - | - | - | Additional properties of this object |
 ## Responses
 
@@ -72,13 +61,7 @@ with a maximum length of 512 characters.
 | `cancelled_at` | integer | No |  |  | The Unix timestamp (in seconds) for when the batch was cancelled. |
 | `request_counts` | object (3 properties) | No |  |  | The request counts for different statuses within the batch. |
 |   ↳ `failed` | integer | Yes |  |  | Number of requests that have failed. |
-| `metadata` | map | No |  |  | Set of 16 key-value pairs that can be attached to an object. This can be
-useful for storing additional information about the object in a structured
-format, and querying for objects via API or the dashboard. 
-
-Keys are strings with a maximum length of 64 characters. Values are strings
-with a maximum length of 512 characters.
- |
+| `metadata` | map | No |  |  | Set of 16 key-value pairs that can be attached to an object. This can be <br> useful for storing additional information about the object in a structured <br> format, and querying for objects via API or the dashboard.  <br>  <br> Keys are strings with a maximum length of 64 characters. Values are strings <br> with a maximum length of 512 characters. <br>  |
 |   ↳ (additional properties) | string | - | - | - | Additional properties of this object |
 **Example:**
 

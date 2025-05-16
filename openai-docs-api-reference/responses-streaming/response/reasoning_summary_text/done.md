@@ -6,16 +6,11 @@ Emitted when a reasoning summary text is completed.
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `type` | string | Yes |  | `response.reasoning_summary_text.done` | The type of the event. Always `response.reasoning_summary_text.done`.
- |
-| `item_id` | string | Yes |  |  | The ID of the item this summary text is associated with.
- |
-| `output_index` | integer | Yes |  |  | The index of the output item this summary text is associated with.
- |
-| `summary_index` | integer | Yes |  |  | The index of the summary part within the reasoning summary.
- |
-| `text` | string | Yes |  |  | The full text of the completed reasoning summary.
- |
+| `type` | string | Yes |  | `response.reasoning_summary_text.done` | The type of the event. Always `response.reasoning_summary_text.done`. <br>  |
+| `item_id` | string | Yes |  |  | The ID of the item this summary text is associated with. <br>  |
+| `output_index` | integer | Yes |  |  | The index of the output item this summary text is associated with. <br>  |
+| `summary_index` | integer | Yes |  |  | The index of the summary part within the reasoning summary. <br>  |
+| `text` | string | Yes |  |  | The full text of the completed reasoning summary. <br>  |
 
 ## Property Details
 

@@ -31,18 +31,10 @@ File](/docs/api-reference/files/create).
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `filename` | string | Yes |  |  | The name of the file to upload.
- |
-| `purpose` | string | Yes |  | `assistants`, `batch`, `fine-tune`, `vision` | The intended purpose of the uploaded file.
-
-See the [documentation on File purposes](/docs/api-reference/files/create#files-create-purpose).
- |
-| `bytes` | integer | Yes |  |  | The number of bytes in the file you are uploading.
- |
-| `mime_type` | string | Yes |  |  | The MIME type of the file.
-
-This must fall within the supported MIME types for your file purpose. See the supported MIME types for assistants and vision.
- |
+| `filename` | string | Yes |  |  | The name of the file to upload. <br>  |
+| `purpose` | string | Yes |  | `assistants`, `batch`, `fine-tune`, `vision` | The intended purpose of the uploaded file. <br>  <br> See the [documentation on File purposes](/docs/api-reference/files/create#files-create-purpose). <br>  |
+| `bytes` | integer | Yes |  |  | The number of bytes in the file you are uploading. <br>  |
+| `mime_type` | string | Yes |  |  | The MIME type of the file. <br>  <br> This must fall within the supported MIME types for your file purpose. See the supported MIME types for assistants and vision. <br>  |
 ## Responses
 
 ### 200 - OK

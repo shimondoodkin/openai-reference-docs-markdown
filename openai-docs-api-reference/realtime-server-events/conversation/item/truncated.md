@@ -16,8 +16,7 @@ to ensure there is no text in the context that hasn't been heard by the user.
 | `type` | string | Yes |  | `conversation.item.truncated` | The event type, must be `conversation.item.truncated`. |
 | `item_id` | string | Yes |  |  | The ID of the assistant message item that was truncated. |
 | `content_index` | integer | Yes |  |  | The index of the content part that was truncated. |
-| `audio_end_ms` | integer | Yes |  |  | The duration up to which the audio was truncated, in milliseconds.
- |
+| `audio_end_ms` | integer | Yes |  |  | The duration up to which the audio was truncated, in milliseconds. <br>  |
 
 ## Property Details
 

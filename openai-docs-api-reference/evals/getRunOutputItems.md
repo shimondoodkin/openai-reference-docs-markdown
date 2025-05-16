@@ -20,9 +20,7 @@ Get a list of output items for an evaluation run.
 | ---- | ---- | -------- | ----------- |
 | `after` | string | No | Identifier for the last output item from the previous pagination request. |
 | `limit` | integer | No | Number of output items to retrieve. |
-| `status` | string | No | Filter output items by status. Use `failed` to filter by failed output
-items or `pass` to filter by passed output items.
- |
+| `status` | string | No | Filter output items by status. Use `failed` to filter by failed output <br> items or `pass` to filter by passed output items. <br>  |
 | `order` | string | No | Sort order for output items by timestamp. Use `asc` for ascending order or `desc` for descending order. Defaults to `asc`. |
 
 ## Responses
@@ -42,10 +40,8 @@ An object representing a list of output items for an evaluation run.
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `object` | string | Yes | `list` | `list` | The type of this object. It is always set to "list".
- |
-| `data` | array of object (10 properties) | Yes |  |  | An array of eval run output item objects.
- |
+| `object` | string | Yes | `list` | `list` | The type of this object. It is always set to "list". <br>  |
+| `data` | array of object (10 properties) | Yes |  |  | An array of eval run output item objects. <br>  |
 | `first_id` | string | Yes |  |  | The identifier of the first eval run output item in the data array. |
 | `last_id` | string | Yes |  |  | The identifier of the last eval run output item in the data array. |
 | `has_more` | boolean | Yes |  |  | Indicates whether there are more eval run output items available. |
@@ -71,8 +67,7 @@ An object representing a list of output items for an evaluation run.
 |   ↳ `usage` | object (4 properties) | Yes |  |  | Token usage details for the sample. |
 |     ↳ `prompt_tokens` | integer | Yes |  |  | The number of prompt tokens used. |
 |     ↳ `cached_tokens` | integer | Yes |  |  | The number of tokens retrieved from cache. |
-|   ↳ `error` | object (2 properties) | Yes |  |  | An object representing an error response from the Eval API.
- |
+|   ↳ `error` | object (2 properties) | Yes |  |  | An object representing an error response from the Eval API. <br>  |
 |   ↳ `temperature` | number | Yes |  |  | The sampling temperature used. |
 |   ↳ `max_completion_tokens` | integer | Yes |  |  | The maximum number of tokens allowed for completion. |
 |   ↳ `top_p` | number | Yes |  |  | The top_p value used for sampling. |

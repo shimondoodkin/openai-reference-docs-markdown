@@ -23,10 +23,8 @@ Please [contact us](https://help.openai.com/) if you need to increase these stor
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `file` | string | Yes |  |  | The File object (not file name) to be uploaded.
- |
-| `purpose` | string | Yes |  | `assistants`, `batch`, `fine-tune`, `vision`, `user_data`, `evals` | The intended purpose of the uploaded file. One of: - `assistants`: Used in the Assistants API - `batch`: Used in the Batch API - `fine-tune`: Used for fine-tuning - `vision`: Images used for vision fine-tuning - `user_data`: Flexible file type for any purpose - `evals`: Used for eval data sets
- |
+| `file` | string | Yes |  |  | The File object (not file name) to be uploaded. <br>  |
+| `purpose` | string | Yes |  | `assistants`, `batch`, `fine-tune`, `vision`, `user_data`, `evals` | The intended purpose of the uploaded file. One of: - `assistants`: Used in the Assistants API - `batch`: Used in the Batch API - `fine-tune`: Used for fine-tuning - `vision`: Images used for vision fine-tuning - `user_data`: Flexible file type for any purpose - `evals`: Used for eval data sets <br>  |
 ## Responses
 
 ### 200 - OK

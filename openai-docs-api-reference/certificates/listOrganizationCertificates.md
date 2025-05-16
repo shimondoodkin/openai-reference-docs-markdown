@@ -10,12 +10,9 @@ List uploaded certificates for this organization.
 
 | Name | Type | Required | Description |
 | ---- | ---- | -------- | ----------- |
-| `limit` | integer | No | A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20.
- |
-| `after` | string | No | A cursor for use in pagination. `after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list.
- |
-| `order` | string | No | Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and `desc` for descending order.
- |
+| `limit` | integer | No | A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20. <br>  |
+| `after` | string | No | A cursor for use in pagination. `after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list. <br>  |
+| `order` | string | No | Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and `desc` for descending order. <br>  |
 
 ## Responses
 
@@ -40,12 +37,7 @@ List uploaded certificates for this organization.
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `object` | string | Yes |  | `certificate`, `organization.certificate`, `organization.project.certificate` | The object type.
-
-- If creating, updating, or getting a specific certificate, the object type is `certificate`.
-- If listing, activating, or deactivating certificates for the organization, the object type is `organization.certificate`.
-- If listing, activating, or deactivating certificates for a project, the object type is `organization.project.certificate`.
- |
+| `object` | string | Yes |  | `certificate`, `organization.certificate`, `organization.project.certificate` | The object type. <br>  <br> - If creating, updating, or getting a specific certificate, the object type is `certificate`. <br> - If listing, activating, or deactivating certificates for the organization, the object type is `organization.certificate`. <br> - If listing, activating, or deactivating certificates for a project, the object type is `organization.project.certificate`. <br>  |
 | `id` | string | Yes |  |  | The identifier, which can be referenced in API endpoints |
 | `name` | string | Yes |  |  | The name of the certificate. |
 | `created_at` | integer | Yes |  |  | The Unix timestamp (in seconds) of when the certificate was uploaded. |

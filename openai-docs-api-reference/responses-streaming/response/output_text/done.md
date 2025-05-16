@@ -6,16 +6,11 @@ Emitted when text content is finalized.
 
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
-| `type` | string | Yes |  | `response.output_text.done` | The type of the event. Always `response.output_text.done`.
- |
-| `item_id` | string | Yes |  |  | The ID of the output item that the text content is finalized.
- |
-| `output_index` | integer | Yes |  |  | The index of the output item that the text content is finalized.
- |
-| `content_index` | integer | Yes |  |  | The index of the content part that the text content is finalized.
- |
-| `text` | string | Yes |  |  | The text content that is finalized.
- |
+| `type` | string | Yes |  | `response.output_text.done` | The type of the event. Always `response.output_text.done`. <br>  |
+| `item_id` | string | Yes |  |  | The ID of the output item that the text content is finalized. <br>  |
+| `output_index` | integer | Yes |  |  | The index of the output item that the text content is finalized. <br>  |
+| `content_index` | integer | Yes |  |  | The index of the content part that the text content is finalized. <br>  |
+| `text` | string | Yes |  |  | The text content that is finalized. <br>  |
 
 ## Property Details
 

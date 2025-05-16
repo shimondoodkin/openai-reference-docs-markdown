@@ -10,8 +10,7 @@ Create a vector store file by attaching a [File](/docs/api-reference/files) to a
 
 | Name | Type | Required | Description |
 | ---- | ---- | -------- | ----------- |
-| `vector_store_id` | string | Yes | The ID of the vector store for which to create a File.
- |
+| `vector_store_id` | string | Yes | The ID of the vector store for which to create a File. <br>  |
 
 ## Request Body
 
@@ -25,12 +24,7 @@ Create a vector store file by attaching a [File](/docs/api-reference/files) to a
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
 | `file_id` | string | Yes |  |  | A [File](/docs/api-reference/files) ID that the vector store should use. Useful for tools like `file_search` that can access files. |
 | `chunking_strategy` | object | No |  |  | The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy. |
-| `attributes` | map | No |  |  | Set of 16 key-value pairs that can be attached to an object. This can be 
-useful for storing additional information about the object in a structured 
-format, and querying for objects via API or the dashboard. Keys are strings 
-with a maximum length of 64 characters. Values are strings with a maximum 
-length of 512 characters, booleans, or numbers.
- |
+| `attributes` | map | No |  |  | Set of 16 key-value pairs that can be attached to an object. This can be  <br> useful for storing additional information about the object in a structured  <br> format, and querying for objects via API or the dashboard. Keys are strings  <br> with a maximum length of 64 characters. Values are strings with a maximum  <br> length of 512 characters, booleans, or numbers. <br>  |
 |   ↳ (additional properties) | oneOf: string | number | boolean | - | - | - | Additional properties of this object |
 ## Responses
 
@@ -56,12 +50,7 @@ A list of files attached to a vector store.
 | `status` | string | Yes |  | `in_progress`, `completed`, `cancelled`, `failed` | The status of the vector store file, which can be either `in_progress`, `completed`, `cancelled`, or `failed`. The status `completed` indicates that the vector store file is ready for use. |
 | `last_error` | object (2 properties) | Yes |  |  | The last error associated with this vector store file. Will be `null` if there are no errors. |
 | `chunking_strategy` | object | No |  |  | The strategy used to chunk the file. |
-| `attributes` | map | No |  |  | Set of 16 key-value pairs that can be attached to an object. This can be 
-useful for storing additional information about the object in a structured 
-format, and querying for objects via API or the dashboard. Keys are strings 
-with a maximum length of 64 characters. Values are strings with a maximum 
-length of 512 characters, booleans, or numbers.
- |
+| `attributes` | map | No |  |  | Set of 16 key-value pairs that can be attached to an object. This can be  <br> useful for storing additional information about the object in a structured  <br> format, and querying for objects via API or the dashboard. Keys are strings  <br> with a maximum length of 64 characters. Values are strings with a maximum  <br> length of 512 characters, booleans, or numbers. <br>  |
 |   ↳ (additional properties) | oneOf: string | number | boolean | - | - | - | Additional properties of this object |
 **Example:**
 

@@ -11,10 +11,7 @@ event with the user message item that is created from the audio buffer.
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
 | `event_id` | string | Yes |  |  | The unique ID of the server event. |
 | `type` | string | Yes |  | `input_audio_buffer.speech_stopped` | The event type, must be `input_audio_buffer.speech_stopped`. |
-| `audio_end_ms` | integer | Yes |  |  | Milliseconds since the session started when speech stopped. This will 
-correspond to the end of audio sent to the model, and thus includes the 
-`min_silence_duration_ms` configured in the Session.
- |
+| `audio_end_ms` | integer | Yes |  |  | Milliseconds since the session started when speech stopped. This will  <br> correspond to the end of audio sent to the model, and thus includes the  <br> `min_silence_duration_ms` configured in the Session. <br>  |
 | `item_id` | string | Yes |  |  | The ID of the user message item that will be created. |
 
 ## Property Details

@@ -25,8 +25,7 @@ When a run has the `status: "requires_action"` and `required_action.type` is `su
 | Property | Type | Required | Default | Allowed Values | Description |
 | -------- | ---- | -------- | ------- | -------------- | ----------- |
 | `tool_outputs` | array of object (2 properties) | Yes |  |  | A list of tools for which the outputs are being submitted. |
-| `stream` | boolean | No |  |  | If `true`, returns a stream of events that happen during the Run as server-sent events, terminating when the Run enters a terminal state with a `data: [DONE]` message.
- |
+| `stream` | boolean | No |  |  | If `true`, returns a stream of events that happen during the Run as server-sent events, terminating when the Run enters a terminal state with a `data: [DONE]` message. <br>  |
 
 
 ### Items in `tool_outputs` array
@@ -76,38 +75,18 @@ Represents an execution run on a [thread](/docs/api-reference/threads).
 | `model` | string | Yes |  |  | The model that the [assistant](/docs/api-reference/assistants) used for this run. |
 | `instructions` | string | Yes |  |  | The instructions that the [assistant](/docs/api-reference/assistants) used for this run. |
 | `tools` | array of oneOf: object (1 property) | object (2 properties) | object (2 properties) | Yes | `[]` |  | The list of tools that the [assistant](/docs/api-reference/assistants) used for this run. |
-| `metadata` | map | Yes |  |  | Set of 16 key-value pairs that can be attached to an object. This can be
-useful for storing additional information about the object in a structured
-format, and querying for objects via API or the dashboard. 
-
-Keys are strings with a maximum length of 64 characters. Values are strings
-with a maximum length of 512 characters.
- |
+| `metadata` | map | Yes |  |  | Set of 16 key-value pairs that can be attached to an object. This can be <br> useful for storing additional information about the object in a structured <br> format, and querying for objects via API or the dashboard.  <br>  <br> Keys are strings with a maximum length of 64 characters. Values are strings <br> with a maximum length of 512 characters. <br>  |
 |   ↳ (additional properties) | string | - | - | - | Additional properties of this object |
 | `usage` | object (3 properties) | Yes |  |  | Usage statistics related to the run. This value will be `null` if the run is not in a terminal state (i.e. `in_progress`, `queued`, etc.). |
 |   ↳ `total_tokens` | integer | Yes |  |  | Total number of tokens used (prompt + completion). |
 | `temperature` | number | No |  |  | The sampling temperature used for this run. If not set, defaults to 1. |
 | `top_p` | number | No |  |  | The nucleus sampling value used for this run. If not set, defaults to 1. |
-| `max_prompt_tokens` | integer | Yes |  |  | The maximum number of prompt tokens specified to have been used over the course of the run.
- |
-| `max_completion_tokens` | integer | Yes |  |  | The maximum number of completion tokens specified to have been used over the course of the run.
- |
+| `max_prompt_tokens` | integer | Yes |  |  | The maximum number of prompt tokens specified to have been used over the course of the run. <br>  |
+| `max_completion_tokens` | integer | Yes |  |  | The maximum number of completion tokens specified to have been used over the course of the run. <br>  |
 | `truncation_strategy` | object (2 properties) | Yes |  |  | Controls for how a thread will be truncated prior to the run. Use this to control the intial context window of the run. |
-| `tool_choice` | oneOf: string | object (2 properties) | Yes |  |  | Controls which (if any) tool is called by the model.
-`none` means the model will not call any tools and instead generates a message.
-`auto` is the default value and means the model can pick between generating a message or calling one or more tools.
-`required` means the model must call one or more tools before responding to the user.
-Specifying a particular tool like `{"type": "file_search"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool.
- |
+| `tool_choice` | oneOf: string | object (2 properties) | Yes |  |  | Controls which (if any) tool is called by the model. <br> `none` means the model will not call any tools and instead generates a message. <br> `auto` is the default value and means the model can pick between generating a message or calling one or more tools. <br> `required` means the model must call one or more tools before responding to the user. <br> Specifying a particular tool like `{"type": "file_search"}` or `{"type": "function", "function": {"name": "my_function"}}` forces the model to call that tool. <br>  |
 | `parallel_tool_calls` | boolean | Yes | `true` |  | Whether to enable [parallel function calling](/docs/guides/function-calling#configuring-parallel-function-calling) during tool use. |
-| `response_format` | oneOf: string | object (1 property) | object (1 property) | object (2 properties) | Yes |  |  | Specifies the format that the model must output. Compatible with [GPT-4o](/docs/models#gpt-4o), [GPT-4 Turbo](/docs/models#gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.
-
-Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which ensures the model will match your supplied JSON schema. Learn more in the [Structured Outputs guide](/docs/guides/structured-outputs).
-
-Setting to `{ "type": "json_object" }` enables JSON mode, which ensures the message the model generates is valid JSON.
-
-**Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.
- |
+| `response_format` | oneOf: string | object (1 property) | object (1 property) | object (2 properties) | Yes |  |  | Specifies the format that the model must output. Compatible with [GPT-4o](/docs/models#gpt-4o), [GPT-4 Turbo](/docs/models#gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`. <br>  <br> Setting to `{ "type": "json_schema", "json_schema": {...} }` enables Structured Outputs which ensures the model will match your supplied JSON schema. Learn more in the [Structured Outputs guide](/docs/guides/structured-outputs). <br>  <br> Setting to `{ "type": "json_object" }` enables JSON mode, which ensures the message the model generates is valid JSON. <br>  <br> **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request. Also note that the message content may be partially cut off if `finish_reason="length"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length. <br>  |
 **Example:**
 
 ```json
