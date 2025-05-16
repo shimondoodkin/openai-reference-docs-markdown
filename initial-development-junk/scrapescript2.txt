@@ -1,0 +1,31 @@
+(async () => {
+  // Function to load external script with await
+  function loadScript(src) {
+    return new Promise((resolve, reject) => {
+      const script = document.createElement('script');
+      script.src = src;
+      script.onload = resolve;
+      script.onerror = reject;
+      document.body.appendChild(script);
+    });
+  }
+
+  // Load Turndown.js
+  await loadScript('https://unpkg.com/turndown/dist/turndown.js');
+
+  // Initialize and use Turndown
+  const turndownService = new TurndownService();
+
+  // Choose the element you want to convert to Markdown
+  const element = document.querySelector('.docs-markdown-page'); // change this selector
+  if (!element) {
+    console.warn('Element not found');
+    return;
+  }
+
+  const html = element.innerHTML;
+  const markdown = turndownService.turndown(html).replace(/    1(\n    \d+)+/g,"Example:\n");
+
+  // Output the Markdown
+  console.log(markdown);
+})();

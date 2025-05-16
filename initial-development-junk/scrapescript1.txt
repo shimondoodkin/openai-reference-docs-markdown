@@ -1,0 +1,58 @@
+make this script into a scaper like this:
+
+(async () => {
+  // 1. Patch clipboard
+  const origWriteText = navigator.clipboard.writeText.bind(navigator.clipboard);
+  window.copied = null;
+  navigator.clipboard.writeText = async function (text) {
+    window.copied = text;
+    return origWriteText(text);
+  };
+
+  // 2. Store visited hrefs and queue
+  const visited = new Set();
+  const results = [];
+
+  const getLinks = () => {
+    return [...document.querySelectorAll('.scroll-link.side-nav-item')]
+      .filter(link => link.target !== '_blank' && link.href)
+      .filter(link => !visited.has(link.getAttribute('href')));
+  };
+
+  const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+  let queue = getLinks();
+
+  while (queue.length > 0) {
+    const link = queue.shift();
+    const href = link.getAttribute('href');
+
+    if (visited.has(href)) continue;
+    visited.add(href);
+
+    // 3. Click the link
+    link.click();
+
+    // 4. Wait for content and possible submenu expansion
+    await sleep(1200); // Adjust based on load speed
+
+    // 5. Look for a copy button
+    window.copied = null;
+    const copyBtn = document.querySelector('button.copy-button');
+    if (copyBtn) {
+      copyBtn.click();
+      await sleep(200); // Give clipboard time
+    }
+
+    // 6. Record result
+    results.push({ href, copied: window.copied });
+
+    // 7. Update queue with any new links
+    const newLinks = getLinks();
+    queue.push(...newLinks);
+  }
+
+  // 8. Output result
+ // console.log(results);
+  // await navigator.clipboard.writeText(JSON.stringify(results, null, 2));
+})();
