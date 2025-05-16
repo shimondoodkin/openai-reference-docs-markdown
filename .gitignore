@@ -26,6 +26,7 @@ htmlcov/
 
 # Project specific
 downloaded_files/
+temp_repo/
 
 # IDEs and editors
 .idea/
